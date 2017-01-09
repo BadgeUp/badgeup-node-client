@@ -16,9 +16,7 @@ module.exports = function metrics(context) {
     function getSubjectMetrics(subject, userOpts) {
         check.string(subject, 'subject must be a string');
 
-        return context.http.makeRequest({
-            url: `/v1/apps/${context.applicationId}/${ENDPT}/${subject}`
-        }, userOpts).then(function(body) { return body.data; });
+        return common(context, `${ENDPT}/${subject}`).getList(userOpts);
     }
 
     // retrieves a single metric for a subject by key
