@@ -16,7 +16,23 @@ module.exports = function metrics(context) {
     function getSubjectMetrics(subject, userOpts) {
         check.string(subject, 'subject must be a string');
 
-        return common(context, `${ENDPT}/${subject}`).getList(userOpts);
+        let array = [];
+        let url = `/v1/apps/${context.applicationId}/${ENDPT}/${subject}`;
+
+        function pageFn() {
+            return context.http.makeRequest({ url }, userOpts).then(function(body) {
+                array = array.concat(body.data || []); // concatinate the new data
+
+                url = body.pages.next;
+                if (url) {
+                    return pageFn();
+                } else {
+                    return array;
+                }
+            });
+        }
+
+        return pageFn();
     }
 
     // retrieves a single metric for a subject by key
