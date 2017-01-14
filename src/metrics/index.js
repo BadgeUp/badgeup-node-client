@@ -39,7 +39,7 @@ module.exports = function metrics(context) {
     // retrives metrics for a subject, returned as an iterator
     // @param subject: subject to retrieve the metrics for
     // @param userOpts: option overrides for this request
-    // @returns Returns a promise that resolves to a list of metrics
+    // @return An iterator that returns promises that resolve with the next object
     function* getAllSubjectMetrics(subject, userOpts) {
         check.string(subject, 'subject must be a string');
 
