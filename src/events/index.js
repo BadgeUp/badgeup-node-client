@@ -15,7 +15,9 @@ module.exports = function events(context) {
     // Sets up a delete/get request targeting events using several filters
     // @param queryBy: filters to query events by
     // @returns Returns an object with functions to get or delete queried events
-    function query(queryBy = {}) {
+    function query(queryBy) {
+        // TODO switch to queryBy = {} when we get off of supporting Node v4
+        queryBy = queryBy || {};
         check.object(queryBy, 'queryBy must be an object');
 
         const allowedKeys = ['id', 'key', 'since', 'until', 'subject', 'all'];
