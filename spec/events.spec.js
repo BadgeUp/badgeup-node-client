@@ -40,7 +40,7 @@ describe('events', function() {
             expect(options.headers).to.be.an('object');
         }
 
-        const result = yield bup.events.query({ id: event.id }).getList({ _payload, _validate });
+        const result = yield bup.events.query().id(event.id).getList({ _payload, _validate });
 
         expect(result).to.be.an('array');
     });
@@ -119,7 +119,7 @@ describe('events', function() {
             expect(options.headers).to.be.an('object');
         }
 
-        const result = yield bup.events.query({ id: event.id }).remove({ _payload, _validate });
+        const result = yield bup.events.query().id(event.id).remove({ _payload, _validate });
 
         expect(result).to.eql(event);
     });
@@ -135,7 +135,7 @@ describe('events', function() {
             expect(options.headers).to.be.an('object');
         }
 
-        yield bup.events.query({ subject: '100' }).remove({ _payload, _validate });
+        yield bup.events.query().subject('100').remove({ _payload, _validate });
     });
 
     it('should delete multiple events after a specific date', function*() {
@@ -151,7 +151,7 @@ describe('events', function() {
             expect(options.headers).to.be.an('object');
         }
 
-        yield bup.events.query({ since: date }).remove({ _payload, _validate });
+        yield bup.events.query().since(date).remove({ _payload, _validate });
     });
 
     it('should delete all events', function*() {
@@ -165,6 +165,6 @@ describe('events', function() {
             expect(options.headers).to.be.an('object');
         }
 
-        yield bup.events.query({ all: true }).remove({ _payload, _validate });
+        yield bup.events.query().all(true).remove({ _payload, _validate });
     });
 });
