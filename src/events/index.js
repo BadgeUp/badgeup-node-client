@@ -3,6 +3,7 @@
 const check = require('check-types');
 const common = require('./../common');
 const pickBy = require('lodash.pickby');
+const includes = require('lodash.includes');
 const querystring = require('querystring');
 const pageToGenerator = require('../utils/pageToGenerator');
 const ENDPT = 'events';
@@ -53,7 +54,8 @@ class EventQueryBuilder {
     // @return A promise that resolves to an array of event objects
     getList(userOpts) {
         const queryBy = pickBy(this, function(value, key) {
-            return !!value && ['id', 'key', 'subject', 'since', 'until'].includes(key);
+            // TODO switch to Array.prototype.includes when we drop support for Node v4
+            return !!value && includes(['id', 'key', 'subject', 'since', 'until'], key);
         });
 
         let array = [];
@@ -80,7 +82,8 @@ class EventQueryBuilder {
     // @return An iterator that returns promises that resolve with the next event
     *getAll(userOpts) {
         const queryBy = pickBy(this, function(value, key) {
-            return !!value && ['id', 'key', 'subject', 'since', 'until'].includes(key);
+            // TODO switch to Array.prototype.includes when we drop support for Node v4
+            return !!value && includes(['id', 'key', 'subject', 'since', 'until'], key);
         });
 
         const pageFn = () => {
@@ -101,7 +104,8 @@ class EventQueryBuilder {
     // @returns Returns a promise that resolves to an object stating the number of deleted events
     remove(userOpts) {
         const queryBy = pickBy(this, function(value, key) {
-            return !!value && ['id', 'key', 'subject', 'since', 'until', 'all'].includes(key);
+            // TODO switch to Array.prototype.includes when we drop support for Node v4
+            return !!value && includes(['id', 'key', 'subject', 'since', 'until', 'all'], key);
         });
 
         return this.context.http.makeRequest({
