@@ -8,6 +8,16 @@ const querystring = require('querystring');
 const pageToGenerator = require('../utils/pageToGenerator');
 const ENDPT = 'events';
 
+const GET_QUERY_PARAMS = ['id', 'key', 'subject', 'since', 'until'];
+const DELETE_QUERY_PARAMS = ['id', 'key', 'subject', 'since', 'until', 'all'];
+
+function collectQueryParams(source, keys) {
+    return pickBy(source, function(value, key) {
+        // TODO switch to Array.prototype.includes when we drop support for Node v4
+        return !!value && includes(keys, key);
+    });
+}
+
 class EventQueryBuilder {
     constructor(context) {
         this.context = context;
@@ -53,10 +63,7 @@ class EventQueryBuilder {
     // @param userOpts: option overrides for this request
     // @return A promise that resolves to an array of event objects
     getList(userOpts) {
-        const queryBy = pickBy(this, function(value, key) {
-            // TODO switch to Array.prototype.includes when we drop support for Node v4
-            return !!value && includes(['id', 'key', 'subject', 'since', 'until'], key);
-        });
+        const queryBy = collectQueryParams(this, GET_QUERY_PARAMS);
 
         let array = [];
         let url = `/v1/apps/${this.context.applicationId}/${ENDPT}?${querystring.stringify(queryBy)}`;
@@ -81,10 +88,7 @@ class EventQueryBuilder {
     // @param userOpts: option overrides for this request
     // @return An iterator that returns promises that resolve with the next event
     *getAll(userOpts) {
-        const queryBy = pickBy(this, function(value, key) {
-            // TODO switch to Array.prototype.includes when we drop support for Node v4
-            return !!value && includes(['id', 'key', 'subject', 'since', 'until'], key);
-        });
+        const queryBy = collectQueryParams(this, GET_QUERY_PARAMS);
 
         const pageFn = () => {
             let url = `/v1/apps/${this.context.applicationId}/${ENDPT}?${querystring.stringify(queryBy)}`;
@@ -103,10 +107,7 @@ class EventQueryBuilder {
     // @param userOpts: option overrides for this request
     // @returns Returns a promise that resolves to an object stating the number of deleted events
     remove(userOpts) {
-        const queryBy = pickBy(this, function(value, key) {
-            // TODO switch to Array.prototype.includes when we drop support for Node v4
-            return !!value && includes(['id', 'key', 'subject', 'since', 'until', 'all'], key);
-        });
+        const queryBy = collectQueryParams(this, DELETE_QUERY_PARAMS);
 
         return this.context.http.makeRequest({
             method: 'DELETE',
