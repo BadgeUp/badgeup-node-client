@@ -48,13 +48,13 @@ class EventQueryBuilder {
     }
 
     until(until) {
-        check.date(until, 'until must be a boolean');
+        check.date(until, 'until must be a date');
         this.until = until.toISOString();
         return this;
     }
 
     all(all) {
-        check.boolean(all, 'all must be a date');
+        check.boolean(all, 'all must be a boolean');
         this.all = all;
         return this;
     }
