@@ -78,7 +78,7 @@ describe('criterion', function() {
 
     it('should get all dynamic criteria images', function*() {
         const dcImages = {
-            data: {
+            data: [{
                 runtime: 'node',
                 runtimeName: 'Node.js',
                 images: [{
@@ -88,7 +88,7 @@ describe('criterion', function() {
                     tag: '6.9.4-0.4.0-1.0.1',
                     created: new Date()
                 }]
-            }
+            }]
         };
         function _payload() {
             return dcImages;
