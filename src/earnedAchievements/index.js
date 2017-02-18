@@ -64,7 +64,6 @@ module.exports = function earnedAchievements(context) {
     return {
         get: obj.get,
         getAll: obj.getAll,
-        remove: obj.remove,
         query
     };
 };

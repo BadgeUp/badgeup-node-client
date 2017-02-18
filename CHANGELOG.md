@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ### Changed
 - getDynamicCriteriaImages() now returns the data object
+- Removed `earnedAchievement.remove()`
 
 ## [0.4.1] - 2017-02-13
 ### Added
