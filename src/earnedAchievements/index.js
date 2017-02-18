@@ -44,7 +44,7 @@ module.exports = function earnedAchievements(context) {
             const queryBy = collectQueryParams(this, DELETE_QUERY_PARAMS);
 
             if (Object.keys(queryBy).length === 0) {
-                throw new Error('You must specify at least the "achievementId", "subject", or "key"');
+                throw new Error('You must specify at least the "achievementId", "subject", or "id"');
             }
 
             return this.context.http.makeRequest({
