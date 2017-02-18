@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [Unreleased]
 ### Added
+- earned achievements query builder for removing by `achievementId`, `subject`, and `id`
 - metrics query builder for removing by `key` and `subject`
 - `_analytics.getSubjectsSummaryIterator()`
 
