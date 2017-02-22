@@ -128,4 +128,23 @@ describe('job results', function() {
         yield bup.jobResults.query().criterionId('foo').getAll({ _payload, _validate });
     });
 
+    it('should sort multiple job results by ID', function*() {
+        function _payload() {
+            return {
+                pages: {
+                    previous: null,
+                    next: null
+                },
+                data: []
+            };
+        }
+
+        function _validate(options) {
+            expect(options.url).to.equal(`/v1/apps/1337/jobresult?sort=id%3Adesc`);
+            expect(options.headers).to.be.an('object');
+        }
+
+        yield bup.jobResults.query().sort('id', 'desc').getAll({ _payload, _validate });
+    });
+
 });
