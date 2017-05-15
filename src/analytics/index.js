@@ -46,6 +46,17 @@ module.exports = function achievements(context) {
         }, userOpts);
     }
 
+    // retrieve new subject analytics
+    // @param userOpts: option overrides for this request
+    // @returns Returns a promise that resolves with the retrieved object
+    function newSubjectsLastNDays(numDays, userOpts) {
+        check.assert(check.integer(numDays) && check.greater(numDays, 0), 'numDays must be a positive integer');
+
+        return context.http.makeRequest({
+            url: `/v1/apps/${context.applicationId}/${ENDPT}/subjects/new/last-n-days?duration=${numDays}`
+        }, userOpts);
+    }
+
     // retrieve earned achievement analytics
     // @param userOpts: option overrides for this request
     // @returns Returns a promise that resolves with the retrieved object
@@ -87,6 +98,7 @@ module.exports = function achievements(context) {
         eventsLastNDays,
         eventsLastNDaysBySubject,
         subjectsLastNDays,
+        newSubjectsLastNDays,
         earnedAchievementsLastNDays,
         getSubjectsSummaryIterator,
         getAllMetricKeys
