@@ -4,7 +4,7 @@ import * as check from 'check-types';
 import common from '../common';
 import pageToGenerator from '../utils/pageToGenerator';
 import collectQueryParams from '../utils/collectQueryParams';
-import querystring from 'querystring';
+import qs from 'qs';
 
 const ENDPT = 'metrics';
 
@@ -59,7 +59,7 @@ export default function metrics(context) {
 
             return this.context.http.makeRequest({
                 method: 'DELETE',
-                url: `/v1/apps/${this.context.applicationId}/${ENDPT}?${querystring.stringify(queryBy)}`
+                url: `/v1/apps/${this.context.applicationId}/${ENDPT}?${qs.stringify(queryBy)}`
             }, userOpts);
         }
     }

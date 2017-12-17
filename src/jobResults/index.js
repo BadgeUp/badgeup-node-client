@@ -2,7 +2,7 @@
 
 import * as check from 'check-types';
 import collectQueryParams from '../utils/collectQueryParams';
-import querystring from 'querystring';
+import qs from 'qs';
 import pageToGenerator from '../utils/pageToGenerator';
 
 const ENDPT = 'jobresult';
@@ -56,7 +56,7 @@ export default function earnedAchievements(context) {
             const queryBy = collectQueryParams(this._params, GET_QUERY_PARAMS);
 
             function pageFn() {
-                let url = `/v1/apps/${context.applicationId}/${ENDPT}?${querystring.stringify(queryBy)}`;
+                let url = `/v1/apps/${context.applicationId}/${ENDPT}?${qs.stringify(queryBy)}`;
                 return function() {
                     return context.http.makeRequest({ url }, userOpts).then(function(body) {
                         url = body.pages.next;
@@ -77,7 +77,7 @@ export default function earnedAchievements(context) {
             const queryBy = collectQueryParams(this._params, GET_QUERY_PARAMS);
 
             let array = [];
-            let url = `/v1/apps/${context.applicationId}/${ENDPT}?${querystring.stringify(queryBy)}`;
+            let url = `/v1/apps/${context.applicationId}/${ENDPT}?${qs.stringify(queryBy)}`;
 
             function pageFn() {
                 return context.http.makeRequest({ url }, userOpts).then(function(body) {

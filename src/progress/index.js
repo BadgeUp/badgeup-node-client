@@ -1,7 +1,7 @@
 'use strict';
 
 import * as check from 'check-types';
-import querystring from 'querystring';
+import qs from 'qs';
 import pageToGenerator from '../utils/pageToGenerator';
 import collectQueryParams from '../utils/collectQueryParams';
 
@@ -50,7 +50,7 @@ class ProgressQueryBuilder {
         const queryBy = collectQueryParams(this._params, GET_QUERY_PARAMS);
 
         let array = [];
-        let url = `/v1/apps/${this.context.applicationId}/${ENDPT}?${querystring.stringify(queryBy)}`;
+        let url = `/v1/apps/${this.context.applicationId}/${ENDPT}?${qs.stringify(queryBy)}`;
 
         const pageFn = () => {
             return this.context.http.makeRequest({ url }, userOpts).then(function(body) {
@@ -81,7 +81,7 @@ class ProgressQueryBuilder {
         const queryBy = collectQueryParams(this._params, GET_QUERY_PARAMS);
 
         const pageFn = () => {
-            let url = `/v1/apps/${this.context.applicationId}/${ENDPT}?${querystring.stringify(queryBy)}`;
+            let url = `/v1/apps/${this.context.applicationId}/${ENDPT}?${qs.stringify(queryBy)}`;
             return () => {
                 return this.context.http.makeRequest({ url }, userOpts).then(function(body) {
                     url = body.pages.next;

@@ -4,7 +4,7 @@ import * as check from 'check-types';
 import common from './../common';
 import collectQueryParams from '../utils/collectQueryParams';
 import pageToGenerator from '../utils/pageToGenerator';
-import querystring from 'querystring';
+import qs from 'qs';
 
 const ENDPT = 'earnedachievements';
 
@@ -74,7 +74,7 @@ export default function earnedAchievements(context) {
                 throw new Error('You must specify at least the "achievementId", "subject", "since", or "until"');
             }
 
-            return querystring.stringify(queryBy);
+            return qs.stringify(queryBy);
         }
 
         /**
