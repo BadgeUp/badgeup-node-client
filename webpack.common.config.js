@@ -17,8 +17,7 @@ module.exports = function(target) {
         },
         plugins: [
             new DefinePlugin({
-                'process.browser': target === 'web',
-                'NODE_CLIENT_VERSION': `'${pkg.version}'`
+                'process.browser': target === 'web'
             })
         ],
         module: {

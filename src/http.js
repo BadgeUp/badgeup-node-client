@@ -9,7 +9,7 @@ const requestDefaults = {
     timeout: 5000,
     baseUrl: 'https://api.useast1.badgeup.io', // default API endpoint
     headers: {
-        'User-Agent': '@badgeup/badgeup-node-client/' + NODE_CLIENT_VERSION + ' (https://www.badgeup.io/)',
+        'User-Agent': '@badgeup/badgeup-node-client/0.8.5 (https://www.badgeup.io/)',
         'Accept': 'application/json'
     }
 };
