@@ -3972,15 +3972,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var packageJSON = { name: '@badgeup/badgeup-node-client', version: 'unknown' };
-
 // client library defaults
 var requestDefaults = {
     json: true,
     timeout: 5000,
     baseUrl: 'https://api.useast1.badgeup.io', // default API endpoint
     headers: {
-        'User-Agent': packageJSON.name + '/' + packageJSON.version + ' (https://www.badgeup.io/)',
+        'User-Agent': '@badgeup/badgeup-node-client/' + '0.8.5' + ' (https://www.badgeup.io/)',
         'Accept': 'application/json'
     }
 };

@@ -3,15 +3,13 @@
 import defaults from 'lodash.defaultsdeep';
 import request from './utils/fetchWrapper';
 
-const packageJSON = { name: '@badgeup/badgeup-node-client', version: 'unknown' };
-
 // client library defaults
 const requestDefaults = {
     json: true,
     timeout: 5000,
     baseUrl: 'https://api.useast1.badgeup.io', // default API endpoint
     headers: {
-        'User-Agent': packageJSON.name + '/' + packageJSON.version + ' (https://www.badgeup.io/)',
+        'User-Agent': '@badgeup/badgeup-node-client/' + NODE_CLIENT_VERSION + ' (https://www.badgeup.io/)',
         'Accept': 'application/json'
     }
 };

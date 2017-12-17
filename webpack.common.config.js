@@ -1,6 +1,7 @@
 
 const path = require('path');
 const DefinePlugin = require('webpack/lib/DefinePlugin');
+const pkg = require('./package.json');
 
 module.exports = function(target) {
     return {
@@ -16,7 +17,8 @@ module.exports = function(target) {
         },
         plugins: [
             new DefinePlugin({
-                'process.browser': target === 'web'
+                'process.browser': target === 'web',
+                'NODE_CLIENT_VERSION': `'${pkg.version}'`
             })
         ],
         module: {
