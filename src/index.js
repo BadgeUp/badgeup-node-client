@@ -1,7 +1,7 @@
 'use strict';
 
 import check from 'check-types';
-import defaults from 'lodash/defaultsdeep';
+import defaults from 'lodash/defaultsDeep';
 import BadgeUpHttp from './http';
 
 import applications from './applications';
