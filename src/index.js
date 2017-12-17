@@ -1,23 +1,26 @@
 'use strict';
 
-const check = require('check-types');
-const defaults = require('lodash.defaultsdeep');
-const BadgeUpHttp = require('./http');
+import check from 'check-types';
+import defaults from 'lodash.defaultsdeep';
+import BadgeUpHttp from './http';
 
-const applications = require('./applications');
-const achievements = require('./achievements');
-const _analytics = require('./analytics');
-const apiKeys = require('./apiKeys');
-const awards = require('./awards');
-const criteria = require('./criteria');
-const earnedAchievements = require('./earnedAchievements');
-const metrics = require('./metrics');
-const events = require('./events');
-const progress = require('./progress');
-const jobResults = require('./jobResults');
-const achievementIcons = require('./achievementIcons');
+import applications from './applications';
+import achievements from './achievements';
+import _analytics from './analytics';
+import apiKeys from './apiKeys';
+import awards from './awards';
+import criteria from './criteria';
+import earnedAchievements from './earnedAchievements';
+import metrics from './metrics';
+import events from './events';
+import progress from './progress';
+import jobResults from './jobResults';
+import achievementIcons from './achievementIcons';
 
-class BadgeUp {
+import atob from './utils/atob';
+import btoa from './utils/btoa';
+
+export default class BadgeUp {
     /**
      * Construct an instance of the BadgeUp client.
      * @param {{apiKey: string, token: string, applicationId: string, request: object }} globalOpts - Client and global options
@@ -44,7 +47,7 @@ class BadgeUp {
             let applicationId;
 
             try {
-                applicationId = JSON.parse(Buffer.from(globalOpts.apiKey, 'base64').toString('utf8')).applicationId;
+                applicationId = JSON.parse(atob(globalOpts.apiKey)).applicationId;
                 if (!applicationId) {
                     throw new Error('applicationId not present');
                 }
@@ -53,7 +56,7 @@ class BadgeUp {
                 throw new Error('Malformed API key');
             }
 
-            globalOpts.request.headers.authorization = 'Basic ' + Buffer.from(globalOpts.apiKey + ':', 'ascii').toString('base64');
+            globalOpts.request.headers.authorization = 'Basic ' + btoa(globalOpts.apiKey + ':');
         }
 
         /**
@@ -75,8 +78,3 @@ class BadgeUp {
         this.achievementIcons = achievementIcons(this);
     }
 }
-
-// add response objects for criteria evaluation
-BadgeUp.response = require('./response');
-
-module.exports = BadgeUp;

@@ -1,14 +1,15 @@
 'use strict';
 
-const check = require('check-types');
-const pageToGenerator = require('./../utils/pageToGenerator');
+import check from 'check-types';
+import pageToGenerator from '../utils/pageToGenerator';
+
 const ENDPT = 'apps';
 
 /**
  * Applications module
  * @param {object} context The context to make requests in. Basically, `this`
  */
-module.exports = function applications(context) {
+export default function applications(context) {
     /**
      * Create an application
      * @param {object} object event object
@@ -124,4 +125,4 @@ module.exports = function applications(context) {
         update,
         remove
     };
-};
+}

@@ -1,13 +1,14 @@
 'use strict';
 
-const common = require('./../common');
+import common from './../common';
+
 const ENDPT = 'criteria';
 
 /**
  * Criterion module
  * @param {object} context The context to make requests in. Basically, `this`
  */
-module.exports = function criteria(context) {
+export default function criteria(context) {
     const obj = common(context, ENDPT);
 
     /**

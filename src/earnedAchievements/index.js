@@ -1,10 +1,10 @@
 'use strict';
 
-const check = require('check-types');
-const common = require('./../common');
-const collectQueryParams = require('../utils/collectQueryParams');
-const pageToGenerator = require('../utils/pageToGenerator');
-const querystring = require('querystring');
+import check from 'check-types';
+import common from './../common';
+import collectQueryParams from '../utils/collectQueryParams';
+import pageToGenerator from '../utils/pageToGenerator';
+import querystring from 'querystring';
 
 const ENDPT = 'earnedachievements';
 
@@ -14,7 +14,7 @@ const AVAILABLE_QUERY_PARAMS = ['achievementId', 'subject', 'since', 'until'];
  * Earned Achievements module
  * @param {object} context The context to make requests in. Basically, `this`
  */
-module.exports = function earnedAchievements(context) {
+export default function earnedAchievements(context) {
     const obj = common(context, ENDPT);
 
     class EarnedAchievementQueryBuilder {
@@ -159,4 +159,4 @@ module.exports = function earnedAchievements(context) {
         remove: obj.remove,
         query
     };
-};
+}

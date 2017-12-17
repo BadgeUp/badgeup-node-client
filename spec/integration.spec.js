@@ -1,7 +1,7 @@
 'use strict';
 
-const BadgeUpClient = require('./../src/');
-const expect = require('chai').expect;
+import BadgeUpClient from '../src/';
+import { expect } from 'chai';
 const INTEGRATION_API_KEY = process.env['INTEGRATION_API_KEY'];
 
 describe('integration tests', function() {

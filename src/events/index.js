@@ -1,16 +1,17 @@
 'use strict';
 
-const common = require('./../common');
+import common from '../common';
+
 const ENDPT = 'events';
 
 /**
  * Events module
  * @param {object} context The context to make requests in. Basically, `this`
  */
-module.exports = function events(context) {
+export default function events(context) {
     const obj = common(context, ENDPT);
 
     return {
         create: obj.create
     };
-};
+}

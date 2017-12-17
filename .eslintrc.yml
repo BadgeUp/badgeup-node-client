@@ -4,6 +4,8 @@ env:
   node: true
   mocha: true
 extends: 'eslint:recommended'
+parserOptions:
+  sourceType: module
 rules:
   indent:
     - error
@@ -12,7 +14,8 @@ rules:
     - error
     - unix
   quotes:
-    - 0
+    - error
+    - single
   semi:
     - error
     - always

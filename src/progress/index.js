@@ -1,9 +1,10 @@
 'use strict';
 
-const check = require('check-types');
-const querystring = require('querystring');
-const pageToGenerator = require('./../utils/pageToGenerator');
-const collectQueryParams = require('../utils/collectQueryParams');
+import check from 'check-types';
+import querystring from 'querystring';
+import pageToGenerator from '../utils/pageToGenerator';
+import collectQueryParams from '../utils/collectQueryParams';
+
 const ENDPT = 'progress';
 
 const GET_QUERY_PARAMS = ['subject', 'achievementId'];
@@ -93,7 +94,7 @@ class ProgressQueryBuilder {
     }
 }
 
-module.exports = function progress(context) {
+export default function progress(context) {
 
     /**
      * @returns Returns an instance of the ProgressQueryBuilder class
@@ -105,4 +106,4 @@ module.exports = function progress(context) {
     return {
         query
     };
-};
+}

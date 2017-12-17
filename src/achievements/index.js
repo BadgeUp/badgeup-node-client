@@ -1,14 +1,15 @@
 'use strict';
 
-const check = require('check-types');
-const common = require('./../common');
+import check from 'check-types';
+import common from './../common';
+
 const ENDPT = 'achievements';
 
 /**
  * Achievements module
  * @param {object} context The context to make requests in. Basically, `this`
  */
-module.exports = function achievements(context) {
+export default function achievements(context) {
     const obj = common(context, ENDPT);
 
     /**
@@ -42,4 +43,4 @@ module.exports = function achievements(context) {
     obj.getAchievementCriteria = getAchievementCriteria;
     obj.getAchievementAwards = getAchievementAwards;
     return obj;
-};
+}

@@ -1,15 +1,15 @@
 'use strict';
 
-const check = require('check-types');
-const pageToGenerator = require('./utils/pageToGenerator');
-const qs = require('qs');
+import check from 'check-types';
+import pageToGenerator from './utils/pageToGenerator';
+import qs from 'qs';
 
 /**
  * Provides a set of common funcitonality that can be used on most endpoints
  * @param {object} context The context to make requests in. Basically, `this`
  * @param {string} endpoint The endpoint used for this common module
  */
-module.exports = function common(context, endpoint) {
+export default function common(context, endpoint) {
 
     /**
      * Retrieve resource object by ID
@@ -136,4 +136,4 @@ module.exports = function common(context, endpoint) {
         update,
         remove
     };
-};
+}

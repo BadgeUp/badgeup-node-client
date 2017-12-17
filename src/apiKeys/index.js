@@ -1,13 +1,14 @@
 'use strict';
 
-const common = require('./../common');
+import common from './../common';
+
 const ENDPT = 'apikeys';
 
 /**
  * API Keys module
  * @param {object} context The context to make requests in. Basically, `this`
  */
-module.exports = function apiKeys(context) {
+export default function apiKeys(context) {
     const obj = common(context, ENDPT);
 
     /**
@@ -29,4 +30,4 @@ module.exports = function apiKeys(context) {
         update: obj.update,
         listScopes
     };
-};
+}

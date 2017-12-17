@@ -1,7 +1,7 @@
 'use strict';
 
-const check = require('check-types');
-const pageToGenerator = require('../utils/pageToGenerator');
+import check from 'check-types';
+import pageToGenerator from '../utils/pageToGenerator';
 
 const ENDPT = 'analytics';
 
@@ -11,7 +11,7 @@ const ENDPT = 'analytics';
  * THIS MODULE IS NOT SUBJECT TO ANY SLAS AND MAY BE CHANGED AT ANY TIME
  * @param {object} context The context to make requests in. Basically, `this`
  */
-module.exports = function achievements(context) {
+export default function achievements(context) {
     /**
      * Retrieve event analytics
      * @param {object} userOpts option overrides for this request
@@ -117,4 +117,4 @@ module.exports = function achievements(context) {
         getSubjectsSummaryIterator,
         getAllMetricKeys
     };
-};
+}

@@ -4,7 +4,7 @@
   "description": "Official BadgeUp Node.js client",
   "main": "src/index.js",
   "scripts": {
-    "test": "mocha spec/"
+    "test": "mocha --compilers js:babel-core/register --require babel-polyfill spec/"
   },
   "author": "Mark Herhold <mark@badgeup.io>",
   "repository": {
@@ -14,17 +14,27 @@
   "license": "MIT",
   "dependencies": {
     "check-types": "^7.1.5",
-    "got": "^7.1.0",
     "lodash.defaultsdeep": "^4.6.0",
     "lodash.includes": "^4.3.0",
     "lodash.pickby": "^4.6.0",
+    "node-fetch": "^2.0.0-alpha.9",
     "qs": "6.5.1"
   },
   "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-2": "^6.24.1",
     "chai": "^3.3.0",
     "co-mocha": "^1.1.2",
     "eslint": "^3.11.0",
     "mocha": "^3.2.0"
+  },
+  "babel": {
+    "presets": [
+      "env",
+      "stage-2"
+    ]
   },
   "files": [
     "src"
