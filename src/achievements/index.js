@@ -1,6 +1,6 @@
 'use strict';
 
-import check from 'check-types';
+import * as check from 'check-types';
 import common from './../common';
 
 const ENDPT = 'achievements';

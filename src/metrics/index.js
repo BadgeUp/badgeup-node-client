@@ -1,6 +1,6 @@
 'use strict';
 
-import check from 'check-types';
+import * as check from 'check-types';
 import common from '../common';
 import pageToGenerator from '../utils/pageToGenerator';
 import collectQueryParams from '../utils/collectQueryParams';

@@ -1,6 +1,6 @@
 'use strict';
 
-import check from 'check-types';
+import * as check from 'check-types';
 import pageToGenerator from './utils/pageToGenerator';
 import qs from 'qs';
 
