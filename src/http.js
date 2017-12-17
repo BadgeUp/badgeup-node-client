@@ -1,6 +1,6 @@
 'use strict';
 
-import defaults from 'lodash/defaultsDeep';
+import defaults from 'lodash.defaultsdeep';
 import request from './utils/fetchWrapper';
 
 const packageJSON = { name: '@badgeup/badgeup-node-client', version: 'unknown' };
