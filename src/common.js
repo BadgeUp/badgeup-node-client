@@ -2,7 +2,7 @@
 
 import * as check from 'check-types';
 import pageToGenerator from './utils/pageToGenerator';
-import qs from 'qs';
+import * as qs from 'qs';
 
 /**
  * Provides a set of common funcitonality that can be used on most endpoints

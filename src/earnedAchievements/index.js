@@ -4,7 +4,7 @@ import * as check from 'check-types';
 import common from './../common';
 import collectQueryParams from '../utils/collectQueryParams';
 import pageToGenerator from '../utils/pageToGenerator';
-import qs from 'qs';
+import * as qs from 'qs';
 
 const ENDPT = 'earnedachievements';
 

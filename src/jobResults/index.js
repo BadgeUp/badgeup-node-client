@@ -2,7 +2,7 @@
 
 import * as check from 'check-types';
 import collectQueryParams from '../utils/collectQueryParams';
-import qs from 'qs';
+import * as qs from 'qs';
 import pageToGenerator from '../utils/pageToGenerator';
 
 const ENDPT = 'jobresult';
