@@ -2,7 +2,8 @@
   "name": "@badgeup/badgeup-node-client",
   "version": "0.8.5",
   "description": "Official BadgeUp Node.js client",
-  "main": "src/index.js",
+  "main": "dist/index.js",
+  "browser": "dist/browser.js",
   "scripts": {
     "test": "mocha --compilers js:babel-core/register --require babel-polyfill spec/",
     "build": "webpack --config webpack.node.config.js && webpack --config webpack.browser.config.js"
