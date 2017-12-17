@@ -1,7 +1,7 @@
 'use strict';
 
-const pickBy = require('lodash.pickby');
-const includes = require('lodash.includes');
+import pickBy from 'lodash/pickby';
+import includes from 'lodash/includes';
 
 export default function collectQueryParams(source, keys) {
     return pickBy(source, function(value, key) {
