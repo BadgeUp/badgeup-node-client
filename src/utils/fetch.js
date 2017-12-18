@@ -4,8 +4,8 @@ const nodeFetch = require('node-fetch');
 
 module.exports = function fetch() {
     if (process.browser) {
-        return fetch.call(this, ...arguments);
+        return fetch.apply(this, arguments);
     } else {
-        return nodeFetch.call(this, ...arguments);
+        return nodeFetch.apply(this, arguments);
     }
 };
