@@ -1,13 +1,13 @@
 
 const path = require('path');
 const DefinePlugin = require('webpack/lib/DefinePlugin');
-const pkg = require('./package.json');
 
 module.exports = function(target) {
     return {
         target,
         entry: {
             main: [
+                'babel-polyfill',
                 './src/index.js'
             ]
         },
