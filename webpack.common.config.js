@@ -1,6 +1,7 @@
 
 const path = require('path');
 const DefinePlugin = require('webpack/lib/DefinePlugin');
+const UglifyPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = function(target) {
     return {
@@ -18,7 +19,8 @@ module.exports = function(target) {
         plugins: [
             new DefinePlugin({
                 'process.browser': target === 'web'
-            })
+            }),
+            new UglifyPlugin()
         ]
     };
 };
