@@ -2101,7 +2101,6 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
  * @param {string} endpoint The endpoint used for this common module
  */
 function common(context, endpoint) {
-    var _marked = /*#__PURE__*/regeneratorRuntime.mark(getIterator);
 
     /**
      * Retrieve resource object by ID
@@ -2112,10 +2111,10 @@ function common(context, endpoint) {
     function get(id, userOpts) {
         check.string(id, 'id must be a string');
 
-        var query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
+        const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
 
         return context.http.makeRequest({
-            url: '/v1/apps/' + context.applicationId + '/' + endpoint + '/' + id + query
+            url: `/v1/apps/${context.applicationId}/${endpoint}/${id}${query}`
         }, userOpts);
     }
 
@@ -2124,31 +2123,19 @@ function common(context, endpoint) {
      * @param {Object} userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */
-    function getIterator(userOpts) {
-        var pageFn;
-        return regeneratorRuntime.wrap(function getIterator$(_context) {
-            while (1) {
-                switch (_context.prev = _context.next) {
-                    case 0:
-                        pageFn = function pageFn() {
-                            var query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
-                            var url = '/v1/apps/' + context.applicationId + '/' + endpoint + query;
-                            return function () {
-                                return context.http.makeRequest({ url: url }, userOpts).then(function (body) {
-                                    url = body.pages.next;
-                                    return body;
-                                });
-                            };
-                        };
+    function* getIterator(userOpts) {
+        function pageFn() {
+            const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
+            let url = `/v1/apps/${context.applicationId}/${endpoint}${query}`;
+            return function () {
+                return context.http.makeRequest({ url }, userOpts).then(function (body) {
+                    url = body.pages.next;
+                    return body;
+                });
+            };
+        }
 
-                        return _context.delegateYield((0, _pageToGenerator2.default)(pageFn()), 't0', 2);
-
-                    case 2:
-                    case 'end':
-                        return _context.stop();
-                }
-            }
-        }, _marked, this);
+        yield* (0, _pageToGenerator2.default)(pageFn());
     }
 
     /**
@@ -2157,12 +2144,12 @@ function common(context, endpoint) {
      * @returns {Promise<object[]>} Promise that resolves to an array of objects
      */
     function getAll(userOpts) {
-        var array = [];
-        var query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
-        var url = '/v1/apps/' + context.applicationId + '/' + endpoint + query;
+        let array = [];
+        const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
+        let url = `/v1/apps/${context.applicationId}/${endpoint}${query}`;
 
         function pageFn() {
-            return context.http.makeRequest({ url: url }, userOpts).then(function (body) {
+            return context.http.makeRequest({ url }, userOpts).then(function (body) {
                 array = array.concat(body.data || []); // concatinate the new data
 
                 url = body.pages.next;
@@ -2188,12 +2175,12 @@ function common(context, endpoint) {
         check.string(id, 'id must be a string');
         check.array(updates, 'updates must be an array');
 
-        var query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
+        const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
 
         return context.http.makeRequest({
             method: 'PATCH',
             body: updates,
-            url: '/v1/apps/' + context.applicationId + '/' + endpoint + '/' + id + query
+            url: `/v1/apps/${context.applicationId}/${endpoint}/${id}${query}`
         }, userOpts);
     }
 
@@ -2206,12 +2193,12 @@ function common(context, endpoint) {
     function create(object, userOpts) {
         check.object(object, 'object must be an object');
 
-        var query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
+        const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
 
         return context.http.makeRequest({
             method: 'POST',
             body: object,
-            url: '/v1/apps/' + context.applicationId + '/' + endpoint + query
+            url: `/v1/apps/${context.applicationId}/${endpoint}${query}`
         }, userOpts);
     }
 
@@ -2224,21 +2211,21 @@ function common(context, endpoint) {
     function remove(id, userOpts) {
         check.string(id, 'id must be a string');
 
-        var query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
+        const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
 
         return context.http.makeRequest({
             method: 'DELETE',
-            url: '/v1/apps/' + context.applicationId + '/' + endpoint + '/' + id + query
+            url: `/v1/apps/${context.applicationId}/${endpoint}/${id}${query}`
         }, userOpts);
     }
 
     return {
         get: get,
-        getIterator: getIterator,
-        getAll: getAll,
-        create: create,
-        update: update,
-        remove: remove
+        getIterator,
+        getAll,
+        create,
+        update,
+        remove
     };
 }
 
@@ -2447,51 +2434,27 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.default = pageToGenerator;
+function* pageToGenerator(pageFn) {
+    let nextPageExists = true;
+    let bank = [];
+    let fetchPromise = Promise.resolve();
+    while (bank.length > 0 || nextPageExists) {
 
-var _marked = /*#__PURE__*/regeneratorRuntime.mark(pageToGenerator);
+        fetchPromise = fetchPromise.then(function () {
+            if (bank.length === 0) {
+                return pageFn().then(function (response) {
+                    nextPageExists = !!response.pages.next;
+                    bank = response.data;
 
-function pageToGenerator(pageFn) {
-    var nextPageExists, bank, fetchPromise;
-    return regeneratorRuntime.wrap(function pageToGenerator$(_context) {
-        while (1) {
-            switch (_context.prev = _context.next) {
-                case 0:
-                    nextPageExists = true;
-                    bank = [];
-                    fetchPromise = Promise.resolve();
-
-                case 3:
-                    if (!(bank.length > 0 || nextPageExists)) {
-                        _context.next = 9;
-                        break;
-                    }
-
-                    fetchPromise = fetchPromise.then(function () {
-                        if (bank.length === 0) {
-                            return pageFn().then(function (response) {
-                                nextPageExists = !!response.pages.next;
-                                bank = response.data;
-
-                                return bank.shift();
-                            });
-                        }
-
-                        return bank.shift();
-                    });
-
-                    _context.next = 7;
-                    return fetchPromise;
-
-                case 7:
-                    _context.next = 3;
-                    break;
-
-                case 9:
-                case 'end':
-                    return _context.stop();
+                    return bank.shift();
+                });
             }
-        }
-    }, _marked, this);
+
+            return bank.shift();
+        });
+
+        yield fetchPromise;
+    }
 }
 
 /***/ }),
@@ -12803,69 +12766,66 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+class BadgeUp {
+    /**
+     * Construct an instance of the BadgeUp client.
+     * @param {{apiKey: string, token: string, applicationId: string, request: object }} globalOpts - Client and global options
+     */
+    constructor(globalOpts) {
 
-var BadgeUp =
-/**
- * Construct an instance of the BadgeUp client.
- * @param {{apiKey: string, token: string, applicationId: string, request: object }} globalOpts - Client and global options
- */
-function BadgeUp(globalOpts) {
-    _classCallCheck(this, BadgeUp);
-
-    // these fields are required
-    check.assert.object(globalOpts, 'You must provide an options object. Please see the documentation.');
-    if (!globalOpts.apiKey && !globalOpts.token) {
-        throw new Error('Either globalOpts.apiKey or globalOpts.token must be an string');
-    }
-
-    // ensure the request options are an object if not defined
-    globalOpts.request = (0, _lodash2.default)({}, globalOpts.request);
-    globalOpts.request.headers = (0, _lodash2.default)({}, globalOpts.request.headers);
-
-    // setup the Authorization header
-    if (globalOpts.token) {
-        // JWT bearer token
-        check.assert.string(globalOpts.applicationId, 'You must provide your applicationId.');
-        // setup the application this client is pointing to
-        this.applicationId = globalOpts.applicationId;
-        globalOpts.request.headers.authorization = 'Bearer ' + globalOpts.token;
-    } else if (globalOpts.apiKey) {
-        // BadgeUp APIKey
-        var applicationId = void 0;
-
-        try {
-            applicationId = JSON.parse((0, _atob2.default)(globalOpts.apiKey)).applicationId;
-            if (!applicationId) {
-                throw new Error('applicationId not present');
-            }
-            this.applicationId = applicationId;
-        } catch (error) {
-            throw new Error('Malformed API key');
+        // these fields are required
+        check.assert.object(globalOpts, 'You must provide an options object. Please see the documentation.');
+        if (!globalOpts.apiKey && !globalOpts.token) {
+            throw new Error('Either globalOpts.apiKey or globalOpts.token must be an string');
         }
 
-        globalOpts.request.headers.authorization = 'Basic ' + (0, _btoa2.default)(globalOpts.apiKey + ':');
+        // ensure the request options are an object if not defined
+        globalOpts.request = (0, _lodash2.default)({}, globalOpts.request);
+        globalOpts.request.headers = (0, _lodash2.default)({}, globalOpts.request.headers);
+
+        // setup the Authorization header
+        if (globalOpts.token) {
+            // JWT bearer token
+            check.assert.string(globalOpts.applicationId, 'You must provide your applicationId.');
+            // setup the application this client is pointing to
+            this.applicationId = globalOpts.applicationId;
+            globalOpts.request.headers.authorization = 'Bearer ' + globalOpts.token;
+        } else if (globalOpts.apiKey) {
+            // BadgeUp APIKey
+            let applicationId;
+
+            try {
+                applicationId = JSON.parse((0, _atob2.default)(globalOpts.apiKey)).applicationId;
+                if (!applicationId) {
+                    throw new Error('applicationId not present');
+                }
+                this.applicationId = applicationId;
+            } catch (error) {
+                throw new Error('Malformed API key');
+            }
+
+            globalOpts.request.headers.authorization = 'Basic ' + (0, _btoa2.default)(globalOpts.apiKey + ':');
+        }
+
+        /**
+         * @member {BadgeUpHttp}
+         */
+        this.http = new _http2.default(globalOpts.request);
+
+        this.applications = (0, _applications2.default)(this);
+        this.achievements = (0, _achievements2.default)(this);
+        this._analytics = (0, _analytics3.default)(this);
+        this.apiKeys = (0, _apiKeys2.default)(this);
+        this.awards = (0, _awards2.default)(this);
+        this.criteria = (0, _criteria2.default)(this);
+        this.earnedAchievements = (0, _earnedAchievements2.default)(this);
+        this.metrics = (0, _metrics2.default)(this);
+        this.events = (0, _events2.default)(this);
+        this.progress = (0, _progress2.default)(this);
+        this.jobResults = (0, _jobResults2.default)(this);
+        this.achievementIcons = (0, _achievementIcons2.default)(this);
     }
-
-    /**
-     * @member {BadgeUpHttp}
-     */
-    this.http = new _http2.default(globalOpts.request);
-
-    this.applications = (0, _applications2.default)(this);
-    this.achievements = (0, _achievements2.default)(this);
-    this._analytics = (0, _analytics3.default)(this);
-    this.apiKeys = (0, _apiKeys2.default)(this);
-    this.awards = (0, _awards2.default)(this);
-    this.criteria = (0, _criteria2.default)(this);
-    this.earnedAchievements = (0, _earnedAchievements2.default)(this);
-    this.metrics = (0, _metrics2.default)(this);
-    this.events = (0, _events2.default)(this);
-    this.progress = (0, _progress2.default)(this);
-    this.jobResults = (0, _jobResults2.default)(this);
-    this.achievementIcons = (0, _achievementIcons2.default)(this);
-};
-
+}
 exports.default = BadgeUp;
 
 /***/ }),
@@ -12879,8 +12839,6 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _lodash = __webpack_require__(130);
 
 var _lodash2 = _interopRequireDefault(_lodash);
@@ -12891,10 +12849,8 @@ var _fetchWrapper2 = _interopRequireDefault(_fetchWrapper);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
 // client library defaults
-var requestDefaults = {
+const requestDefaults = {
     json: true,
     timeout: 5000,
     baseUrl: 'https://api.useast1.badgeup.io', // default API endpoint
@@ -12904,14 +12860,12 @@ var requestDefaults = {
     }
 };
 
-var BadgeUpHttp = function () {
+class BadgeUpHttp {
     /**
      * Constructor for the HTTP stack for BadgeUp
      * @param {object} globalReqOpts Options from the user for BadgeUp as a whole.
      */
-    function BadgeUpHttp(globalReqOpts) {
-        _classCallCheck(this, BadgeUpHttp);
-
+    constructor(globalReqOpts) {
         this.globalReqOpts = globalReqOpts || {};
     }
 
@@ -12921,33 +12875,25 @@ var BadgeUpHttp = function () {
      * @param {object} userOpts Option overrides from the user. Highest priority.
      * @return {Promise} Returns a Promise that resolves with the request data
      */
+    makeRequest(reqOpts, userOpts) {
+        const options = (0, _lodash2.default)({}, userOpts, reqOpts, this.globalReqOpts, requestDefaults);
 
-
-    _createClass(BadgeUpHttp, [{
-        key: 'makeRequest',
-        value: function makeRequest(reqOpts, userOpts) {
-            var options = (0, _lodash2.default)({}, userOpts, reqOpts, this.globalReqOpts, requestDefaults);
-
-            // for internal unit tests
-            if (options._validate) {
-                options._validate(options);
-            }
-
-            // for internal unit tests
-            if (options._payload) {
-                return Promise.resolve(options._payload(options));
-            }
-
-            return (0, _fetchWrapper2.default)(options).then(function (response) {
-                // TODO implement error response translation
-                return response.json();
-            });
+        // for internal unit tests
+        if (options._validate) {
+            options._validate(options);
         }
-    }]);
 
-    return BadgeUpHttp;
-}();
+        // for internal unit tests
+        if (options._payload) {
+            return Promise.resolve(options._payload(options));
+        }
 
+        return (0, _fetchWrapper2.default)(options).then(function (response) {
+            // TODO implement error response translation
+            return response.json();
+        });
+    }
+}
 exports.default = BadgeUpHttp;
 
 /***/ }),
@@ -12960,9 +12906,6 @@ exports.default = BadgeUpHttp;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 exports.default = fetchWrapper;
 
 var _fetch = __webpack_require__(342);
@@ -12972,7 +12915,7 @@ var _fetch2 = _interopRequireDefault(_fetch);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function fetchWrapper(options) {
-    if (!options || (typeof options === 'undefined' ? 'undefined' : _typeof(options)) !== 'object') {
+    if (!options || typeof options !== 'object') {
         throw new Error('options object must be provided and must be an object');
     }
 
@@ -12981,14 +12924,14 @@ function fetchWrapper(options) {
     }
 
     // stringify object and array bodies
-    if (options.json === true && options.body && (_typeof(options.body) === 'object' || Array.isArray(options.body))) {
+    if (options.json === true && options.body && (typeof options.body === 'object' || Array.isArray(options.body))) {
         options.headers = options.headers || {};
         options.headers['Content-Type'] = 'application/json';
         options.body = JSON.stringify(options.body);
     }
 
     // build the URL
-    var url = options.url || '';
+    let url = options.url || '';
     url = options.baseUrl ? options.baseUrl + url : url;
     delete options.baseUrl;
     delete options.url;
@@ -13021,9 +12964,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function fetch() {
     if (false) {
-        return fetch.call.apply(fetch, [this].concat(Array.prototype.slice.call(arguments)));
+        return fetch.call(this, ...arguments);
     } else {
-        return _nodeFetch2.default.call.apply(_nodeFetch2.default, [this].concat(Array.prototype.slice.call(arguments)));
+        return _nodeFetch2.default.call(this, ...arguments);
     }
 }
 
@@ -14486,15 +14429,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-var ENDPT = 'apps';
+const ENDPT = 'apps';
 
 /**
  * Applications module
  * @param {object} context The context to make requests in. Basically, `this`
  */
 function applications(context) {
-    var _marked = /*#__PURE__*/regeneratorRuntime.mark(getIterator);
-
     /**
      * Create an application
      * @param {object} object event object
@@ -14507,7 +14448,7 @@ function applications(context) {
         return context.http.makeRequest({
             method: 'POST',
             body: object,
-            url: '/v1/' + ENDPT
+            url: `/v1/${ENDPT}`
         }, userOpts);
     }
 
@@ -14525,7 +14466,7 @@ function applications(context) {
         return context.http.makeRequest({
             method: 'PATCH',
             body: updates,
-            url: '/v1/' + ENDPT + '/' + id
+            url: `/v1/${ENDPT}/${id}`
         }, userOpts);
     }
 
@@ -14540,7 +14481,7 @@ function applications(context) {
 
         return context.http.makeRequest({
             method: 'DELETE',
-            url: '/v1/' + ENDPT + '/' + id
+            url: `/v1/${ENDPT}/${id}`
         }, userOpts);
     }
 
@@ -14554,7 +14495,7 @@ function applications(context) {
         check.string(id, 'id must be a string');
 
         return context.http.makeRequest({
-            url: '/v1/' + ENDPT + '/' + id
+            url: `/v1/${ENDPT}/${id}`
         }, userOpts);
     }
 
@@ -14564,11 +14505,11 @@ function applications(context) {
      * @returns {Promise<object[]>} Promise that resolves to an array of objects
      */
     function getAll(userOpts) {
-        var array = [];
-        var url = '/v1/' + ENDPT;
+        let array = [];
+        let url = `/v1/${ENDPT}`;
 
         function pageFn() {
-            return context.http.makeRequest({ url: url }, userOpts).then(function (body) {
+            return context.http.makeRequest({ url }, userOpts).then(function (body) {
                 array = array.concat(body.data || []); // concatinate the new data
 
                 url = body.pages.next;
@@ -14588,39 +14529,27 @@ function applications(context) {
      * @param {object} userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */
-    function getIterator(userOpts) {
-        var pageFn;
-        return regeneratorRuntime.wrap(function getIterator$(_context) {
-            while (1) {
-                switch (_context.prev = _context.next) {
-                    case 0:
-                        pageFn = function pageFn() {
-                            var url = '/v1/' + ENDPT;
-                            return function () {
-                                return context.http.makeRequest({ url: url }, userOpts).then(function (body) {
-                                    url = body.pages.next;
-                                    return body;
-                                });
-                            };
-                        };
+    function* getIterator(userOpts) {
+        function pageFn() {
+            let url = `/v1/${ENDPT}`;
+            return function () {
+                return context.http.makeRequest({ url }, userOpts).then(function (body) {
+                    url = body.pages.next;
+                    return body;
+                });
+            };
+        }
 
-                        return _context.delegateYield((0, _pageToGenerator2.default)(pageFn()), 't0', 2);
-
-                    case 2:
-                    case 'end':
-                        return _context.stop();
-                }
-            }
-        }, _marked, this);
+        yield* (0, _pageToGenerator2.default)(pageFn());
     }
 
     return {
         get: get,
-        getAll: getAll,
-        getIterator: getIterator,
-        create: create,
-        update: update,
-        remove: remove
+        getAll,
+        getIterator,
+        create,
+        update,
+        remove
     };
 }
 
@@ -14648,14 +14577,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-var ENDPT = 'achievements';
+const ENDPT = 'achievements';
 
 /**
  * Achievements module
  * @param {object} context The context to make requests in. Basically, `this`
  */
 function achievements(context) {
-    var obj = (0, _common2.default)(context, ENDPT);
+    const obj = (0, _common2.default)(context, ENDPT);
 
     /**
      * Retrieves a list of criteria
@@ -14667,7 +14596,7 @@ function achievements(context) {
         check.string(id, 'id must be a string');
 
         return context.http.makeRequest({
-            url: '/v1/apps/' + context.applicationId + '/' + ENDPT + '/' + id + '/criteria'
+            url: `/v1/apps/${context.applicationId}/${ENDPT}/${id}/criteria`
         }, userOpts).then(function (body) {
             return body.data;
         });
@@ -14683,7 +14612,7 @@ function achievements(context) {
         check.string(id, 'id must be a string');
 
         return context.http.makeRequest({
-            url: '/v1/apps/' + context.applicationId + '/' + ENDPT + '/' + id + '/awards'
+            url: `/v1/apps/${context.applicationId}/${ENDPT}/${id}/awards`
         }, userOpts).then(function (body) {
             return body.data;
         });
@@ -15116,7 +15045,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-var ENDPT = 'analytics';
+const ENDPT = 'analytics';
 
 /**
  * Analytics module
@@ -15125,8 +15054,6 @@ var ENDPT = 'analytics';
  * @param {object} context The context to make requests in. Basically, `this`
  */
 function achievements(context) {
-    var _marked = /*#__PURE__*/regeneratorRuntime.mark(getSubjectsSummaryIterator);
-
     /**
      * Retrieve event analytics
      * @param {object} userOpts option overrides for this request
@@ -15136,7 +15063,7 @@ function achievements(context) {
         check.assert(check.integer(numDays) && check.greater(numDays, 0), 'numDays must be a positive integer');
 
         return context.http.makeRequest({
-            url: '/v1/apps/' + context.applicationId + '/' + ENDPT + '/events/last-n-days?duration=' + numDays
+            url: `/v1/apps/${context.applicationId}/${ENDPT}/events/last-n-days?duration=${numDays}`
         }, userOpts);
     }
 
@@ -15150,7 +15077,7 @@ function achievements(context) {
         check.string(subject, 'subject must be a string');
 
         return context.http.makeRequest({
-            url: '/v1/apps/' + context.applicationId + '/' + ENDPT + '/events/last-n-days/subject/' + subject + '?duration=' + numDays
+            url: `/v1/apps/${context.applicationId}/${ENDPT}/events/last-n-days/subject/${subject}?duration=${numDays}`
         }, userOpts);
     }
 
@@ -15163,7 +15090,7 @@ function achievements(context) {
         check.assert(check.integer(numDays) && check.greater(numDays, 0), 'numDays must be a positive integer');
 
         return context.http.makeRequest({
-            url: '/v1/apps/' + context.applicationId + '/' + ENDPT + '/subjects/last-n-days?duration=' + numDays
+            url: `/v1/apps/${context.applicationId}/${ENDPT}/subjects/last-n-days?duration=${numDays}`
         }, userOpts);
     }
 
@@ -15176,7 +15103,7 @@ function achievements(context) {
         check.assert(check.integer(numDays) && check.greater(numDays, 0), 'numDays must be a positive integer');
 
         return context.http.makeRequest({
-            url: '/v1/apps/' + context.applicationId + '/' + ENDPT + '/subjects/new/last-n-days?duration=' + numDays
+            url: `/v1/apps/${context.applicationId}/${ENDPT}/subjects/new/last-n-days?duration=${numDays}`
         }, userOpts);
     }
 
@@ -15189,7 +15116,7 @@ function achievements(context) {
         check.assert(check.integer(numDays) && check.greater(numDays, 0), 'numDays must be a positive integer');
 
         return context.http.makeRequest({
-            url: '/v1/apps/' + context.applicationId + '/' + ENDPT + '/earnedachievements/last-n-days?duration=' + numDays
+            url: `/v1/apps/${context.applicationId}/${ENDPT}/earnedachievements/last-n-days?duration=${numDays}`
         }, userOpts);
     }
 
@@ -15198,30 +15125,18 @@ function achievements(context) {
      * @param {object} userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */
-    function getSubjectsSummaryIterator(userOpts) {
-        var pageFn;
-        return regeneratorRuntime.wrap(function getSubjectsSummaryIterator$(_context) {
-            while (1) {
-                switch (_context.prev = _context.next) {
-                    case 0:
-                        pageFn = function pageFn() {
-                            var url = '/v1/apps/' + context.applicationId + '/' + ENDPT + '/subjects/summary';
-                            return function () {
-                                return context.http.makeRequest({ url: url }, userOpts).then(function (body) {
-                                    url = body.pages.next;
-                                    return body;
-                                });
-                            };
-                        };
+    function* getSubjectsSummaryIterator(userOpts) {
+        function pageFn() {
+            let url = `/v1/apps/${context.applicationId}/${ENDPT}/subjects/summary`;
+            return function () {
+                return context.http.makeRequest({ url }, userOpts).then(function (body) {
+                    url = body.pages.next;
+                    return body;
+                });
+            };
+        }
 
-                        return _context.delegateYield((0, _pageToGenerator2.default)(pageFn()), 't0', 2);
-
-                    case 2:
-                    case 'end':
-                        return _context.stop();
-                }
-            }
-        }, _marked, this);
+        yield* (0, _pageToGenerator2.default)(pageFn());
     }
 
     /**
@@ -15231,20 +15146,18 @@ function achievements(context) {
      */
     function getAllMetricKeys(userOpts) {
         return context.http.makeRequest({
-            url: '/v1/apps/' + context.applicationId + '/' + ENDPT + '/metrics/keys'
-        }, userOpts).then(function (obj) {
-            return obj.data;
-        });
+            url: `/v1/apps/${context.applicationId}/${ENDPT}/metrics/keys`
+        }, userOpts).then(obj => obj.data);
     }
 
     return {
-        eventsLastNDays: eventsLastNDays,
-        eventsLastNDaysBySubject: eventsLastNDaysBySubject,
-        subjectsLastNDays: subjectsLastNDays,
-        newSubjectsLastNDays: newSubjectsLastNDays,
-        earnedAchievementsLastNDays: earnedAchievementsLastNDays,
-        getSubjectsSummaryIterator: getSubjectsSummaryIterator,
-        getAllMetricKeys: getAllMetricKeys
+        eventsLastNDays,
+        eventsLastNDaysBySubject,
+        subjectsLastNDays,
+        newSubjectsLastNDays,
+        earnedAchievementsLastNDays,
+        getSubjectsSummaryIterator,
+        getAllMetricKeys
     };
 }
 
@@ -15266,14 +15179,14 @@ var _common2 = _interopRequireDefault(_common);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var ENDPT = 'apikeys';
+const ENDPT = 'apikeys';
 
 /**
  * API Keys module
  * @param {object} context The context to make requests in. Basically, `this`
  */
 function apiKeys(context) {
-    var obj = (0, _common2.default)(context, ENDPT);
+    const obj = (0, _common2.default)(context, ENDPT);
 
     /**
      * Get all possible API key scopes
@@ -15282,7 +15195,7 @@ function apiKeys(context) {
      */
     function listScopes(userOpts) {
         return context.http.makeRequest({
-            url: '/v1/apps/' + context.applicationId + '/' + ENDPT + '/scopes'
+            url: `/v1/apps/${context.applicationId}/${ENDPT}/scopes`
         }, userOpts).then(function (body) {
             return body.data;
         });
@@ -15294,7 +15207,7 @@ function apiKeys(context) {
         create: obj.create,
         remove: obj.remove,
         update: obj.update,
-        listScopes: listScopes
+        listScopes
     };
 }
 
@@ -15316,7 +15229,7 @@ var _common2 = _interopRequireDefault(_common);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var ENDPT = 'awards';
+const ENDPT = 'awards';
 
 /**
  * Awards module
@@ -15344,14 +15257,14 @@ var _common2 = _interopRequireDefault(_common);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var ENDPT = 'criteria';
+const ENDPT = 'criteria';
 
 /**
  * Criterion module
  * @param {object} context The context to make requests in. Basically, `this`
  */
 function criteria(context) {
-    var obj = (0, _common2.default)(context, ENDPT);
+    const obj = (0, _common2.default)(context, ENDPT);
 
     /**
      * Get a list of all dynamic criteria runtimes and image tags
@@ -15360,10 +15273,8 @@ function criteria(context) {
      */
     function getDynamicCriteriaImages(userOpts) {
         return context.http.makeRequest({
-            url: '/v1/apps/' + context.applicationId + '/dcimages'
-        }, userOpts).then(function (body) {
-            return body.data;
-        });
+            url: `/v1/apps/${context.applicationId}/dcimages`
+        }, userOpts).then(body => body.data);
     }
 
     return {
@@ -15373,7 +15284,7 @@ function criteria(context) {
         create: obj.create,
         update: obj.update,
         remove: obj.remove,
-        getDynamicCriteriaImages: getDynamicCriteriaImages
+        getDynamicCriteriaImages
     };
 };
 
@@ -15387,9 +15298,6 @@ function criteria(context) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 exports.default = earnedAchievements;
 
 var _checkTypes = __webpack_require__(29);
@@ -15416,23 +15324,19 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+const ENDPT = 'earnedachievements';
 
-var ENDPT = 'earnedachievements';
-
-var AVAILABLE_QUERY_PARAMS = ['achievementId', 'subject', 'since', 'until'];
+const AVAILABLE_QUERY_PARAMS = ['achievementId', 'subject', 'since', 'until'];
 
 /**
  * Earned Achievements module
  * @param {object} context The context to make requests in. Basically, `this`
  */
 function earnedAchievements(context) {
-    var obj = (0, _common2.default)(context, ENDPT);
+    const obj = (0, _common2.default)(context, ENDPT);
 
-    var EarnedAchievementQueryBuilder = function () {
-        function EarnedAchievementQueryBuilder(context) {
-            _classCallCheck(this, EarnedAchievementQueryBuilder);
-
+    class EarnedAchievementQueryBuilder {
+        constructor(context) {
             this.context = context;
 
             // container for the query parameters
@@ -15443,166 +15347,125 @@ function earnedAchievements(context) {
          * Query by achievement ID
          * @param {string} achievementId
          */
+        achievementId(achievementId) {
+            check.string(achievementId, 'achievementId must be a string');
+            this._params.achievementId = achievementId;
+            return this;
+        }
 
+        /**
+         * Query by subject
+         * @param {string} subject
+         */
+        subject(subject) {
+            check.string(subject, 'subject must be a string');
+            this._params.subject = subject;
+            return this;
+        }
 
-        _createClass(EarnedAchievementQueryBuilder, [{
-            key: 'achievementId',
-            value: function achievementId(_achievementId) {
-                check.string(_achievementId, 'achievementId must be a string');
-                this._params.achievementId = _achievementId;
-                return this;
+        /**
+         * Query by starting date (find after)
+         * @param {Date} since
+         */
+        since(since) {
+            check.date(since, 'since must be a date');
+            this._params.since = since.toISOString();
+            return this;
+        }
+
+        /**
+         * Query by ending date (find before)
+         * @param {Date} until
+         */
+        until(until) {
+            check.date(until, 'until must be a date');
+            this._params.until = until.toISOString();
+            return this;
+        }
+
+        /**
+         * checks and builds query parameters for use in a URL
+         * @returns Returns a string containing URL query paramters
+         */
+        _buildQuery(queryBy) {
+            if (Object.keys(queryBy).length === 0) {
+                throw new Error('You must specify at least the "achievementId", "subject", "since", or "until"');
             }
 
-            /**
-             * Query by subject
-             * @param {string} subject
-             */
+            return qs.stringify(queryBy);
+        }
 
-        }, {
-            key: 'subject',
-            value: function subject(_subject) {
-                check.string(_subject, 'subject must be a string');
-                this._params.subject = _subject;
-                return this;
-            }
+        /**
+         * retrives earned achievements, returned as an array
+         * @param {object} userOpts option overrides for this request
+         * @returns {Promise<object[]>} Promise that resolves to a list of metrics
+         */
+        getAll(userOpts) {
+            let array = [];
+            const queryBy = (0, _collectQueryParams2.default)(this._params, AVAILABLE_QUERY_PARAMS);
+            const queryPart = this._buildQuery(queryBy);
 
-            /**
-             * Query by starting date (find after)
-             * @param {Date} since
-             */
+            let url = `/v1/apps/${context.applicationId}/${ENDPT}?${queryPart}`;
 
-        }, {
-            key: 'since',
-            value: function since(_since) {
-                check.date(_since, 'since must be a date');
-                this._params.since = _since.toISOString();
-                return this;
-            }
+            function pageFn() {
+                return context.http.makeRequest({ url }, userOpts).then(function (body) {
+                    array = array.concat(body.data || []); // concatinate the new data
 
-            /**
-             * Query by ending date (find before)
-             * @param {Date} until
-             */
-
-        }, {
-            key: 'until',
-            value: function until(_until) {
-                check.date(_until, 'until must be a date');
-                this._params.until = _until.toISOString();
-                return this;
-            }
-
-            /**
-             * checks and builds query parameters for use in a URL
-             * @returns Returns a string containing URL query paramters
-             */
-
-        }, {
-            key: '_buildQuery',
-            value: function _buildQuery(queryBy) {
-                if (Object.keys(queryBy).length === 0) {
-                    throw new Error('You must specify at least the "achievementId", "subject", "since", or "until"');
-                }
-
-                return qs.stringify(queryBy);
-            }
-
-            /**
-             * retrives earned achievements, returned as an array
-             * @param {object} userOpts option overrides for this request
-             * @returns {Promise<object[]>} Promise that resolves to a list of metrics
-             */
-
-        }, {
-            key: 'getAll',
-            value: function getAll(userOpts) {
-                var array = [];
-                var queryBy = (0, _collectQueryParams2.default)(this._params, AVAILABLE_QUERY_PARAMS);
-                var queryPart = this._buildQuery(queryBy);
-
-                var url = '/v1/apps/' + context.applicationId + '/' + ENDPT + '?' + queryPart;
-
-                function pageFn() {
-                    return context.http.makeRequest({ url: url }, userOpts).then(function (body) {
-                        array = array.concat(body.data || []); // concatinate the new data
-
-                        url = body.pages.next;
-                        if (url) {
-                            return pageFn();
-                        } else {
-                            return array;
-                        }
-                    });
-                }
-
-                return pageFn();
-            }
-
-            /**
-             * retrives earned achievements, returned as an iterator
-             * @param {object} userOpts option overrides for this request
-             * @return An iterator that returns promises that resolve with the next object
-             */
-
-        }, {
-            key: 'getIterator',
-            value: /*#__PURE__*/regeneratorRuntime.mark(function getIterator(userOpts) {
-                var queryBy, queryPart, pageFn;
-                return regeneratorRuntime.wrap(function getIterator$(_context) {
-                    while (1) {
-                        switch (_context.prev = _context.next) {
-                            case 0:
-                                pageFn = function pageFn() {
-                                    var url = '/v1/apps/' + context.applicationId + '/' + ENDPT + '?' + queryPart;
-                                    return function () {
-                                        return context.http.makeRequest({ url: url }, userOpts).then(function (body) {
-                                            url = body.pages.next;
-                                            return body;
-                                        });
-                                    };
-                                };
-
-                                queryBy = (0, _collectQueryParams2.default)(this._params, AVAILABLE_QUERY_PARAMS);
-                                queryPart = this._buildQuery(queryBy);
-                                return _context.delegateYield((0, _pageToGenerator2.default)(pageFn()), 't0', 4);
-
-                            case 4:
-                            case 'end':
-                                return _context.stop();
-                        }
+                    url = body.pages.next;
+                    if (url) {
+                        return pageFn();
+                    } else {
+                        return array;
                     }
-                }, getIterator, this);
-            })
-
-            /**
-             * delete all queried earned achievements
-             * @param {object} userOpts option overrides for this request
-             * @returns {Promise<object>} Promise that resolves to an object stating the number of deleted metrics
-             */
-
-        }, {
-            key: 'remove',
-            value: function remove(userOpts) {
-                var queryBy = (0, _collectQueryParams2.default)(this._params, AVAILABLE_QUERY_PARAMS);
-                var queryPart = this._buildQuery(queryBy);
-
-                return this.context.http.makeRequest({
-                    method: 'DELETE',
-                    url: '/v1/apps/' + this.context.applicationId + '/' + ENDPT + '?' + queryPart
-                }, userOpts);
+                });
             }
-        }]);
 
-        return EarnedAchievementQueryBuilder;
-    }();
+            return pageFn();
+        }
+
+        /**
+         * retrives earned achievements, returned as an iterator
+         * @param {object} userOpts option overrides for this request
+         * @return An iterator that returns promises that resolve with the next object
+         */
+        *getIterator(userOpts) {
+            const queryBy = (0, _collectQueryParams2.default)(this._params, AVAILABLE_QUERY_PARAMS);
+            const queryPart = this._buildQuery(queryBy);
+
+            function pageFn() {
+                let url = `/v1/apps/${context.applicationId}/${ENDPT}?${queryPart}`;
+                return function () {
+                    return context.http.makeRequest({ url }, userOpts).then(function (body) {
+                        url = body.pages.next;
+                        return body;
+                    });
+                };
+            }
+
+            yield* (0, _pageToGenerator2.default)(pageFn());
+        }
+
+        /**
+         * delete all queried earned achievements
+         * @param {object} userOpts option overrides for this request
+         * @returns {Promise<object>} Promise that resolves to an object stating the number of deleted metrics
+         */
+        remove(userOpts) {
+            const queryBy = (0, _collectQueryParams2.default)(this._params, AVAILABLE_QUERY_PARAMS);
+            const queryPart = this._buildQuery(queryBy);
+
+            return this.context.http.makeRequest({
+                method: 'DELETE',
+                url: `/v1/apps/${this.context.applicationId}/${ENDPT}?${queryPart}`
+            }, userOpts);
+        }
+    }
 
     /**
      * Sets up a delete request targeting earned achievements using query filters
      * @param queryBy: filters to query events by
      * @returns Returns an instance of the EarnedAchievementQueryBuilder class
      */
-
-
     function query() {
         return new EarnedAchievementQueryBuilder(context);
     }
@@ -15612,7 +15475,7 @@ function earnedAchievements(context) {
         getAll: obj.getAll,
         getIterator: obj.getIterator,
         remove: obj.remove,
-        query: query
+        query
     };
 }
 
@@ -18789,9 +18652,6 @@ module.exports = includes;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 exports.default = metrics;
 
 var _checkTypes = __webpack_require__(29);
@@ -18818,25 +18678,19 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+const ENDPT = 'metrics';
 
-var ENDPT = 'metrics';
-
-var DELETE_QUERY_PARAMS = ['key', 'subject'];
+const DELETE_QUERY_PARAMS = ['key', 'subject'];
 
 /**
  * Metrics module
  * @param {object} context The context to make requests in. Basically, `this`
  */
 function metrics(context) {
-    var _marked = /*#__PURE__*/regeneratorRuntime.mark(getSubjectMetricsIterator);
+    const obj = (0, _common2.default)(context, ENDPT);
 
-    var obj = (0, _common2.default)(context, ENDPT);
-
-    var MetricQueryBuilder = function () {
-        function MetricQueryBuilder(context) {
-            _classCallCheck(this, MetricQueryBuilder);
-
+    class MetricQueryBuilder {
+        constructor(context) {
             this.context = context;
 
             // container for the query parameters
@@ -18847,53 +18701,40 @@ function metrics(context) {
          * Query by key
          * @param {string} key
          */
+        key(key) {
+            check.string(key, 'key must be a string');
+            this._params.key = key;
+            return this;
+        }
 
+        /**
+         * Query by subject
+         * @param {string} subject
+         */
+        subject(subject) {
+            check.string(subject, 'subject must be a string');
+            this._params.subject = subject;
+            return this;
+        }
 
-        _createClass(MetricQueryBuilder, [{
-            key: 'key',
-            value: function key(_key) {
-                check.string(_key, 'key must be a string');
-                this._params.key = _key;
-                return this;
+        /**
+         * Deletes all queried metrics
+         * @param {object} userOpts option overrides for this request
+         * @returns {Promise<object>} Promise that resolves to an object stating the number of deleted metrics
+         */
+        remove(userOpts) {
+            const queryBy = (0, _collectQueryParams2.default)(this._params, DELETE_QUERY_PARAMS);
+
+            if (Object.keys(queryBy).length === 0) {
+                throw new Error('You must specify at least the "subject" or "key"');
             }
 
-            /**
-             * Query by subject
-             * @param {string} subject
-             */
-
-        }, {
-            key: 'subject',
-            value: function subject(_subject) {
-                check.string(_subject, 'subject must be a string');
-                this._params.subject = _subject;
-                return this;
-            }
-
-            /**
-             * Deletes all queried metrics
-             * @param {object} userOpts option overrides for this request
-             * @returns {Promise<object>} Promise that resolves to an object stating the number of deleted metrics
-             */
-
-        }, {
-            key: 'remove',
-            value: function remove(userOpts) {
-                var queryBy = (0, _collectQueryParams2.default)(this._params, DELETE_QUERY_PARAMS);
-
-                if (Object.keys(queryBy).length === 0) {
-                    throw new Error('You must specify at least the "subject" or "key"');
-                }
-
-                return this.context.http.makeRequest({
-                    method: 'DELETE',
-                    url: '/v1/apps/' + this.context.applicationId + '/' + ENDPT + '?' + qs.stringify(queryBy)
-                }, userOpts);
-            }
-        }]);
-
-        return MetricQueryBuilder;
-    }();
+            return this.context.http.makeRequest({
+                method: 'DELETE',
+                url: `/v1/apps/${this.context.applicationId}/${ENDPT}?${qs.stringify(queryBy)}`
+            }, userOpts);
+        }
+    }
 
     /**
      * Retrives metrics for a subject, returned as an array
@@ -18901,16 +18742,14 @@ function metrics(context) {
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object[]>} Promise that resolves to a list of metrics
      */
-
-
     function getAllSubjectMetrics(subject, userOpts) {
         check.string(subject, 'subject must be a string');
 
-        var array = [];
-        var url = '/v1/apps/' + context.applicationId + '/' + ENDPT + '/' + subject;
+        let array = [];
+        let url = `/v1/apps/${context.applicationId}/${ENDPT}/${subject}`;
 
         function pageFn() {
-            return context.http.makeRequest({ url: url }, userOpts).then(function (body) {
+            return context.http.makeRequest({ url }, userOpts).then(function (body) {
                 array = array.concat(body.data || []); // concatinate the new data
 
                 url = body.pages.next;
@@ -18931,32 +18770,20 @@ function metrics(context) {
      * @param userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */
-    function getSubjectMetricsIterator(subject, userOpts) {
-        var pageFn;
-        return regeneratorRuntime.wrap(function getSubjectMetricsIterator$(_context) {
-            while (1) {
-                switch (_context.prev = _context.next) {
-                    case 0:
-                        pageFn = function pageFn() {
-                            var url = '/v1/apps/' + context.applicationId + '/' + ENDPT + '/' + subject;
-                            return function () {
-                                return context.http.makeRequest({ url: url }, userOpts).then(function (body) {
-                                    url = body.pages.next;
-                                    return body;
-                                });
-                            };
-                        };
+    function* getSubjectMetricsIterator(subject, userOpts) {
+        check.string(subject, 'subject must be a string');
 
-                        check.string(subject, 'subject must be a string');
+        function pageFn() {
+            let url = `/v1/apps/${context.applicationId}/${ENDPT}/${subject}`;
+            return function () {
+                return context.http.makeRequest({ url }, userOpts).then(function (body) {
+                    url = body.pages.next;
+                    return body;
+                });
+            };
+        }
 
-                        return _context.delegateYield((0, _pageToGenerator2.default)(pageFn()), 't0', 3);
-
-                    case 3:
-                    case 'end':
-                        return _context.stop();
-                }
-            }
-        }, _marked, this);
+        yield* (0, _pageToGenerator2.default)(pageFn());
     }
 
     /**
@@ -18971,7 +18798,7 @@ function metrics(context) {
         check.string(key, 'key must be a string');
 
         return context.http.makeRequest({
-            url: '/v1/apps/' + context.applicationId + '/' + ENDPT + '/' + subject + '/' + key
+            url: `/v1/apps/${context.applicationId}/${ENDPT}/${subject}/${key}`
         }, userOpts);
     }
 
@@ -18987,10 +18814,10 @@ function metrics(context) {
         getAll: obj.getAll,
         getIterator: obj.getIterator,
         create: obj.create,
-        getAllSubjectMetrics: getAllSubjectMetrics,
-        getSubjectMetricsIterator: getSubjectMetricsIterator,
-        getIndividualSubjectMetric: getIndividualSubjectMetric, // TODO: consider aliasing to "get"
-        query: query
+        getAllSubjectMetrics,
+        getSubjectMetricsIterator,
+        getIndividualSubjectMetric, // TODO: consider aliasing to "get"
+        query
     };
 }
 
@@ -19012,14 +18839,14 @@ var _common2 = _interopRequireDefault(_common);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var ENDPT = 'events';
+const ENDPT = 'events';
 
 /**
  * Events module
  * @param {object} context The context to make requests in. Basically, `this`
  */
 function events(context) {
-    var obj = (0, _common2.default)(context, ENDPT);
+    const obj = (0, _common2.default)(context, ENDPT);
 
     return {
         create: obj.create
@@ -19036,9 +18863,6 @@ function events(context) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 exports.default = progress;
 
 var _checkTypes = __webpack_require__(29);
@@ -19061,16 +18885,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+const ENDPT = 'progress';
 
-var ENDPT = 'progress';
+const GET_QUERY_PARAMS = ['subject', 'achievementId'];
 
-var GET_QUERY_PARAMS = ['subject', 'achievementId'];
-
-var ProgressQueryBuilder = function () {
-    function ProgressQueryBuilder(context) {
-        _classCallCheck(this, ProgressQueryBuilder);
-
+class ProgressQueryBuilder {
+    constructor(context) {
         this.context = context;
 
         // container for the query parameters
@@ -19081,114 +18901,78 @@ var ProgressQueryBuilder = function () {
      * Query by achievement ID
      * @param {string} achievementId
      */
+    achievementId(achievementId) {
+        check.string(achievementId, 'achievementId must be a string');
+        this._params.achievementId = achievementId;
+        return this;
+    }
 
+    /**
+     * Query by subject
+     * @param {string} subject
+     */
+    subject(subject) {
+        check.string(subject, 'subject must be a string');
+        this._params.subject = subject;
+        return this;
+    }
 
-    _createClass(ProgressQueryBuilder, [{
-        key: 'achievementId',
-        value: function achievementId(_achievementId) {
-            check.string(_achievementId, 'achievementId must be a string');
-            this._params.achievementId = _achievementId;
-            return this;
+    /**
+     * Retrieve all queried progress objects, returned as an array
+     * @param {object} userOpts option overrides for this request
+     * @returns {Promise<object[]>} Promise that resolves to an array of progress objects
+     */
+    getAll(userOpts) {
+        if (!this._params.subject) {
+            throw new Error('subject must be provided');
         }
 
-        /**
-         * Query by subject
-         * @param {string} subject
-         */
+        const queryBy = (0, _collectQueryParams2.default)(this._params, GET_QUERY_PARAMS);
 
-    }, {
-        key: 'subject',
-        value: function subject(_subject) {
-            check.string(_subject, 'subject must be a string');
-            this._params.subject = _subject;
-            return this;
+        let array = [];
+        let url = `/v1/apps/${this.context.applicationId}/${ENDPT}?${qs.stringify(queryBy)}`;
+
+        const pageFn = () => {
+            return this.context.http.makeRequest({ url }, userOpts).then(function (body) {
+                array = array.concat(body.data || []); // concatinate the new data
+
+                url = body.pages.next;
+                if (url) {
+                    return pageFn();
+                } else {
+                    return array;
+                }
+            });
+        };
+
+        return pageFn();
+    }
+
+    /**
+     * Retrieve all queried progress objects, returned as an iterator
+     * @param {object} userOpts option overrides for this request
+     * @return An iterator that returns promises that resolve with the next progress object
+     */
+    *getIterator(userOpts) {
+        if (!this._params.subject) {
+            throw new Error('subject must be provided');
         }
 
-        /**
-         * Retrieve all queried progress objects, returned as an array
-         * @param {object} userOpts option overrides for this request
-         * @returns {Promise<object[]>} Promise that resolves to an array of progress objects
-         */
+        const queryBy = (0, _collectQueryParams2.default)(this._params, GET_QUERY_PARAMS);
 
-    }, {
-        key: 'getAll',
-        value: function getAll(userOpts) {
-            var _this = this;
-
-            if (!this._params.subject) {
-                throw new Error('subject must be provided');
-            }
-
-            var queryBy = (0, _collectQueryParams2.default)(this._params, GET_QUERY_PARAMS);
-
-            var array = [];
-            var url = '/v1/apps/' + this.context.applicationId + '/' + ENDPT + '?' + qs.stringify(queryBy);
-
-            var pageFn = function pageFn() {
-                return _this.context.http.makeRequest({ url: url }, userOpts).then(function (body) {
-                    array = array.concat(body.data || []); // concatinate the new data
-
+        const pageFn = () => {
+            let url = `/v1/apps/${this.context.applicationId}/${ENDPT}?${qs.stringify(queryBy)}`;
+            return () => {
+                return this.context.http.makeRequest({ url }, userOpts).then(function (body) {
                     url = body.pages.next;
-                    if (url) {
-                        return pageFn();
-                    } else {
-                        return array;
-                    }
+                    return body;
                 });
             };
+        };
 
-            return pageFn();
-        }
-
-        /**
-         * Retrieve all queried progress objects, returned as an iterator
-         * @param {object} userOpts option overrides for this request
-         * @return An iterator that returns promises that resolve with the next progress object
-         */
-
-    }, {
-        key: 'getIterator',
-        value: /*#__PURE__*/regeneratorRuntime.mark(function getIterator(userOpts) {
-            var _this2 = this;
-
-            var queryBy, pageFn;
-            return regeneratorRuntime.wrap(function getIterator$(_context) {
-                while (1) {
-                    switch (_context.prev = _context.next) {
-                        case 0:
-                            if (this._params.subject) {
-                                _context.next = 2;
-                                break;
-                            }
-
-                            throw new Error('subject must be provided');
-
-                        case 2:
-                            queryBy = (0, _collectQueryParams2.default)(this._params, GET_QUERY_PARAMS);
-
-                            pageFn = function pageFn() {
-                                var url = '/v1/apps/' + _this2.context.applicationId + '/' + ENDPT + '?' + qs.stringify(queryBy);
-                                return function () {
-                                    return _this2.context.http.makeRequest({ url: url }, userOpts).then(function (body) {
-                                        url = body.pages.next;
-                                        return body;
-                                    });
-                                };
-                            };
-
-                            return _context.delegateYield((0, _pageToGenerator2.default)(pageFn()), 't0', 5);
-
-                        case 5:
-                        case 'end':
-                            return _context.stop();
-                    }
-                }
-            }, getIterator, this);
-        })
-    }]);
-
-    return ProgressQueryBuilder;
-}();
+        yield* (0, _pageToGenerator2.default)(pageFn());
+    }
+}
 
 function progress(context) {
 
@@ -19200,7 +18984,7 @@ function progress(context) {
     }
 
     return {
-        query: query
+        query
     };
 }
 
@@ -19214,9 +18998,6 @@ function progress(context) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 exports.default = earnedAchievements;
 
 var _checkTypes = __webpack_require__(29);
@@ -19239,138 +19020,107 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+const ENDPT = 'jobresult';
 
-var ENDPT = 'jobresult';
-
-var GET_QUERY_PARAMS = ['criterionId', 'subject', 'id', 'sort'];
+const GET_QUERY_PARAMS = ['criterionId', 'subject', 'id', 'sort'];
 
 /**
  * Earned Achievements module
  * @param {object} context The context to make requests in. Basically, `this`
  */
 function earnedAchievements(context) {
-    var JobResultQueryBuilder = function () {
-        function JobResultQueryBuilder(context) {
-            _classCallCheck(this, JobResultQueryBuilder);
-
+    class JobResultQueryBuilder {
+        constructor(context) {
             this.context = context;
 
             // container for the query parameters
             this._params = {};
         }
 
-        _createClass(JobResultQueryBuilder, [{
-            key: 'criterionId',
-            value: function criterionId(_criterionId) {
-                check.string(_criterionId, 'criterionId must be a string');
-                this._params.criterionId = _criterionId;
-                return this;
-            }
-        }, {
-            key: 'subject',
-            value: function subject(_subject) {
-                check.string(_subject, 'subject must be a string');
-                this._params.subject = _subject;
-                return this;
-            }
-        }, {
-            key: 'id',
-            value: function id(_id) {
-                check.string(_id, 'id must be a string');
-                this._params.id = _id;
-                return this;
-            }
-        }, {
-            key: 'sort',
-            value: function sort(key, direction) {
-                check.string(key, 'key must be a string');
-                check.string(direction, 'direction must be a string');
-                this._params.sort = key + ':' + direction;
-                return this;
-            }
+        criterionId(criterionId) {
+            check.string(criterionId, 'criterionId must be a string');
+            this._params.criterionId = criterionId;
+            return this;
+        }
 
-            /**
-             * Get all queried job results
-             * @param {object} userOpts option overrides for this request
-             * @returns Returns an iterator that returns promises that resolve with the next job result
-             */
+        subject(subject) {
+            check.string(subject, 'subject must be a string');
+            this._params.subject = subject;
+            return this;
+        }
 
-        }, {
-            key: 'getIterator',
-            value: /*#__PURE__*/regeneratorRuntime.mark(function getIterator(userOpts) {
-                var queryBy, pageFn;
-                return regeneratorRuntime.wrap(function getIterator$(_context) {
-                    while (1) {
-                        switch (_context.prev = _context.next) {
-                            case 0:
-                                pageFn = function pageFn() {
-                                    var url = '/v1/apps/' + context.applicationId + '/' + ENDPT + '?' + qs.stringify(queryBy);
-                                    return function () {
-                                        return context.http.makeRequest({ url: url }, userOpts).then(function (body) {
-                                            url = body.pages.next;
-                                            return body;
-                                        });
-                                    };
-                                };
+        id(id) {
+            check.string(id, 'id must be a string');
+            this._params.id = id;
+            return this;
+        }
 
-                                queryBy = (0, _collectQueryParams2.default)(this._params, GET_QUERY_PARAMS);
-                                return _context.delegateYield((0, _pageToGenerator2.default)(pageFn()), 't0', 3);
+        sort(key, direction) {
+            check.string(key, 'key must be a string');
+            check.string(direction, 'direction must be a string');
+            this._params.sort = `${key}:${direction}`;
+            return this;
+        }
 
-                            case 3:
-                            case 'end':
-                                return _context.stop();
-                        }
-                    }
-                }, getIterator, this);
-            })
+        /**
+         * Get all queried job results
+         * @param {object} userOpts option overrides for this request
+         * @returns Returns an iterator that returns promises that resolve with the next job result
+         */
+        *getIterator(userOpts) {
+            const queryBy = (0, _collectQueryParams2.default)(this._params, GET_QUERY_PARAMS);
 
-            /**
-             * Retrieve all queried job results, returned as an array
-             * @param {object} userOpts option overrides for this request
-             * @returns {Promise<object[]>} Promise that resolves to an array of job results
-             */
-
-        }, {
-            key: 'getAll',
-            value: function getAll(userOpts) {
-                var queryBy = (0, _collectQueryParams2.default)(this._params, GET_QUERY_PARAMS);
-
-                var array = [];
-                var url = '/v1/apps/' + context.applicationId + '/' + ENDPT + '?' + qs.stringify(queryBy);
-
-                function pageFn() {
-                    return context.http.makeRequest({ url: url }, userOpts).then(function (body) {
-                        array = array.concat(body.data || []); // concatinate the new data
-
+            function pageFn() {
+                let url = `/v1/apps/${context.applicationId}/${ENDPT}?${qs.stringify(queryBy)}`;
+                return function () {
+                    return context.http.makeRequest({ url }, userOpts).then(function (body) {
                         url = body.pages.next;
-                        if (url) {
-                            return pageFn();
-                        } else {
-                            return array;
-                        }
+                        return body;
                     });
-                }
-
-                return pageFn();
+                };
             }
-        }]);
 
-        return JobResultQueryBuilder;
-    }();
+            yield* (0, _pageToGenerator2.default)(pageFn());
+        }
+
+        /**
+         * Retrieve all queried job results, returned as an array
+         * @param {object} userOpts option overrides for this request
+         * @returns {Promise<object[]>} Promise that resolves to an array of job results
+         */
+        getAll(userOpts) {
+            const queryBy = (0, _collectQueryParams2.default)(this._params, GET_QUERY_PARAMS);
+
+            let array = [];
+            let url = `/v1/apps/${context.applicationId}/${ENDPT}?${qs.stringify(queryBy)}`;
+
+            function pageFn() {
+                return context.http.makeRequest({ url }, userOpts).then(function (body) {
+                    array = array.concat(body.data || []); // concatinate the new data
+
+                    url = body.pages.next;
+                    if (url) {
+                        return pageFn();
+                    } else {
+                        return array;
+                    }
+                });
+            }
+
+            return pageFn();
+        }
+    }
 
     /**
      * Sets up a delete request targeting earned achievements using query filters
      * @returns Returns an instance of the JobResultQueryBuilder class
      */
-
-
     function query() {
         return new JobResultQueryBuilder(context);
     }
 
     return {
-        query: query
+        query
     };
 }
 
@@ -19392,14 +19142,14 @@ var _common2 = _interopRequireDefault(_common);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var ENDPT = 'achievementicons';
+const ENDPT = 'achievementicons';
 
 /**
  * Achievement icons module
  * @param {object} context The context to make requests in. Basically, `this`
  */
 function achievementIcons(context) {
-    var obj = (0, _common2.default)(context, ENDPT);
+    const obj = (0, _common2.default)(context, ENDPT);
 
     /**
      * Get all achievement icons
@@ -19409,12 +19159,12 @@ function achievementIcons(context) {
     function getAll(userOpts) {
         return context.http.makeRequest({
             method: 'GET',
-            url: '/v1/apps/' + context.applicationId + '/' + ENDPT
+            url: `/v1/apps/${context.applicationId}/${ENDPT}`
         }, userOpts);
     }
 
     return {
-        getAll: getAll,
+        getAll,
         remove: obj.remove
     };
 }
