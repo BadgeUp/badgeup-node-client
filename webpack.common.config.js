@@ -2,15 +2,13 @@
 const path = require('path');
 const DefinePlugin = require('webpack/lib/DefinePlugin');
 const UglifyPlugin = require('uglifyjs-webpack-plugin');
+const nodeExternals = require('webpack-node-externals');
 
 module.exports = function(target) {
     return {
         target,
-        entry: {
-            main: [
-                './src/index.js'
-            ]
-        },
+        entry: './src/index.js',
+        externals: [nodeExternals()],
         output: {
             path: path.join(__dirname, 'dist'),
             filename: `${target === 'node' ? 'index' : 'browser'}.js`,
