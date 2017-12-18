@@ -52,9 +52,7 @@ class ProgressQueryBuilder {
         let url = `/v1/apps/${this.context.applicationId}/${ENDPT}?${qs.stringify(queryBy)}`;
 
         const pageFn = () => {
-            return this.context.http.makeRequest({
-                url
-            }, userOpts).then(function (body) {
+            return this.context.http.makeRequest({ url }, userOpts).then(function (body) {
                 array = array.concat(body.data || []); // concatinate the new data
 
                 url = body.pages.next;
@@ -84,9 +82,7 @@ class ProgressQueryBuilder {
         const pageFn = () => {
             let url = `/v1/apps/${this.context.applicationId}/${ENDPT}?${qs.stringify(queryBy)}`;
             return () => {
-                return this.context.http.makeRequest({
-                    url
-                }, userOpts).then(function (body) {
+                return this.context.http.makeRequest({ url }, userOpts).then(function (body) {
                     url = body.pages.next;
                     return body;
                 });
