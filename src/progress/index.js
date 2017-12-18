@@ -1,10 +1,9 @@
 'use strict';
 
-import * as check from 'check-types';
-import * as qs from 'qs';
-import pageToGenerator from '../utils/pageToGenerator';
-import collectQueryParams from '../utils/collectQueryParams';
-
+const check = require('check-types');
+const qs = require('qs');
+const pageToGenerator = require('./../utils/pageToGenerator');
+const collectQueryParams = require('../utils/collectQueryParams');
 const ENDPT = 'progress';
 
 const GET_QUERY_PARAMS = ['subject', 'achievementId'];
@@ -53,7 +52,9 @@ class ProgressQueryBuilder {
         let url = `/v1/apps/${this.context.applicationId}/${ENDPT}?${qs.stringify(queryBy)}`;
 
         const pageFn = () => {
-            return this.context.http.makeRequest({ url }, userOpts).then(function(body) {
+            return this.context.http.makeRequest({
+                url
+            }, userOpts).then(function (body) {
                 array = array.concat(body.data || []); // concatinate the new data
 
                 url = body.pages.next;
@@ -73,7 +74,7 @@ class ProgressQueryBuilder {
      * @param {object} userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next progress object
      */
-    *getIterator(userOpts) {
+    * getIterator(userOpts) {
         if (!this._params.subject) {
             throw new Error('subject must be provided');
         }
@@ -83,7 +84,9 @@ class ProgressQueryBuilder {
         const pageFn = () => {
             let url = `/v1/apps/${this.context.applicationId}/${ENDPT}?${qs.stringify(queryBy)}`;
             return () => {
-                return this.context.http.makeRequest({ url }, userOpts).then(function(body) {
+                return this.context.http.makeRequest({
+                    url
+                }, userOpts).then(function (body) {
                     url = body.pages.next;
                     return body;
                 });
@@ -94,7 +97,7 @@ class ProgressQueryBuilder {
     }
 }
 
-export default function progress(context) {
+module.exports = function progress(context) {
 
     /**
      * @returns Returns an instance of the ProgressQueryBuilder class
@@ -106,4 +109,4 @@ export default function progress(context) {
     return {
         query
     };
-}
+};

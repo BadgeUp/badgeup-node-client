@@ -2,7 +2,7 @@
 
 // Event class to provide a common interface for events rather than using plain 'objects'
 // the goal here is not to provide validation or any type checking, just to add getters to things like the modifier
-export default class Event {
+module.exports = class Event {
     constructor(source) {
         this.id = source.id;
         this.subject = source.subject;
@@ -28,4 +28,4 @@ export default class Event {
             return false;
         }
     }
-}
+};

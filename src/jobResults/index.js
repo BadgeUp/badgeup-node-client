@@ -1,9 +1,9 @@
 'use strict';
 
-import * as check from 'check-types';
-import collectQueryParams from '../utils/collectQueryParams';
-import * as qs from 'qs';
-import pageToGenerator from '../utils/pageToGenerator';
+const check = require('check-types');
+const collectQueryParams = require('../utils/collectQueryParams');
+const qs = require('qs');
+const pageToGenerator = require('../utils/pageToGenerator');
 
 const ENDPT = 'jobresult';
 
@@ -13,7 +13,7 @@ const GET_QUERY_PARAMS = ['criterionId', 'subject', 'id', 'sort'];
  * Earned Achievements module
  * @param {object} context The context to make requests in. Basically, `this`
  */
-export default function earnedAchievements(context) {
+module.exports = function earnedAchievements(context) {
     class JobResultQueryBuilder {
         constructor(context) {
             this.context = context;
@@ -107,4 +107,4 @@ export default function earnedAchievements(context) {
     return {
         query
     };
-}
+};

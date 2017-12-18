@@ -7,27 +7,18 @@ module.exports = function(target) {
         target,
         entry: {
             main: [
-                'babel-polyfill',
                 './src/index.js'
             ]
         },
         output: {
             path: path.join(__dirname, 'dist'),
-            filename: `${target === 'node' ? 'index' : 'browser'}.js`
+            filename: `${target === 'node' ? 'index' : 'browser'}.js`,
+            libraryTarget: 'umd'
         },
         plugins: [
             new DefinePlugin({
                 'process.browser': target === 'web'
             })
-        ],
-        module: {
-            rules: [{
-                test: /\.js$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader'
-                }
-            }]
-        }
+        ]
     };
 };

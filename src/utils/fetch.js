@@ -1,11 +1,11 @@
 'use strict';
 
-import nodeFetch from 'node-fetch';
+const nodeFetch = require('node-fetch');
 
-export default function fetch() {
+module.exports = function fetch() {
     if (process.browser) {
         return fetch.call(this, ...arguments);
     } else {
         return nodeFetch.call(this, ...arguments);
     }
-}
+};

@@ -1,14 +1,13 @@
 'use strict';
 
-import common from './../common';
-
+const common = require('./../common');
 const ENDPT = 'achievementicons';
 
 /**
  * Achievement icons module
  * @param {object} context The context to make requests in. Basically, `this`
  */
-export default function achievementIcons(context) {
+module.exports = function achievementIcons(context) {
     const obj = common(context, ENDPT);
 
     /**
@@ -27,4 +26,4 @@ export default function achievementIcons(context) {
         getAll,
         remove: obj.remove
     };
-}
+};

@@ -1,7 +1,7 @@
 'use strict';
 
-import defaults from 'lodash.defaultsdeep';
-import request from './utils/fetchWrapper';
+const defaults = require('lodash.defaultsdeep');
+const request = require('./utils/fetchWrapper');
 
 // client library defaults
 const requestDefaults = {
@@ -14,7 +14,7 @@ const requestDefaults = {
     }
 };
 
-export default class BadgeUpHttp {
+module.exports = class BadgeUpHttp {
     /**
      * Constructor for the HTTP stack for BadgeUp
      * @param {object} globalReqOpts Options from the user for BadgeUp as a whole.
@@ -47,4 +47,4 @@ export default class BadgeUpHttp {
             return response.json();
         });
     }
-}
+};

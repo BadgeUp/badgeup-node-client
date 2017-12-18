@@ -1,10 +1,10 @@
 'use strict';
 
-import * as check from 'check-types';
-import common from '../common';
-import pageToGenerator from '../utils/pageToGenerator';
-import collectQueryParams from '../utils/collectQueryParams';
-import * as qs from 'qs';
+const check = require('check-types');
+const common = require('./../common');
+const pageToGenerator = require('../utils/pageToGenerator');
+const collectQueryParams = require('../utils/collectQueryParams');
+const qs = require('qs');
 
 const ENDPT = 'metrics';
 
@@ -14,7 +14,7 @@ const DELETE_QUERY_PARAMS = ['key', 'subject'];
  * Metrics module
  * @param {object} context The context to make requests in. Basically, `this`
  */
-export default function metrics(context) {
+module.exports = function metrics(context) {
     const obj = common(context, ENDPT);
 
     class MetricQueryBuilder {
@@ -147,4 +147,4 @@ export default function metrics(context) {
         getIndividualSubjectMetric,  // TODO: consider aliasing to "get"
         query
     };
-}
+};

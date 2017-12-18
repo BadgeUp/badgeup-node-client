@@ -1,10 +1,9 @@
 'use strict';
 
-import 'co-mocha';
+require('co-mocha');
 
-import { expect } from 'chai';
-import BadgeUp from '../src/index';
-
+const expect = require('chai').expect;
+const BadgeUp = require('../src');
 const bup = new BadgeUp({
     apiKey: 'eyJhY2NvdW50SWQiOiJ0aGViZXN0IiwiYXBwbGljYXRpb25JZCI6IjEzMzciLCJrZXkiOiJpY2VjcmVhbWFuZGNvb2tpZXN5dW0ifQ=='
 });

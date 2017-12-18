@@ -1,8 +1,8 @@
 'use strict';
 
-import fetch from './fetch';
+const fetch = require('./fetch');
 
-export default function fetchWrapper(options) {
+module.exports = function fetchWrapper(options) {
     if (!options || typeof options !== 'object') {
         throw new Error('options object must be provided and must be an object');
     }
@@ -30,4 +30,4 @@ export default function fetchWrapper(options) {
         }
         return response;
     });
-}
+};

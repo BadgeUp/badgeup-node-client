@@ -1,26 +1,26 @@
 'use strict';
 
-import defaults from 'lodash.defaultsdeep';
-import * as check from 'check-types';
-import BadgeUpHttp from './http';
+const check = require('check-types');
+const defaults = require('lodash.defaultsdeep');
+const BadgeUpHttp = require('./http');
 
-import applications from './applications';
-import achievements from './achievements';
-import _analytics from './analytics';
-import apiKeys from './apiKeys';
-import awards from './awards';
-import criteria from './criteria';
-import earnedAchievements from './earnedAchievements';
-import metrics from './metrics';
-import events from './events';
-import progress from './progress';
-import jobResults from './jobResults';
-import achievementIcons from './achievementIcons';
+const applications = require('./applications');
+const achievements = require('./achievements');
+const _analytics = require('./analytics');
+const apiKeys = require('./apiKeys');
+const awards = require('./awards');
+const criteria = require('./criteria');
+const earnedAchievements = require('./earnedAchievements');
+const metrics = require('./metrics');
+const events = require('./events');
+const progress = require('./progress');
+const jobResults = require('./jobResults');
+const achievementIcons = require('./achievementIcons');
 
-import atob from './utils/atob';
-import btoa from './utils/btoa';
+const atob = require('./utils/atob');
+const btoa = require('./utils/btoa');
 
-export default class BadgeUp {
+module.exports = class BadgeUp {
     /**
      * Construct an instance of the BadgeUp client.
      * @param {{apiKey: string, token: string, applicationId: string, request: object }} globalOpts - Client and global options
@@ -77,4 +77,4 @@ export default class BadgeUp {
         this.jobResults = jobResults(this);
         this.achievementIcons = achievementIcons(this);
     }
-}
+};
