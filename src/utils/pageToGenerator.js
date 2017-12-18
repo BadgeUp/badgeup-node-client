@@ -2,7 +2,7 @@
 
 // turns a function that resolves with a page of items into a generator-powered iterator
 // pageFn: function that may be called to retrieve the next page of data
-function* pageToGenerator(pageFn) {
+module.exports = function* pageToGenerator(pageFn) {
     let nextPageExists = true;
     let bank = [];
     let fetchPromise = Promise.resolve();
@@ -23,6 +23,4 @@ function* pageToGenerator(pageFn) {
 
         yield fetchPromise;
     }
-}
-
-module.exports = pageToGenerator;
+};

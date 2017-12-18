@@ -2,9 +2,11 @@
   "name": "@badgeup/badgeup-node-client",
   "version": "0.8.5",
   "description": "Official BadgeUp Node.js client",
-  "main": "src/index.js",
+  "main": "dist/index.js",
+  "browser": "dist/browser.js",
   "scripts": {
-    "test": "mocha spec/"
+    "test": "mocha spec/",
+    "build": "webpack --config webpack.node.config.js && webpack --config webpack.browser.config.js"
   },
   "author": "Mark Herhold <mark@badgeup.io>",
   "repository": {
@@ -14,19 +16,23 @@
   "license": "MIT",
   "dependencies": {
     "check-types": "^7.1.5",
-    "got": "^7.1.0",
-    "lodash.defaultsdeep": "^4.6.0",
-    "lodash.includes": "^4.3.0",
-    "lodash.pickby": "^4.6.0",
+    "lodash.defaultsdeep": "4.6.0",
+    "lodash.includes": "4.3.0",
+    "lodash.pickby": "4.6.0",
+    "node-fetch": "2.0.0-alpha.9",
     "qs": "6.5.1"
   },
   "devDependencies": {
     "chai": "^3.3.0",
     "co-mocha": "^1.1.2",
     "eslint": "^3.11.0",
-    "mocha": "^3.2.0"
+    "mocha": "^3.2.0",
+    "uglifyjs-webpack-plugin": "^1.1.4",
+    "webpack": "^3.10.0",
+    "webpack-node-externals": "^1.6.0"
   },
   "files": [
-    "src"
+    "src",
+    "dist"
   ]
 }

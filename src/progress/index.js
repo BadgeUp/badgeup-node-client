@@ -1,7 +1,7 @@
 'use strict';
 
 const check = require('check-types');
-const querystring = require('querystring');
+const qs = require('qs');
 const pageToGenerator = require('./../utils/pageToGenerator');
 const collectQueryParams = require('../utils/collectQueryParams');
 const ENDPT = 'progress';
@@ -49,10 +49,10 @@ class ProgressQueryBuilder {
         const queryBy = collectQueryParams(this._params, GET_QUERY_PARAMS);
 
         let array = [];
-        let url = `/v1/apps/${this.context.applicationId}/${ENDPT}?${querystring.stringify(queryBy)}`;
+        let url = `/v1/apps/${this.context.applicationId}/${ENDPT}?${qs.stringify(queryBy)}`;
 
         const pageFn = () => {
-            return this.context.http.makeRequest({ url }, userOpts).then(function(body) {
+            return this.context.http.makeRequest({ url }, userOpts).then(function (body) {
                 array = array.concat(body.data || []); // concatinate the new data
 
                 url = body.pages.next;
@@ -72,7 +72,7 @@ class ProgressQueryBuilder {
      * @param {object} userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next progress object
      */
-    *getIterator(userOpts) {
+    * getIterator(userOpts) {
         if (!this._params.subject) {
             throw new Error('subject must be provided');
         }
@@ -80,9 +80,9 @@ class ProgressQueryBuilder {
         const queryBy = collectQueryParams(this._params, GET_QUERY_PARAMS);
 
         const pageFn = () => {
-            let url = `/v1/apps/${this.context.applicationId}/${ENDPT}?${querystring.stringify(queryBy)}`;
+            let url = `/v1/apps/${this.context.applicationId}/${ENDPT}?${qs.stringify(queryBy)}`;
             return () => {
-                return this.context.http.makeRequest({ url }, userOpts).then(function(body) {
+                return this.context.http.makeRequest({ url }, userOpts).then(function (body) {
                     url = body.pages.next;
                     return body;
                 });

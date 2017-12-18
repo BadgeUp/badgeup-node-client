@@ -4,7 +4,7 @@ const check = require('check-types');
 const common = require('./../common');
 const collectQueryParams = require('../utils/collectQueryParams');
 const pageToGenerator = require('../utils/pageToGenerator');
-const querystring = require('querystring');
+const qs = require('qs');
 
 const ENDPT = 'earnedachievements';
 
@@ -74,7 +74,7 @@ module.exports = function earnedAchievements(context) {
                 throw new Error('You must specify at least the "achievementId", "subject", "since", or "until"');
             }
 
-            return querystring.stringify(queryBy);
+            return qs.stringify(queryBy);
         }
 
         /**

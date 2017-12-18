@@ -4,7 +4,7 @@ const check = require('check-types');
 const common = require('./../common');
 const pageToGenerator = require('../utils/pageToGenerator');
 const collectQueryParams = require('../utils/collectQueryParams');
-const querystring = require('querystring');
+const qs = require('qs');
 
 const ENDPT = 'metrics';
 
@@ -59,7 +59,7 @@ module.exports = function metrics(context) {
 
             return this.context.http.makeRequest({
                 method: 'DELETE',
-                url: `/v1/apps/${this.context.applicationId}/${ENDPT}?${querystring.stringify(queryBy)}`
+                url: `/v1/apps/${this.context.applicationId}/${ENDPT}?${qs.stringify(queryBy)}`
             }, userOpts);
         }
     }

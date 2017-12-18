@@ -2,7 +2,7 @@
 
 const check = require('check-types');
 const collectQueryParams = require('../utils/collectQueryParams');
-const querystring = require('querystring');
+const qs = require('qs');
 const pageToGenerator = require('../utils/pageToGenerator');
 
 const ENDPT = 'jobresult';
@@ -56,7 +56,7 @@ module.exports = function earnedAchievements(context) {
             const queryBy = collectQueryParams(this._params, GET_QUERY_PARAMS);
 
             function pageFn() {
-                let url = `/v1/apps/${context.applicationId}/${ENDPT}?${querystring.stringify(queryBy)}`;
+                let url = `/v1/apps/${context.applicationId}/${ENDPT}?${qs.stringify(queryBy)}`;
                 return function() {
                     return context.http.makeRequest({ url }, userOpts).then(function(body) {
                         url = body.pages.next;
@@ -77,7 +77,7 @@ module.exports = function earnedAchievements(context) {
             const queryBy = collectQueryParams(this._params, GET_QUERY_PARAMS);
 
             let array = [];
-            let url = `/v1/apps/${context.applicationId}/${ENDPT}?${querystring.stringify(queryBy)}`;
+            let url = `/v1/apps/${context.applicationId}/${ENDPT}?${qs.stringify(queryBy)}`;
 
             function pageFn() {
                 return context.http.makeRequest({ url }, userOpts).then(function(body) {

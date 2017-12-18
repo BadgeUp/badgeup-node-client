@@ -1,23 +1,20 @@
 'use strict';
 
 const defaults = require('lodash.defaultsdeep');
-const got = require('./utils/gotWrapper');
-const findOwnPackageJSON = require('./utils/findOwnPackageJSON');
-
-const packageJSON = findOwnPackageJSON() || { name: '@badgeup/badgeup-node-client', version: 'unknown' };
+const request = require('./utils/fetchWrapper');
 
 // client library defaults
-var requestDefaults = {
+const requestDefaults = {
     json: true,
     timeout: 5000,
     baseUrl: 'https://api.useast1.badgeup.io', // default API endpoint
     headers: {
-        'User-Agent': packageJSON.name + '/' + packageJSON.version + ' (https://www.badgeup.io/)',
+        'User-Agent': '@badgeup/badgeup-node-client/0.8.5 (https://www.badgeup.io/)',
         'Accept': 'application/json'
     }
 };
 
-class BadgeUpHttp {
+module.exports = class BadgeUpHttp {
     /**
      * Constructor for the HTTP stack for BadgeUp
      * @param {object} globalReqOpts Options from the user for BadgeUp as a whole.
@@ -45,12 +42,9 @@ class BadgeUpHttp {
             return Promise.resolve(options._payload(options));
         }
 
-        return got(options).then(function(response) {
+        return request(options).then(function(response) {
             // TODO implement error response translation
-            return response.body;
+            return response.json();
         });
     }
-
-}
-
-module.exports = BadgeUpHttp;
+};

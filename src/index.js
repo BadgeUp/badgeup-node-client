@@ -17,7 +17,10 @@ const progress = require('./progress');
 const jobResults = require('./jobResults');
 const achievementIcons = require('./achievementIcons');
 
-class BadgeUp {
+const atob = require('./utils/atob');
+const btoa = require('./utils/btoa');
+
+module.exports = class BadgeUp {
     /**
      * Construct an instance of the BadgeUp client.
      * @param {{apiKey: string, token: string, applicationId: string, request: object }} globalOpts - Client and global options
@@ -44,7 +47,7 @@ class BadgeUp {
             let applicationId;
 
             try {
-                applicationId = JSON.parse(Buffer.from(globalOpts.apiKey, 'base64').toString('utf8')).applicationId;
+                applicationId = JSON.parse(atob(globalOpts.apiKey)).applicationId;
                 if (!applicationId) {
                     throw new Error('applicationId not present');
                 }
@@ -53,7 +56,7 @@ class BadgeUp {
                 throw new Error('Malformed API key');
             }
 
-            globalOpts.request.headers.authorization = 'Basic ' + Buffer.from(globalOpts.apiKey + ':', 'ascii').toString('base64');
+            globalOpts.request.headers.authorization = 'Basic ' + btoa(globalOpts.apiKey + ':');
         }
 
         /**
@@ -74,9 +77,4 @@ class BadgeUp {
         this.jobResults = jobResults(this);
         this.achievementIcons = achievementIcons(this);
     }
-}
-
-// add response objects for criteria evaluation
-BadgeUp.response = require('./response');
-
-module.exports = BadgeUp;
+};
