@@ -1,5 +1,7 @@
 'use strict';
 
+const mapObj = require('map-obj');
+
 /**
  * Formats a date in ISO 8601 format with the correct time zone offset
  * @param {undefined|Date} date
@@ -33,23 +35,24 @@ function formatTZ(date) {
 }
 
 /**
- * Replacer function for JSON.stringify()
+ * Date replacer function
  * @param {*} name object key name
  * @param {*} val value
  */
 function replacer(name, val) {
-    if (this[name] instanceof Date) {
-        return formatDate(this[name]);
+    let v = val;
+    if (val instanceof Date) {
+        v = formatDate(val);
     }
-    return val;
+    return [name, v];
 }
 
 /**
- * Stringify function wrapping JSON.stringify()
+ * Date stringify function
  * @param {*} value
  */
-function stringify(value) {
-    return JSON.stringify(value, replacer);
+function dateStringify(value) {
+    return mapObj(value, replacer, { deep: true });
 }
 
-module.exports = stringify;
+module.exports = dateStringify;

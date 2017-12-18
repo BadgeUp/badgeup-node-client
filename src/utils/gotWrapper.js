@@ -1,7 +1,7 @@
 'use strict';
 
 const _got = require('got');
-const stringify = require('./jsonStringify');
+const dateStringify = require('./dateStringify');
 
 const gotWrapper = function gotWrapper(options) {
     if (!options || typeof options !== 'object') {
@@ -12,11 +12,9 @@ const gotWrapper = function gotWrapper(options) {
         throw new Error('options.baseUrl or options.url must be provided and must be a string');
     }
 
-    // stringify object and array bodies
     if (options.json === true && options.body && (typeof options.body === 'object' || Array.isArray(options.body))) {
-        options.headers = options.headers || {};
-        options.headers['Content-Type'] = 'application/json';
-        options.body = stringify(options.body);
+        // stringify dates to include timezones
+        options.body = dateStringify(options.body);
     }
 
     // build the URL
