@@ -1,68 +1,70 @@
-'use strict';
-
-const check = require('check-types');
-const common = require('./../common');
-const pageToGenerator = require('../utils/pageToGenerator');
-const collectQueryParams = require('../utils/collectQueryParams');
-const querystring = require('querystring');
+import { collectQueryParams } from '../utils/collectQueryParams';
+import { common } from "../common";
+import { pageToGenerator } from '../utils/pageToGenerator';
+import { QueryParameters } from "../utils/QueryBuilder";
+import { ResourceContext } from "../utils/ResourceContext";
+import * as check from 'check-types';
+import * as querystring from 'querystring';
 
 const ENDPT = 'metrics';
 
 const DELETE_QUERY_PARAMS = ['key', 'subject'];
 
+export class MetricQueryBuilder {
+    context: ResourceContext;
+
+    // container for the query parameters
+    private _params: QueryParameters = {};
+
+    constructor(context) {
+        this.context = context;
+    }
+
+    /**
+     * Query by key
+     * @param {string} key
+     */
+    key(key) {
+        check.string(key, 'key must be a string');
+        this._params.key = key;
+        return this;
+    }
+
+    /**
+     * Query by subject
+     * @param {string} subject
+     */
+    subject(subject) {
+        check.string(subject, 'subject must be a string');
+        this._params.subject = subject;
+        return this;
+    }
+
+    /**
+     * Deletes all queried metrics
+     * @param {object} userOpts option overrides for this request
+     * @returns {Promise<object>} Promise that resolves to an object stating the number of deleted metrics
+     */
+    remove(userOpts) {
+        const queryBy = collectQueryParams(this._params, DELETE_QUERY_PARAMS);
+
+        if (Object.keys(queryBy).length === 0) {
+            throw new Error('You must specify at least the "subject" or "key"');
+        }
+
+        return this.context.http.makeRequest({
+            method: 'DELETE',
+            url: `/v1/apps/${this.context.applicationId}/${ENDPT}?${querystring.stringify(queryBy)}`
+        }, userOpts);
+    }
+}
+
 /**
  * Metrics module
- * @param {object} context The context to make requests in. Basically, `this`
+ * @param {ResourceContext} context The context to make requests in. Basically, `this`
  */
-module.exports = function metrics(context) {
+export function metricsResource(context: ResourceContext) {
     const obj = common(context, ENDPT);
-
-    class MetricQueryBuilder {
-        constructor(context) {
-            this.context = context;
-
-            // container for the query parameters
-            this._params = {};
-        }
-
-        /**
-         * Query by key
-         * @param {string} key
-         */
-        key(key) {
-            check.string(key, 'key must be a string');
-            this._params.key = key;
-            return this;
-        }
-
-        /**
-         * Query by subject
-         * @param {string} subject
-         */
-        subject(subject) {
-            check.string(subject, 'subject must be a string');
-            this._params.subject = subject;
-            return this;
-        }
-
-        /**
-         * Deletes all queried metrics
-         * @param {object} userOpts option overrides for this request
-         * @returns {Promise<object>} Promise that resolves to an object stating the number of deleted metrics
-         */
-        remove(userOpts) {
-            const queryBy = collectQueryParams(this._params, DELETE_QUERY_PARAMS);
-
-            if (Object.keys(queryBy).length === 0) {
-                throw new Error('You must specify at least the "subject" or "key"');
-            }
-
-            return this.context.http.makeRequest({
-                method: 'DELETE',
-                url: `/v1/apps/${this.context.applicationId}/${ENDPT}?${querystring.stringify(queryBy)}`
-            }, userOpts);
-        }
-    }
 
     /**
      * Retrives metrics for a subject, returned as an array

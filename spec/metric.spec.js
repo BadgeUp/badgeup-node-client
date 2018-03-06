@@ -3,7 +3,7 @@
 require('co-mocha');
 
 const expect = require('chai').expect;
-const BadgeUp = require('./../');
+const { BadgeUp } = require('./../');
 const bup = new BadgeUp({
     apiKey: 'eyJhY2NvdW50SWQiOiJ0aGViZXN0IiwiYXBwbGljYXRpb25JZCI6IjEzMzciLCJrZXkiOiJpY2VjcmVhbWFuZGNvb2tpZXN5dW0ifQ=='
 });
@@ -157,6 +157,6 @@ describe('metrics', function() {
             bup.metrics.query().remove();
         }
 
-        expect(fn).to.throw('You must specify at least the \"subject\" or \"key\"');
+        expect(fn).to.throw('You must specify at least the "subject" or "key"');
     });
 });

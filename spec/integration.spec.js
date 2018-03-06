@@ -1,6 +1,6 @@
 'use strict';
 
-const BadgeUpClient = require('./../src/');
+const { BadgeUp } = require('./../dist/');
 const expect = require('chai').expect;
 const INTEGRATION_API_KEY = process.env['INTEGRATION_API_KEY'];
 
@@ -12,7 +12,7 @@ describe('integration tests', function() {
     });
 
     it('should send an event and get progress back', function() {
-        const client = new BadgeUpClient({apiKey: INTEGRATION_API_KEY});
+        const client = new BadgeUp({apiKey: INTEGRATION_API_KEY});
 
         const rand = Math.floor(Math.random() * 100000);
         const subject = 'nodejs-ci-' + rand;
@@ -37,6 +37,15 @@ describe('integration tests', function() {
             expect(progress.length).to.equal(1);
             expect(progress[0].isComplete).to.equal(true);
             expect(progress[0].isNew).to.equal(true);
+        });
+    });
+
+    it('should get all achievements', function() {
+        const client = new BadgeUp({apiKey: INTEGRATION_API_KEY});
+
+        return client.achievements.getAll().then(function(response) {
+            expect(response).to.be.an('array');
+            expect(response).to.have.length.greaterThan(0);
         });
     });
 });

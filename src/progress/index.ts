@@ -1,19 +1,22 @@
-'use strict';
+import { collectQueryParams } from '../utils/collectQueryParams';
+import { pageToGenerator } from './../utils/pageToGenerator';
+import { QueryParameters } from "../utils/QueryBuilder";
+import { ResourceContext } from "../utils/ResourceContext";
+import * as check from 'check-types';
+import * as querystring from 'querystring';
 
-const check = require('check-types');
-const querystring = require('querystring');
-const pageToGenerator = require('./../utils/pageToGenerator');
-const collectQueryParams = require('../utils/collectQueryParams');
 const ENDPT = 'progress';
-
 const GET_QUERY_PARAMS = ['subject', 'achievementId'];
 
-class ProgressQueryBuilder {
+export class ProgressQueryBuilder {
+
+    context: ResourceContext;
+
+    // container for the query parameters
+    private _params: QueryParameters = {};
+
     constructor(context) {
         this.context = context;
-
-        // container for the query parameters
-        this._params = {};
     }
 
     /**
@@ -93,7 +96,7 @@ class ProgressQueryBuilder {
     }
 }
 
-module.exports = function progress(context) {
+export function progressResource(context) {
 
     /**
      * @returns Returns an instance of the ProgressQueryBuilder class

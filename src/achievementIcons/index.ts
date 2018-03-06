@@ -1,13 +1,13 @@
-'use strict';
+import { common } from "../common";
+import { ResourceContext } from "../utils/ResourceContext";
 
-const common = require('./../common');
 const ENDPT = 'achievementicons';
 
 /**
  * Achievement icons module
- * @param {object} context The context to make requests in. Basically, `this`
+ * @param {ResourceContext} context The context to make requests in. Basically, `this`
  */
-module.exports = function achievementIcons(context) {
+export function achievementIconsResource(context: ResourceContext) {
     const obj = common(context, ENDPT);
 
     /**

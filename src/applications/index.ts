@@ -1,14 +1,14 @@
-'use strict';
+import { pageToGenerator } from './../utils/pageToGenerator';
+import { ResourceContext } from "../utils/ResourceContext";
+import * as check from 'check-types';
 
-const check = require('check-types');
-const pageToGenerator = require('./../utils/pageToGenerator');
 const ENDPT = 'apps';
 
 /**
  * Applications module
- * @param {object} context The context to make requests in. Basically, `this`
+ * @param {ResourceContext} context The context to make requests in. Basically, `this`
  */
-module.exports = function applications(context) {
+export function applicationsResource(context: ResourceContext) {
     /**
      * Create an application
      * @param {object} object event object

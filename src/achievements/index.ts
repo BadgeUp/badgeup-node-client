@@ -1,14 +1,16 @@
 'use strict';
 
-const check = require('check-types');
-const common = require('./../common');
+import { ResourceContext } from "../utils/ResourceContext";
+import { common } from "../common";
+import * as check from 'check-types';
+
 const ENDPT = 'achievements';
 
 /**
  * Achievements module
- * @param {object} context The context to make requests in. Basically, `this`
+ * @param {ResourceContext} context The context to make requests in. Basically, `this`
  */
-module.exports = function achievements(context) {
+export function achievementsResource(context: ResourceContext) {
     const obj = common(context, ENDPT);
 
     /**
@@ -39,7 +41,5 @@ module.exports = function achievements(context) {
         }, userOpts).then(function(body) { return body.data; });
     }
 
-    obj.getAchievementCriteria = getAchievementCriteria;
-    obj.getAchievementAwards = getAchievementAwards;
-    return obj;
+    return Object.assign(obj, { getAchievementCriteria, getAchievementAwards });
 };

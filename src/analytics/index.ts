@@ -1,7 +1,6 @@
-'use strict';
-
-const check = require('check-types');
-const pageToGenerator = require('../utils/pageToGenerator');
+import { pageToGenerator } from '../utils/pageToGenerator';
+import { ResourceContext } from "../utils/ResourceContext";
+import * as check from 'check-types';
 
 const ENDPT = 'analytics';
 
@@ -9,9 +8,9 @@ const ENDPT = 'analytics';
  * Analytics module
  * USE OF THE ANALTYICS MODULE IS NOT RECOMMENDED (AT THIS TIME)
  * THIS MODULE IS NOT SUBJECT TO ANY SLAS AND MAY BE CHANGED AT ANY TIME
- * @param {object} context The context to make requests in. Basically, `this`
+ * @param {ResourceContext} context The context to make requests in. Basically, `this`
  */
-module.exports = function achievements(context) {
+export function analyticsResource(context: ResourceContext) {
     /**
      * Retrieve event analytics
      * @param {object} userOpts option overrides for this request

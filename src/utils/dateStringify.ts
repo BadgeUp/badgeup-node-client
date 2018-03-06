@@ -1,6 +1,4 @@
-'use strict';
-
-const cloneDeepWith = require('lodash.clonedeepwith');
+// const cloneDeepWith = require('lodash.clonedeepwith');
 
 /**
  * Formats a date in ISO 8601 format with the correct time zone offset
@@ -41,21 +39,20 @@ function formatTZ(date) {
 
 /**
  * Date replacer function
- * @param {*} name object key name
+ * @param {*} key object key name
  * @param {*} val value
  */
-function replacer(val) {
+export function replacer(_key, val): any {
     if (val instanceof Date) {
         return formatDate(val);
     }
+    return val;
 }
 
 /**
  * Date stringify function
  * @param {*} value
  */
-function dateStringify(value) {
-    return cloneDeepWith(value, replacer);
-}
-
-module.exports = dateStringify;
+// export function dateStringify(value) {
+//     return cloneDeepWith(value, replacer);
+// }

@@ -1,15 +1,14 @@
-'use strict';
-
-const check = require('check-types');
-const pageToGenerator = require('./utils/pageToGenerator');
-const qs = require('qs');
+import { pageToGenerator } from './utils/pageToGenerator';
+import { ResourceContext } from "./utils/ResourceContext";
+import * as check from 'check-types';
+import * as qs from 'qs';
 
 /**
  * Provides a set of common funcitonality that can be used on most endpoints
- * @param {object} context The context to make requests in. Basically, `this`
+ * @param {ResourceContext} context The context to make requests in. Basically, `this`
  * @param {string} endpoint The endpoint used for this common module
  */
-module.exports = function common(context, endpoint) {
+export function common(context: ResourceContext, endpoint: string) {
 
     /**
      * Retrieve resource object by ID
@@ -17,7 +16,7 @@ module.exports = function common(context, endpoint) {
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object>} Promise that resolves with the retrieved object
      */
-    function get(id, userOpts) {
+    function get(id: string, userOpts) {
         check.string(id, 'id must be a string');
 
         const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });

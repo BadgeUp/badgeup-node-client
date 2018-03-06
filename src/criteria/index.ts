@@ -1,13 +1,13 @@
-'use strict';
+import { ResourceContext } from "../utils/ResourceContext";
+import { common } from "../common";
 
-const common = require('./../common');
 const ENDPT = 'criteria';
 
 /**
  * Criterion module
- * @param {object} context The context to make requests in. Basically, `this`
+ * @param {ResourceContext} context The context to make requests in. Basically, `this`
  */
-module.exports = function criteria(context) {
+export function criteriaResource(context: ResourceContext) {
     const obj = common(context, ENDPT);
 
     return {
