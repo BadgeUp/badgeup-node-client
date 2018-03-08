@@ -4,6 +4,8 @@
   "description": "Official BadgeUp Node.js client",
   "main": "dist/index.js",
   "scripts": {
+    "pretest": "tsc",
+    "watch": "tsc -w",
     "test": "mocha spec/ && eslint spec/",
     "prepublish": "tsc",
     "build": "tsc"
