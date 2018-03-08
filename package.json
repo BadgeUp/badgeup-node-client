@@ -6,6 +6,7 @@
   "scripts": {
     "pretest": "tsc",
     "watch": "tsc -w",
+    "dev": "tsc -w",
     "test": "mocha spec/ && eslint spec/",
     "prepublish": "tsc",
     "build": "tsc"

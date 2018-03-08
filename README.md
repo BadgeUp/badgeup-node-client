@@ -28,3 +28,7 @@ badgeup.achievements.getAll().then(function(achievements) {
     console.log('Error fetching achievements: ' + err.message);
 });
 ```
+
+## Development
+
+Run `npm run dev` to have TypeScript watch for changes and automatically compile during development. Running `npm test` will automatically trigger a compilation.
