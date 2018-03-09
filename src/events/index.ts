@@ -1,5 +1,6 @@
 import { common } from "../common";
 import { ResourceContext } from "../utils/ResourceContext";
+import { Event } from "./Event.class";
 
 const ENDPT = 'events';
 
@@ -9,8 +10,8 @@ const ENDPT = 'events';
  */
 export function eventsResource(context: ResourceContext) {
     const obj = common(context, ENDPT);
-
-    return {
-        create: obj.create
+    const create = function(object: Event, userOpts) : Promise<Event> {
+        return obj.create(object, userOpts) as Promise<Event>
     };
+    return {create};
 };

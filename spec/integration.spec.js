@@ -1,6 +1,6 @@
 'use strict';
 
-const { BadgeUp } = require('./../dist/');
+const { BadgeUp } = require('./../dist/src');
 const expect = require('chai').expect;
 const INTEGRATION_API_KEY = process.env['INTEGRATION_API_KEY'];
 
