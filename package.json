@@ -7,7 +7,7 @@
     "pretest": "tsc",
     "watch": "tsc -w",
     "dev": "tsc -w",
-    "test": "mocha spec/ && eslint spec/",
+    "test": "mocha --require ts-node/register spec/*.spec.* && eslint spec/",
     "prepublish": "tsc",
     "build": "tsc"
   },
@@ -27,12 +27,15 @@
     "qs": "^6.5.1"
   },
   "devDependencies": {
+    "@types/chai": "^4.1.2",
     "@types/lodash.defaultsdeep": "4.6.3",
+    "@types/mocha": "^2.2.48",
     "@types/node": "9.4.6",
     "chai": "4.1.2",
     "co-mocha": "1.2.2",
     "eslint": "4.18.2",
     "mocha": "5.0.2",
+    "ts-node": "^5.0.1",
     "typescript": "2.8.0-dev.20180302"
   },
   "files": [
