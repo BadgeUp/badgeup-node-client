@@ -1,9 +1,8 @@
 'use strict';
+import 'co-mocha';
+import { expect } from 'chai';
+import { BadgeUp } from './../src';
 
-require('co-mocha');
-
-const expect = require('chai').expect;
-const { BadgeUp } = require('./../src');
 const bup = new BadgeUp({
     apiKey: 'eyJhY2NvdW50SWQiOiJ0aGViZXN0IiwiYXBwbGljYXRpb25JZCI6IjEzMzciLCJrZXkiOiJpY2VjcmVhbWFuZGNvb2tpZXN5dW0ifQ=='
 });
@@ -80,7 +79,7 @@ describe('earned achievements', function() {
 
         function _validate(options) {
             expect(options.url).to.equal(`/v1/apps/1337/earnedachievements?subject=100`);
-            expect(options.method).any.to.equal(undefined, 'GET');
+            expect(options.method).to.be.oneOf([undefined, 'GET']);
             expect(options.headers).to.be.an('object');
         }
 
@@ -100,7 +99,7 @@ describe('earned achievements', function() {
 
         function _validate(options) {
             expect(options.url).to.equal(`/v1/apps/1337/earnedachievements?achievementId=100`);
-            expect(options.method).any.to.equal(undefined, 'GET');
+            expect(options.method).to.be.oneOf([undefined, 'GET']);
             expect(options.headers).to.be.an('object');
         }
 
@@ -122,7 +121,7 @@ describe('earned achievements', function() {
 
         function _validate(options) {
             expect(options.url).to.equal(`/v1/apps/1337/earnedachievements?since=${encodeURIComponent(date.toISOString())}`);
-            expect(options.method).any.to.equal(undefined, 'GET');
+            expect(options.method).to.be.oneOf([undefined, 'GET']);
             expect(options.headers).to.be.an('object');
         }
 
@@ -144,7 +143,7 @@ describe('earned achievements', function() {
 
         function _validate(options) {
             expect(options.url).to.equal(`/v1/apps/1337/earnedachievements?until=${encodeURIComponent(date.toISOString())}`);
-            expect(options.method).any.to.equal(undefined, 'GET');
+            expect(options.method).to.be.oneOf([undefined, 'GET']);
             expect(options.headers).to.be.an('object');
         }
 
@@ -167,7 +166,7 @@ describe('earned achievements', function() {
 
         function _validate(options) {
             expect(options.url).to.equal(`/v1/apps/1337/earnedachievements?subject=100&achievementId=100&since=${encodeURIComponent(since.toISOString())}&until=${encodeURIComponent(until.toISOString())}`);
-            expect(options.method).any.to.equal(undefined, 'GET');
+            expect(options.method).to.be.oneOf([undefined, 'GET']);
             expect(options.headers).to.be.an('object');
         }
 
@@ -186,7 +185,7 @@ describe('earned achievements', function() {
 
         function _validate(options) {
             expect(options.url).to.equal(`/v1/apps/1337/earnedachievements?subject=100`);
-            expect(options.method).any.to.equal('DELETE');
+            expect(options.method).to.equal('DELETE');
             expect(options.headers).to.be.an('object');
         }
 
@@ -200,7 +199,7 @@ describe('earned achievements', function() {
 
         function _validate(options) {
             expect(options.url).to.equal(`/v1/apps/1337/earnedachievements?achievementId=100`);
-            expect(options.method).any.to.equal('DELETE');
+            expect(options.method).to.equal('DELETE');
             expect(options.headers).to.be.an('object');
         }
 
@@ -222,7 +221,7 @@ describe('earned achievements', function() {
 
         function _validate(options) {
             expect(options.url).to.equal(`/v1/apps/1337/earnedachievements?since=${encodeURIComponent(date.toISOString())}`);
-            expect(options.method).any.to.equal('DELETE');
+            expect(options.method).to.equal('DELETE');
             expect(options.headers).to.be.an('object');
         }
 
@@ -244,7 +243,7 @@ describe('earned achievements', function() {
 
         function _validate(options) {
             expect(options.url).to.equal(`/v1/apps/1337/earnedachievements?until=${encodeURIComponent(date.toISOString())}`);
-            expect(options.method).any.to.equal('DELETE');
+            expect(options.method).to.equal('DELETE');
             expect(options.headers).to.be.an('object');
         }
 
@@ -261,7 +260,7 @@ describe('earned achievements', function() {
 
         function _validate(options) {
             expect(options.url).to.equal(`/v1/apps/1337/earnedachievements?subject=100&achievementId=100&since=${encodeURIComponent(since.toISOString())}&until=${encodeURIComponent(until.toISOString())}`);
-            expect(options.method).any.to.equal('DELETE');
+            expect(options.method).to.equal('DELETE');
             expect(options.headers).to.be.an('object');
         }
 

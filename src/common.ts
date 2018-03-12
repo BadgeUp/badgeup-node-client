@@ -16,7 +16,7 @@ export function common(context: ResourceContext, endpoint: string) {
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object>} Promise that resolves with the retrieved object
      */
-    function get(id: string, userOpts) {
+    function get<T>(id: string, userOpts) : Promise<T> {
         check.string(id, 'id must be a string');
 
         const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
@@ -51,7 +51,7 @@ export function common(context: ResourceContext, endpoint: string) {
      * @param {Object} userOpts option overrides for this request
      * @returns {Promise<object[]>} Promise that resolves to an array of objects
      */
-    function getAll(userOpts) {
+    function getAll<T>(userOpts) : Promise<T[]> {
         let array = [];
         const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
         let url = `/v1/apps/${context.applicationId}/${endpoint}${query}`;
@@ -98,7 +98,7 @@ export function common(context: ResourceContext, endpoint: string) {
      * @param {Object} userOpts option overrides for this request
      * @returns {Promise<Object>} A promise that resolves to the provided object
      */
-    function create(object, userOpts) {
+    function create<T>(object:T, userOpts) : Promise<T> {
         check.object(object, 'object must be an object');
 
         const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
@@ -135,4 +135,4 @@ export function common(context: ResourceContext, endpoint: string) {
         update,
         remove
     };
-};
+}
