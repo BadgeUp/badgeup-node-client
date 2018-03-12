@@ -128,7 +128,7 @@ export function common(context: ResourceContext, endpoint: string) {
     }
 
     return {
-        get: get,
+        get,
         getIterator,
         getAll,
         create,

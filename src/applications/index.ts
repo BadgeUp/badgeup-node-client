@@ -117,7 +117,7 @@ export function applicationsResource(context: ResourceContext) {
     }
 
     return {
-        get: get,
+        get,
         getAll,
         getIterator,
         create,
