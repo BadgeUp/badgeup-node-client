@@ -1,13 +1,19 @@
 export class Event {
-    constructor(
-        public id: string,
-        public subject: string,
-        public key: string,
-        public options: EventOptions,
-        public data: any,
-        public modifier: EventModifier,
-        public timestamp: Date
-    ) { }
+    id?: string;
+    applicationId?: string;
+    data?: string;
+    key: string;
+    modifier: EventModifier;
+    options?: EventOptions;
+    subject: string = "";
+    timestamp?: Date;
+
+    constructor(subject: string, key: string, modifier: EventModifier = {}, options?: EventOptions) {
+        this.subject = subject;
+        this.key = key;
+        this.modifier = modifier;
+        this.options = options;
+    }
 
     get modifierKey() {
         return Object.keys(this.modifier)[0];

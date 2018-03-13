@@ -1,10 +1,11 @@
 import { collectQueryParams } from '../utils/collectQueryParams';
-import { common } from "../common";
+import {common} from "../common";
 import { pageToGenerator } from '../utils/pageToGenerator';
 import { QueryParameters } from "../utils/QueryBuilder";
 import { ResourceContext } from "../utils/ResourceContext";
 import * as check from 'check-types';
 import * as querystring from 'querystring';
+import {EarnedAchievement} from "./EarnedAchievement.class";
 
 const ENDPT = 'earnedachievements';
 
@@ -25,7 +26,7 @@ export class EarnedAchievementQueryBuilder {
      * Query by achievement ID
      * @param {string} achievementId
      */
-    achievementId(achievementId) {
+    achievementId(achievementId : string) {
         check.string(achievementId, 'achievementId must be a string');
         this._params.achievementId = achievementId;
         return this;
@@ -156,12 +157,14 @@ export function earnedAchievementsResource(context: ResourceContext) {
     function query() {
         return new EarnedAchievementQueryBuilder(context);
     }
-
+    let getAll: <T = EarnedAchievement>(userOpts: any) => Promise<T[]> = obj.getAll
+    let get: <T = EarnedAchievement>(id: string, userOpts: any) => Promise<T> = obj.get;
     return {
-        get: obj.get,
-        getAll: obj.getAll,
+        get,
+        getAll,
         getIterator: obj.getIterator,
         remove: obj.remove,
         query
     };
 };
+
