@@ -1,6 +1,6 @@
 const defaults = require('lodash.defaultsdeep');
-import { replacer } from './utils/dateStringify';
 import fetch from 'node-fetch';
+import { replacer } from './utils/dateStringify';
 
 // client library defaults
 const requestDefaults = {

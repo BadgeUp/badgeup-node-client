@@ -3,12 +3,12 @@ export class Event {
     applicationId?: string;
     data?: string;
     key: string;
-    modifier: EventModifier;
-    options?: EventOptions;
-    subject: string = "";
+    modifier: IEventModifier;
+    options?: IEventOptions;
+    subject: string = '';
     timestamp?: Date;
 
-    constructor(subject: string, key: string, modifier: EventModifier = {}, options?: EventOptions) {
+    constructor(subject: string, key: string, modifier: IEventModifier = {}, options?: IEventOptions) {
         this.subject = subject;
         this.key = key;
         this.modifier = modifier;
@@ -30,12 +30,12 @@ export class Event {
             return false;
         }
     }
-};
-
-export interface EventModifier {
-    [key: string]: number
 }
 
-export interface EventOptions {
+export interface IEventModifier {
+    [key: string]: number;
+}
+
+export interface IEventOptions {
     discard: boolean;
 }

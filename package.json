@@ -7,9 +7,10 @@
     "pretest": "tsc",
     "watch": "tsc -w",
     "dev": "tsc -w",
-    "test": "mocha --require ts-node/register --recursive spec/*.spec.* && eslint spec/",
+    "test": "mocha --require ts-node/register --recursive spec/*.spec.* && npm run lint",
     "prepublish": "tsc",
-    "build": "tsc"
+    "build": "tsc",
+    "lint": "tslint -c tslint.yml 'src/**/*.ts' 'spec/**/*.[tj]s  && eslint spec/"
   },
   "author": "Mark Herhold <mark@badgeup.io>",
   "repository": {
@@ -34,7 +35,9 @@
     "eslint": "4.18.2",
     "mocha": "5.0.4",
     "ts-node": "5.0.1",
-    "typescript": "2.8.0-dev.20180308"
+    "typescript": "2.8.0-dev.20180308",
+    "tslint": "^5.9.1",
+    "tslint-eslint-rules": "^5.1.0"
   },
   "files": [
     "src",

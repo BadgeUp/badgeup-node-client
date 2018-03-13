@@ -1,13 +1,13 @@
-import { ResourceContext } from "../utils/ResourceContext";
-import { common } from "../common";
+import { common } from '../common';
+import { IResourceContext } from '../utils/ResourceContext';
 
 const ENDPT = 'criteria';
 
 /**
  * Criterion module
- * @param {ResourceContext} context The context to make requests in. Basically, `this`
+ * @param {IResourceContext} context The context to make requests in. Basically, `this`
  */
-export function criteriaResource(context: ResourceContext) {
+export function criteriaResource(context: IResourceContext) {
     const obj = common(context, ENDPT);
 
     return {
@@ -18,4 +18,4 @@ export function criteriaResource(context: ResourceContext) {
         update: obj.update,
         remove: obj.remove
     };
-};
+}

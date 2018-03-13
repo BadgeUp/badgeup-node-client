@@ -1,13 +1,13 @@
-import { common } from "../common";
-import { ResourceContext } from "../utils/ResourceContext";
+import { common } from '../common';
+import { IResourceContext } from '../utils/ResourceContext';
 
 const ENDPT = 'achievementicons';
 
 /**
  * Achievement icons module
- * @param {ResourceContext} context The context to make requests in. Basically, `this`
+ * @param {IResourceContext} context The context to make requests in. Basically, `this`
  */
-export function achievementIconsResource(context: ResourceContext) {
+export function achievementIconsResource(context: IResourceContext) {
     const obj = common(context, ENDPT);
 
     /**
@@ -26,4 +26,4 @@ export function achievementIconsResource(context: ResourceContext) {
         getAll,
         remove: obj.remove
     };
-};
+}

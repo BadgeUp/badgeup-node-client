@@ -1,15 +1,15 @@
 'use strict';
-import 'co-mocha';
 import { expect } from 'chai';
+import 'co-mocha';
 import { BadgeUp } from './../src';
-import { Event } from './../src/events/Event.class'
+import { Event } from './../src/events/Event.class';
 
 const bup = new BadgeUp({
     apiKey: 'eyJhY2NvdW50SWQiOiJ0aGViZXN0IiwiYXBwbGljYXRpb25JZCI6IjEzMzciLCJrZXkiOiJpY2VjcmVhbWFuZGNvb2tpZXN5dW0ifQ=='
 });
 
-function generateFakeEvent() : Event {
-    let e = new Event('kram','event:key');
+function generateFakeEvent(): Event {
+    const e = new Event('kram', 'event:key');
     e.id = Math.floor(Math.random() * 1e6) + '';
     e.modifier = { '@inc': 5 };
     e.timestamp = new Date();

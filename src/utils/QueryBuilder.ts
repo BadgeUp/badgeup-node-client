@@ -1,4 +1,4 @@
 // query parameters map
-export interface QueryParameters {
+export interface IQueryParameters {
     [key: string]: string
 }

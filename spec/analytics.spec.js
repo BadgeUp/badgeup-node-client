@@ -19,7 +19,7 @@ function generateFakeSubjectStats() {
 
 describe('Analytics', function() {
     it('should get all subject snapshots with an iterator', function*() {
-        const summary = generateFakeSubjectStats();
+        const fakeSubjectStats = generateFakeSubjectStats();
 
         function _payload(options) {
             if (options.url.indexOf('PAGE_TWO') > 0) {
@@ -29,7 +29,7 @@ describe('Analytics', function() {
                         previous: null,
                         next: null
                     },
-                    data: (new Array(10)).fill(summary)
+                    data: (new Array(10)).fill(fakeSubjectStats)
                 });
             } else {
                 // first page of data
@@ -38,7 +38,7 @@ describe('Analytics', function() {
                         previous: null,
                         next: '/v1/apps/1337/analytics/subjects/summary?after=PAGE_TWO'
                     },
-                    data: (new Array(10)).fill(summary)
+                    data: (new Array(10)).fill(fakeSubjectStats)
                 });
             }
         }

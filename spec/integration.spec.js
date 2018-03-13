@@ -2,7 +2,8 @@
 
 const { BadgeUp } = require('./../dist/src');
 const expect = require('chai').expect;
-const INTEGRATION_API_KEY = process.env['INTEGRATION_API_KEY'];
+const INTEGRATION_API_KEY = process.env.INTEGRATION_API_KEY;
+require('co-mocha');
 
 describe('integration tests', function() {
     before(function() {
@@ -12,7 +13,7 @@ describe('integration tests', function() {
     });
 
     it('should send an event and get progress back', function() {
-        const client = new BadgeUp({apiKey: INTEGRATION_API_KEY});
+        const client = new BadgeUp({ apiKey: INTEGRATION_API_KEY });
 
         const rand = Math.floor(Math.random() * 100000);
         const subject = 'nodejs-ci-' + rand;
@@ -40,9 +41,12 @@ describe('integration tests', function() {
         });
     });
 
-    it('should get all achievements', function() {
-        const client = new BadgeUp({apiKey: INTEGRATION_API_KEY});
-
+    it('should get all achievements', function*() {
+        const client = new BadgeUp({ apiKey: INTEGRATION_API_KEY });
+        for (let summary of client.earnedAchievements.getIterator()) {
+            summary = yield summary;
+            expect(summary).to.be.an('object');
+        }
         return client.achievements.getAll().then(function(response) {
             expect(response).to.be.an('array');
             expect(response).to.have.length.greaterThan(0);

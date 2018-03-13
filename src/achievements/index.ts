@@ -1,16 +1,16 @@
 'use strict';
 
-import { ResourceContext } from "../utils/ResourceContext";
-import { common } from "../common";
 import * as check from 'check-types';
+import { common } from '../common';
+import { IResourceContext } from '../utils/ResourceContext';
 
 const ENDPT = 'achievements';
 
 /**
  * Achievements module
- * @param {ResourceContext} context The context to make requests in. Basically, `this`
+ * @param {IResourceContext} context The context to make requests in. Basically, `this`
  */
-export function achievementsResource(context: ResourceContext) {
+export function achievementsResource(context: IResourceContext) {
     const obj = common(context, ENDPT);
 
     /**
@@ -38,8 +38,8 @@ export function achievementsResource(context: ResourceContext) {
 
         return context.http.makeRequest({
             url: `/v1/apps/${context.applicationId}/${ENDPT}/${id}/awards`
-        }, userOpts).then(function(body) { return body.data; });
+        }, userOpts).then((body) => body.data);
     }
 
     return Object.assign(obj, { getAchievementCriteria, getAchievementAwards });
-};
+}

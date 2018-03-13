@@ -1,20 +1,20 @@
-import { collectQueryParams } from '../utils/collectQueryParams';
-import { common } from "../common";
-import { pageToGenerator } from '../utils/pageToGenerator';
-import { QueryParameters } from "../utils/QueryBuilder";
-import { ResourceContext } from "../utils/ResourceContext";
 import * as check from 'check-types';
 import * as querystring from 'querystring';
+import { common } from '../common';
+import { collectQueryParams } from '../utils/collectQueryParams';
+import { pageToGenerator } from '../utils/pageToGenerator';
+import { IQueryParameters } from '../utils/QueryBuilder';
+import { IResourceContext } from '../utils/ResourceContext';
 
 const ENDPT = 'metrics';
 
 const DELETE_QUERY_PARAMS = ['key', 'subject'];
 
 export class MetricQueryBuilder {
-    context: ResourceContext;
+    context: IResourceContext;
 
     // container for the query parameters
-    private _params: QueryParameters = {};
+    private _params: IQueryParameters = {};
 
     constructor(context) {
         this.context = context;
@@ -61,9 +61,9 @@ export class MetricQueryBuilder {
 
 /**
  * Metrics module
- * @param {ResourceContext} context The context to make requests in. Basically, `this`
+ * @param {IResourceContext} context The context to make requests in. Basically, `this`
  */
-export function metricsResource(context: ResourceContext) {
+export function metricsResource(context: IResourceContext) {
     const obj = common(context, ENDPT);
 
     /**
@@ -149,4 +149,4 @@ export function metricsResource(context: ResourceContext) {
         getIndividualSubjectMetric,  // TODO: consider aliasing to "get"
         query
     };
-};
+}

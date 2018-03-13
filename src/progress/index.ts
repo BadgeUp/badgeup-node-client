@@ -1,19 +1,19 @@
-import { collectQueryParams } from '../utils/collectQueryParams';
-import { pageToGenerator } from './../utils/pageToGenerator';
-import { QueryParameters } from "../utils/QueryBuilder";
-import { ResourceContext } from "../utils/ResourceContext";
 import * as check from 'check-types';
 import * as querystring from 'querystring';
+import { collectQueryParams } from '../utils/collectQueryParams';
+import { IQueryParameters } from '../utils/QueryBuilder';
+import { IResourceContext } from '../utils/ResourceContext';
+import { pageToGenerator } from './../utils/pageToGenerator';
 
 const ENDPT = 'progress';
 const GET_QUERY_PARAMS = ['subject', 'achievementId'];
 
 export class ProgressQueryBuilder {
 
-    context: ResourceContext;
+    context: IResourceContext;
 
     // container for the query parameters
-    private _params: QueryParameters = {};
+    private _params: IQueryParameters = {};
 
     constructor(context) {
         this.context = context;
@@ -108,4 +108,4 @@ export function progressResource(context) {
     return {
         query
     };
-};
+}

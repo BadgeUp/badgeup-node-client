@@ -1,11 +1,11 @@
-import { collectQueryParams } from '../utils/collectQueryParams';
-import {common} from "../common";
-import { pageToGenerator } from '../utils/pageToGenerator';
-import { QueryParameters } from "../utils/QueryBuilder";
-import { ResourceContext } from "../utils/ResourceContext";
 import * as check from 'check-types';
 import * as querystring from 'querystring';
-import { EarnedAchievement } from "./EarnedAchievement.class";
+import { common } from '../common';
+import { collectQueryParams } from '../utils/collectQueryParams';
+import { pageToGenerator } from '../utils/pageToGenerator';
+import { IQueryParameters } from '../utils/QueryBuilder';
+import { IResourceContext } from '../utils/ResourceContext';
+import { EarnedAchievement } from './EarnedAchievement.class';
 
 const ENDPT = 'earnedachievements';
 
@@ -13,10 +13,10 @@ const AVAILABLE_QUERY_PARAMS = ['achievementId', 'subject', 'since', 'until'];
 
 export class EarnedAchievementQueryBuilder {
 
-    context: ResourceContext;
+    context: IResourceContext;
 
     // container for the query parameters
-    private _params: QueryParameters = {};
+    private _params: IQueryParameters = {};
 
     constructor(context) {
         this.context = context;
@@ -144,9 +144,9 @@ export class EarnedAchievementQueryBuilder {
 
 /**
  * Earned Achievements module
- * @param {ResourceContext} context The context to make requests in. Basically, `this`
+ * @param {IResourceContext} context The context to make requests in. Basically, `this`
  */
-export function earnedAchievementsResource(context: ResourceContext) {
+export function earnedAchievementsResource(context: IResourceContext) {
     const obj = common(context, ENDPT);
 
     /**
@@ -157,10 +157,8 @@ export function earnedAchievementsResource(context: ResourceContext) {
     function query() {
         return new EarnedAchievementQueryBuilder(context);
     }
-
-    const getAll: <T = EarnedAchievement>(userOpts: any) => Promise<T[]> = obj.getAll
+    const getAll: <T = EarnedAchievement>(userOpts: any) => Promise<T[]> = obj.getAll;
     const get: <T = EarnedAchievement>(id: string, userOpts: any) => Promise<T> = obj.get;
-
     return {
         get,
         getAll,
@@ -168,4 +166,6 @@ export function earnedAchievementsResource(context: ResourceContext) {
         remove: obj.remove,
         query
     };
-};
+}
+
+

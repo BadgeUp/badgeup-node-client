@@ -1,18 +1,18 @@
 const defaults = require('lodash.defaultsdeep');
-import { achievementIconsResource } from "./achievementIcons";
-import { achievementsResource } from "./achievements";
-import { analyticsResource } from "./analytics";
-import { apiKeysResource } from "./apiKeys";
-import { applicationsResource } from "./applications";
-import { awardsResource } from "./awards";
-import { BadgeUpHttp } from './http';
-import { criteriaResource } from "./criteria";
-import { earnedAchievementsResource } from "./earnedAchievements";
-import { eventsResource } from "./events";
-import { metricsResource } from "./metrics";
-import { progressResource } from "./progress";
-import { ResourceContext } from "./utils/ResourceContext";
 import * as check from 'check-types';
+import { achievementIconsResource } from './achievementIcons';
+import { achievementsResource } from './achievements';
+import { analyticsResource } from './analytics';
+import { apiKeysResource } from './apiKeys';
+import { applicationsResource } from './applications';
+import { awardsResource } from './awards';
+import { criteriaResource } from './criteria';
+import { earnedAchievementsResource } from './earnedAchievements';
+import { eventsResource } from './events';
+import { BadgeUpHttp } from './http';
+import { metricsResource } from './metrics';
+import { progressResource } from './progress';
+import { IResourceContext } from './utils/ResourceContext';
 
 export class BadgeUp {
 
@@ -38,7 +38,7 @@ export class BadgeUp {
      * Construct an instance of the BadgeUp client.
      * @param {{apiKey: string, token: string, applicationId: string, request: object }} globalOpts - Client and global options
      */
-    constructor(globalOpts: GlobalOptions) {
+    constructor(globalOpts: IGlobalOptions) {
 
         // these fields are required
         check.assert.object(globalOpts, 'You must provide an options object. Please see the documentation.');
@@ -74,21 +74,21 @@ export class BadgeUp {
 
         this.http = new BadgeUpHttp(globalOpts.request);
 
-        this.applications = applicationsResource(this as ResourceContext);
-        this.achievements = achievementsResource(this as ResourceContext);
-        this._analytics = analyticsResource(this as ResourceContext);
-        this.apiKeys = apiKeysResource(this as ResourceContext);
-        this.awards = awardsResource(this as ResourceContext);
-        this.criteria = criteriaResource(this as ResourceContext);
-        this.earnedAchievements = earnedAchievementsResource(this as ResourceContext);
-        this.metrics = metricsResource(this as ResourceContext);
-        this.events = eventsResource(this as ResourceContext);
-        this.progress = progressResource(this as ResourceContext);
-        this.achievementIcons = achievementIconsResource(this as ResourceContext);
+        this.applications = applicationsResource(this as IResourceContext);
+        this.achievements = achievementsResource(this as IResourceContext);
+        this._analytics = analyticsResource(this as IResourceContext);
+        this.apiKeys = apiKeysResource(this as IResourceContext);
+        this.awards = awardsResource(this as IResourceContext);
+        this.criteria = criteriaResource(this as IResourceContext);
+        this.earnedAchievements = earnedAchievementsResource(this as IResourceContext);
+        this.metrics = metricsResource(this as IResourceContext);
+        this.events = eventsResource(this as IResourceContext);
+        this.progress = progressResource(this as IResourceContext);
+        this.achievementIcons = achievementIconsResource(this as IResourceContext);
     }
 }
 
-export interface GlobalOptions {
+export interface IGlobalOptions {
     apiKey?: string;
     token?: string;
     applicationId?: string;

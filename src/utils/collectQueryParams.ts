@@ -4,4 +4,4 @@ export function collectQueryParams(source, keys: string[]) {
     return pickBy(source, function(value, key) {
         return !!value && keys.includes(key);
     });
-};
+}
