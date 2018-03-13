@@ -15,7 +15,7 @@ export function applicationsResource(context: IResourceContext) {
      * @param {object} userOpts option overrides for this request
      * @returns An iterator that returns promises that resolve with the next object
      */
-    function create(object, userOpts) {
+    function create(object, userOpts?) {
         check.object(object, 'object must be an object');
 
         return context.http.makeRequest({
@@ -32,7 +32,7 @@ export function applicationsResource(context: IResourceContext) {
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object>} Promise that resolves to the updated application
      */
-    function update(id, updates, userOpts) {
+    function update(id: string, updates, userOpts?) {
         check.string(id, 'id must be a string');
         check.array(updates, 'updates must be an array');
 
@@ -49,7 +49,7 @@ export function applicationsResource(context: IResourceContext) {
      * @param {object} userOpts option overrides for this request
      * @returns Returns a promise
      */
-    function remove(id, userOpts) {
+    function remove(id: string, userOpts?) {
         check.string(id, 'id must be a string');
 
         return context.http.makeRequest({
@@ -64,7 +64,7 @@ export function applicationsResource(context: IResourceContext) {
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object>} Promise that resolves with the retrieved application
      */
-    function get(id, userOpts) {
+    function get(id: string, userOpts?) {
         check.string(id, 'id must be a string');
 
         return context.http.makeRequest({
@@ -77,7 +77,7 @@ export function applicationsResource(context: IResourceContext) {
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object[]>} Promise that resolves to an array of objects
      */
-    function getAll(userOpts) {
+    function getAll(userOpts?) {
         let array = [];
         let url = `/v1/${ENDPT}`;
 
@@ -102,7 +102,7 @@ export function applicationsResource(context: IResourceContext) {
      * @param {object} userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */
-    function* getIterator(userOpts) {
+    function* getIterator(userOpts?) {
         function pageFn() {
             let url = `/v1/${ENDPT}`;
             return function() {

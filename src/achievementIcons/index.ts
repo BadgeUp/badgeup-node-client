@@ -15,7 +15,7 @@ export function achievementIconsResource(context: IResourceContext) {
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object[]>} A promise that resolves to an array of achievement icon identifiers
      */
-    function getAll(userOpts) {
+    function getAll(userOpts?) {
         return context.http.makeRequest({
             method: 'GET',
             url: `/v1/apps/${context.applicationId}/${ENDPT}`

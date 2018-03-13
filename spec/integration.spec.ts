@@ -1,9 +1,8 @@
 'use strict';
 
 const { BadgeUp } = require('./../dist/src');
-const expect = require('chai').expect;
+import { expect } from 'chai';
 const INTEGRATION_API_KEY = process.env.INTEGRATION_API_KEY;
-require('co-mocha');
 
 describe('integration tests', function() {
     before(function() {
@@ -41,10 +40,10 @@ describe('integration tests', function() {
         });
     });
 
-    it('should get all achievements', function*() {
+    it('should get all achievements', async function() {
         const client = new BadgeUp({ apiKey: INTEGRATION_API_KEY });
         for (let summary of client.earnedAchievements.getIterator()) {
-            summary = yield summary;
+            summary = await summary;
             expect(summary).to.be.an('object');
         }
         return client.achievements.getAll().then(function(response) {

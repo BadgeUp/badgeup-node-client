@@ -10,8 +10,10 @@ const ENDPT = 'events';
  */
 export function eventsResource(context: IResourceContext) {
     const obj = common(context, ENDPT);
-    const create = (object: Event, userOpts): Promise<Event> => {
+
+    function create(object: Event, userOpts): Promise<Event> {
         return obj.create(object, userOpts) as Promise<Event>;
     };
+
     return { create };
 }

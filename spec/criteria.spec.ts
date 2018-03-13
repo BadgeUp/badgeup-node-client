@@ -1,16 +1,12 @@
-'use strict';
-
-require('co-mocha');
-
-const expect = require('chai').expect;
-const { BadgeUp } = require('./../src');
+import { expect } from 'chai';
+import { BadgeUp } from './../src';
 const bup = new BadgeUp({
     apiKey: 'eyJhY2NvdW50SWQiOiJ0aGViZXN0IiwiYXBwbGljYXRpb25JZCI6IjEzMzciLCJrZXkiOiJpY2VjcmVhbWFuZGNvb2tpZXN5dW0ifQ=='
 });
 
 function generateFakeCriterion() {
     return {
-        id: Math.floor(Math.random() * 1e6),
+        id: '' + Math.floor(Math.random() * 1e6),
         name: 'criterion',
         description: 'criterion description',
         key: 'a:crit',
@@ -20,7 +16,7 @@ function generateFakeCriterion() {
 }
 
 describe('criterion', function() {
-    it('should get a single criterion', function*() {
+    it('should get a single criterion', async function() {
         const criterion = generateFakeCriterion();
         function _payload() {
             return criterion;
@@ -32,7 +28,7 @@ describe('criterion', function() {
             expect(options.headers).to.be.an('object');
         }
 
-        const result = yield bup.criteria.get(criterion.id, { _payload, _validate });
+        const result = await bup.criteria.get(criterion.id, { _payload, _validate });
 
         expect(result).to.be.an('object');
     });
@@ -41,7 +37,7 @@ describe('criterion', function() {
         // TODO
     });
 
-    it('should create a criterion', function*() {
+    it('should create a criterion', async function() {
         const criterion = generateFakeCriterion();
         function _payload() {
             return criterion;
@@ -53,12 +49,12 @@ describe('criterion', function() {
             expect(options.headers).to.be.an('object');
         }
 
-        const result = yield bup.criteria.create(criterion, { _payload, _validate });
+        const result = await bup.criteria.create(criterion, { _payload, _validate });
 
         expect(result).to.eql(criterion);
     });
 
-    it('should remove a criterion', function*() {
+    it('should remove a criterion', async function() {
         const criterion = generateFakeCriterion();
         function _payload() {
             return criterion;
@@ -70,7 +66,7 @@ describe('criterion', function() {
             expect(options.headers).to.be.an('object');
         }
 
-        const result = yield bup.criteria.remove(criterion.id, { _payload, _validate });
+        const result = await bup.criteria.remove(criterion.id, { _payload, _validate });
 
         expect(result).to.eql(criterion);
     });

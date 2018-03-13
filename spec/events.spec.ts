@@ -1,6 +1,4 @@
-'use strict';
 import { expect } from 'chai';
-import 'co-mocha';
 import { BadgeUp } from './../src';
 import { Event } from './../src/events/Event.class';
 
@@ -17,7 +15,7 @@ function generateFakeEvent(): Event {
 }
 
 describe('events', function() {
-    it('should create an event', function*() {
+    it('should create an event', async function() {
         const event = generateFakeEvent();
         function _payload() {
             return event;
@@ -29,12 +27,12 @@ describe('events', function() {
             expect(options.headers).to.be.an('object');
         }
 
-        const result = yield bup.events.create(event, { _payload, _validate });
+        const result = await bup.events.create(event, { _payload, _validate });
 
         expect(result).to.eql(event);
     });
 
-    it('should create an event with the showIncomplete query parameter', function*() {
+    it('should create an event with the showIncomplete query parameter', async function() {
         const event = generateFakeEvent();
         function _payload() {
             return event;
@@ -47,7 +45,7 @@ describe('events', function() {
         }
 
         const query = { showIncomplete: true };
-        const result = yield bup.events.create(event, { query, _payload, _validate });
+        const result = await bup.events.create(event, { query, _payload, _validate });
 
         expect(result).to.eql(event);
     });

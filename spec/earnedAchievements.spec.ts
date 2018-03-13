@@ -1,6 +1,6 @@
 'use strict';
+
 import { expect } from 'chai';
-import 'co-mocha';
 import { BadgeUp } from './../src';
 
 const bup = new BadgeUp({
@@ -21,7 +21,7 @@ function generateFakeEarnedAchievement() {
 }
 
 describe('earned achievements', function() {
-    it('should get all earned Achievements with an iterator', function*() {
+    it('should get all earned Achievements with an iterator', async function() {
         const achievement = generateFakeEarnedAchievement();
 
         function _payload(options) {
@@ -58,15 +58,15 @@ describe('earned achievements', function() {
         let count = 0;
         for (let summary of bup.earnedAchievements.getIterator({ _payload, _validate })) {
             count++;
-            summary = yield summary;
-            expect(summary).to.be.an('object');
+            const tmp = await summary;
+            expect(tmp).to.be.an('object');
         }
 
         // total number of results
         expect(count).to.equal(20);
     });
 
-    it('should get by subject', function*() {
+    it('should get by subject', async function() {
         function _payload() {
             return {
                 pages: {
@@ -83,10 +83,10 @@ describe('earned achievements', function() {
             expect(options.headers).to.be.an('object');
         }
 
-        yield bup.earnedAchievements.query().subject('100').getAll({ _payload, _validate });
+        await bup.earnedAchievements.query().subject('100').getAll({ _payload, _validate });
     });
 
-    it('should get by achievementId', function*() {
+    it('should get by achievementId', async function() {
         function _payload() {
             return {
                 pages: {
@@ -103,10 +103,10 @@ describe('earned achievements', function() {
             expect(options.headers).to.be.an('object');
         }
 
-        yield bup.earnedAchievements.query().achievementId('100').getAll({ _payload, _validate });
+        await bup.earnedAchievements.query().achievementId('100').getAll({ _payload, _validate });
     });
 
-    it('should get earned achievements created after a certain time', function*() {
+    it('should get earned achievements created after a certain time', async function() {
         function _payload() {
             return {
                 pages: {
@@ -125,10 +125,10 @@ describe('earned achievements', function() {
             expect(options.headers).to.be.an('object');
         }
 
-        yield bup.earnedAchievements.query().since(date).getAll({ _payload, _validate });
+        await bup.earnedAchievements.query().since(date).getAll({ _payload, _validate });
     });
 
-    it('should get earned achievements created before a certain time', function*() {
+    it('should get earned achievements created before a certain time', async function() {
         function _payload() {
             return {
                 pages: {
@@ -147,10 +147,10 @@ describe('earned achievements', function() {
             expect(options.headers).to.be.an('object');
         }
 
-        yield bup.earnedAchievements.query().until(date).getAll({ _payload, _validate });
+        await bup.earnedAchievements.query().until(date).getAll({ _payload, _validate });
     });
 
-    it('should get by subject, achievementId, and since & until', function*() {
+    it('should get by subject, achievementId, and since & until', async function() {
         function _payload() {
             return {
                 pages: {
@@ -171,7 +171,7 @@ describe('earned achievements', function() {
             expect(options.headers).to.be.an('object');
         }
 
-        yield bup.earnedAchievements.query()
+        await bup.earnedAchievements.query()
             .subject('100')
             .achievementId('100')
             .since(since)
@@ -179,7 +179,7 @@ describe('earned achievements', function() {
             .getAll({ _payload, _validate });
     });
 
-    it('should remove by subject', function*() {
+    it('should remove by subject', async function() {
         function _payload() {
             return { count: 5 };
         }
@@ -190,10 +190,10 @@ describe('earned achievements', function() {
             expect(options.headers).to.be.an('object');
         }
 
-        yield bup.earnedAchievements.query().subject('100').remove({ _payload, _validate });
+        await bup.earnedAchievements.query().subject('100').remove({ _payload, _validate });
     });
 
-    it('should remove by achievementId', function*() {
+    it('should remove by achievementId', async function() {
         function _payload() {
             return { count: 5 };
         }
@@ -204,10 +204,10 @@ describe('earned achievements', function() {
             expect(options.headers).to.be.an('object');
         }
 
-        yield bup.earnedAchievements.query().achievementId('100').remove({ _payload, _validate });
+        await bup.earnedAchievements.query().achievementId('100').remove({ _payload, _validate });
     });
 
-    it('should remove earned achievements created after a certain time', function*() {
+    it('should remove earned achievements created after a certain time', async function() {
         function _payload() {
             return {
                 pages: {
@@ -226,10 +226,10 @@ describe('earned achievements', function() {
             expect(options.headers).to.be.an('object');
         }
 
-        yield bup.earnedAchievements.query().since(date).remove({ _payload, _validate });
+        await bup.earnedAchievements.query().since(date).remove({ _payload, _validate });
     });
 
-    it('should remove earned achievements created before a certain time', function*() {
+    it('should remove earned achievements created before a certain time', async function() {
         function _payload() {
             return {
                 pages: {
@@ -248,10 +248,10 @@ describe('earned achievements', function() {
             expect(options.headers).to.be.an('object');
         }
 
-        yield bup.earnedAchievements.query().until(date).remove({ _payload, _validate });
+        await bup.earnedAchievements.query().until(date).remove({ _payload, _validate });
     });
 
-    it('should remove by subject and achievementId', function*() {
+    it('should remove by subject and achievementId', async function() {
         function _payload() {
             return { count: 5 };
         }
@@ -266,7 +266,7 @@ describe('earned achievements', function() {
             expect(options.headers).to.be.an('object');
         }
 
-        yield bup.earnedAchievements.query()
+        await bup.earnedAchievements.query()
             .subject('100')
             .achievementId('100')
             .since(since)

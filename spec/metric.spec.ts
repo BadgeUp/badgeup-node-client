@@ -1,9 +1,5 @@
-'use strict';
-
-require('co-mocha');
-
-const expect = require('chai').expect;
-const { BadgeUp } = require('./../src');
+import { expect } from 'chai';
+import { BadgeUp } from './../src';
 const bup = new BadgeUp({
     apiKey: 'eyJhY2NvdW50SWQiOiJ0aGViZXN0IiwiYXBwbGljYXRpb25JZCI6IjEzMzciLCJrZXkiOiJpY2VjcmVhbWFuZGNvb2tpZXN5dW0ifQ=='
 });
@@ -17,7 +13,7 @@ function generateFakeMetric() {
 }
 
 describe('metrics', function() {
-    it('should get a metric', function*() {
+    it('should get a metric', async function() {
         const metric = generateFakeMetric();
         function _payload() {
             return metric;
@@ -28,12 +24,12 @@ describe('metrics', function() {
             expect(options.headers).to.be.an('object');
         }
 
-        const result = yield bup.metrics.getIndividualSubjectMetric(metric.subject, metric.key, { _payload, _validate });
+        const result = await bup.metrics.getIndividualSubjectMetric(metric.subject, metric.key, { _payload, _validate });
 
         expect(result).to.eql(metric);
     });
 
-    it('should get all metrics with an iterator', function*() {
+    it('should get all metrics with an iterator', async function() {
         const fakeMetric = generateFakeMetric();
 
         function _payload(options) {
@@ -70,15 +66,15 @@ describe('metrics', function() {
         let count = 0;
         for (let metric of bup.metrics.getIterator({ _payload, _validate })) {
             count++;
-            metric = yield metric;
-            expect(metric).to.be.an('object');
+            const tmp = await metric;
+            expect(tmp).to.be.an('object');
         }
 
         // total number of metrics
         expect(count).to.equal(20);
     });
 
-    it('should get all metrics with an array', function*() {
+    it('should get all metrics with an array', async function() {
         const metric = generateFakeMetric();
 
         function _payload(options) {
@@ -112,13 +108,13 @@ describe('metrics', function() {
             expect(options.headers).to.be.an('object');
         }
 
-        let metrics = yield bup.metrics.getAll({ _payload, _validate });
+        let metrics = await bup.metrics.getAll({ _payload, _validate });
 
         // total number of metrics
         expect(metrics.length).to.equal(20);
     });
 
-    it('should create a metric', function*() {
+    it('should create a metric', async function() {
         const metric = generateFakeMetric();
         function _payload() {
             return metric;
@@ -130,12 +126,12 @@ describe('metrics', function() {
             expect(options.headers).to.be.an('object');
         }
 
-        const result = yield bup.metrics.create(metric, { _payload, _validate });
+        const result = await bup.metrics.create(metric, { _payload, _validate });
 
         expect(result).to.eql(metric);
     });
 
-    it('should delete a metric', function*() {
+    it('should delete a metric', async function() {
         const metric = generateFakeMetric();
         function _payload() {
             return { count: 1 };
@@ -147,7 +143,7 @@ describe('metrics', function() {
             expect(options.headers).to.be.an('object');
         }
 
-        const result = yield bup.metrics.query().subject(metric.subject).key(metric.key).remove({ _payload, _validate });
+        const result = await bup.metrics.query().subject(metric.subject).key(metric.key).remove({ _payload, _validate });
 
         expect(result).to.eql({ count: 1 });
     });

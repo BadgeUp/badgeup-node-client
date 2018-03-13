@@ -15,7 +15,7 @@ export function apiKeysResource(context: IResourceContext) {
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object>} Promise that resolves with the requested API key scopes
      */
-    function listScopes(userOpts) {
+    function listScopes(userOpts?) {
         return context.http.makeRequest({
             url: `/v1/apps/${context.applicationId}/${ENDPT}/scopes`
         }, userOpts).then((body) => body.data);

@@ -1,9 +1,5 @@
-'use strict';
-
-require('co-mocha');
-
-const expect = require('chai').expect;
-const { BadgeUp } = require('./../src');
+import { expect } from 'chai';
+import { BadgeUp } from './../src';
 const bup = new BadgeUp({
     apiKey: 'eyJhY2NvdW50SWQiOiJ0aGViZXN0IiwiYXBwbGljYXRpb25JZCI6IjEzMzciLCJrZXkiOiJpY2VjcmVhbWFuZGNvb2tpZXN5dW0ifQ=='
 });
@@ -18,7 +14,7 @@ function generateFakeSubjectStats() {
 }
 
 describe('Analytics', function() {
-    it('should get all subject snapshots with an iterator', function*() {
+    it('should get all subject snapshots with an iterator', async function() {
         const fakeSubjectStats = generateFakeSubjectStats();
 
         function _payload(options) {
@@ -55,15 +51,15 @@ describe('Analytics', function() {
         let count = 0;
         for (let summary of bup._analytics.getSubjectsSummaryIterator({ _payload, _validate })) {
             count++;
-            summary = yield summary;
-            expect(summary).to.be.an('object');
+            let tmp = await summary;
+            expect(tmp).to.be.an('object');
         }
 
         // total number of results
         expect(count).to.equal(20);
     });
 
-    it('should get all metric keys', function*() {
+    it('should get all metric keys', async function() {
         function _payload() {
             return Promise.resolve({
                 data: ['foo']
@@ -74,7 +70,7 @@ describe('Analytics', function() {
             expect(options.url).to.equal('/v1/apps/1337/analytics/metrics/keys');
         }
 
-        const result = yield bup._analytics.getAllMetricKeys({ _payload, _validate });
+        const result = await bup._analytics.getAllMetricKeys({ _payload, _validate });
 
         expect(result).to.be.an('array');
         expect(result[0]).to.equal('foo');

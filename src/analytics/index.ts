@@ -16,7 +16,7 @@ export function analyticsResource(context: IResourceContext) {
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object>} Promise that resolves with the retrieved object
      */
-    function eventsLastNDays(numDays, userOpts) {
+    function eventsLastNDays(numDays: number, userOpts?) {
         check.assert(check.integer(numDays) && check.greater(numDays, 0), 'numDays must be a positive integer');
 
         return context.http.makeRequest({
@@ -29,7 +29,7 @@ export function analyticsResource(context: IResourceContext) {
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object>} Promise that resolves with the retrieved object
      */
-    function eventsLastNDaysBySubject(numDays, subject, userOpts) {
+    function eventsLastNDaysBySubject(numDays: number, subject, userOpts?) {
         check.assert(check.integer(numDays) && check.greater(numDays, 0), 'numDays must be a positive integer');
         check.string(subject, 'subject must be a string');
 
@@ -43,7 +43,7 @@ export function analyticsResource(context: IResourceContext) {
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object>} Promise that resolves with the retrieved object
      */
-    function subjectsLastNDays(numDays, userOpts) {
+    function subjectsLastNDays(numDays: number, userOpts?) {
         check.assert(check.integer(numDays) && check.greater(numDays, 0), 'numDays must be a positive integer');
 
         return context.http.makeRequest({
@@ -56,7 +56,7 @@ export function analyticsResource(context: IResourceContext) {
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object>} Promise that resolves with the retrieved object
      */
-    function newSubjectsLastNDays(numDays, userOpts) {
+    function newSubjectsLastNDays(numDays: number, userOpts?) {
         check.assert(check.integer(numDays) && check.greater(numDays, 0), 'numDays must be a positive integer');
 
         return context.http.makeRequest({
@@ -69,7 +69,7 @@ export function analyticsResource(context: IResourceContext) {
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object>} Promise that resolves with the retrieved object
      */
-    function earnedAchievementsLastNDays(numDays, userOpts) {
+    function earnedAchievementsLastNDays(numDays: number, userOpts?) {
         check.assert(check.integer(numDays) && check.greater(numDays, 0), 'numDays must be a positive integer');
 
         return context.http.makeRequest({
@@ -82,7 +82,7 @@ export function analyticsResource(context: IResourceContext) {
      * @param {object} userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */
-    function* getSubjectsSummaryIterator(userOpts) {
+    function* getSubjectsSummaryIterator(userOpts?) {
         function pageFn() {
             let url = `/v1/apps/${context.applicationId}/${ENDPT}/subjects/summary`;
             return function() {
@@ -101,7 +101,7 @@ export function analyticsResource(context: IResourceContext) {
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object>} Promise that resolves with an array of retrieved metric keys
      */
-    function getAllMetricKeys(userOpts) {
+    function getAllMetricKeys(userOpts?) {
         return context.http.makeRequest({
             url: `/v1/apps/${context.applicationId}/${ENDPT}/metrics/keys`
         }, userOpts).then(obj => obj.data);

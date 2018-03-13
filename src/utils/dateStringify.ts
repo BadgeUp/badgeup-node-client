@@ -3,7 +3,7 @@
  * @param {undefined|Date} date
  * @returns {string}
  */
-function formatDate(date) {
+function formatDate(date?: Date) {
     const dateClone = date ? new Date(date.getTime()) : new Date();
 
     // subtract the timezone offset
@@ -19,7 +19,7 @@ function formatDate(date) {
  * @param {undefined|Date} date
  * @returns {string}
  */
-function formatTZ(date) {
+function formatTZ(date?: Date) {
     const offset = (date || new Date()).getTimezoneOffset();
     const absOffset = Math.abs(offset);
 

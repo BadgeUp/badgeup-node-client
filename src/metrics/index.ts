@@ -16,7 +16,7 @@ export class MetricQueryBuilder {
     // container for the query parameters
     private _params: IQueryParameters = {};
 
-    constructor(context) {
+    constructor(context: IResourceContext) {
         this.context = context;
     }
 
@@ -24,7 +24,7 @@ export class MetricQueryBuilder {
      * Query by key
      * @param {string} key
      */
-    key(key) {
+    key(key: string) {
         check.string(key, 'key must be a string');
         this._params.key = key;
         return this;
@@ -34,7 +34,7 @@ export class MetricQueryBuilder {
      * Query by subject
      * @param {string} subject
      */
-    subject(subject) {
+    subject(subject: string) {
         check.string(subject, 'subject must be a string');
         this._params.subject = subject;
         return this;
@@ -45,7 +45,7 @@ export class MetricQueryBuilder {
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object>} Promise that resolves to an object stating the number of deleted metrics
      */
-    remove(userOpts) {
+    remove(userOpts?: any) {
         const queryBy = collectQueryParams(this._params, DELETE_QUERY_PARAMS);
 
         if (Object.keys(queryBy).length === 0) {
@@ -72,7 +72,7 @@ export function metricsResource(context: IResourceContext) {
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object[]>} Promise that resolves to a list of metrics
      */
-    function getAllSubjectMetrics(subject, userOpts) {
+    function getAllSubjectMetrics(subject: string, userOpts?: any) {
         check.string(subject, 'subject must be a string');
 
         let array = [];
@@ -100,7 +100,7 @@ export function metricsResource(context: IResourceContext) {
      * @param userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */
-    function* getSubjectMetricsIterator(subject, userOpts) {
+    function* getSubjectMetricsIterator(subject: string, userOpts?: any) {
         check.string(subject, 'subject must be a string');
 
         function pageFn() {
@@ -123,7 +123,7 @@ export function metricsResource(context: IResourceContext) {
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object>} Promise that resolves to a single metric
      */
-    function getIndividualSubjectMetric(subject, key, userOpts) {
+    function getIndividualSubjectMetric(subject: string, key: string, userOpts?: any) {
         check.string(subject, 'subject must be a string');
         check.string(key, 'key must be a string');
 

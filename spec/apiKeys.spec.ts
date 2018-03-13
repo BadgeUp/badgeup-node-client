@@ -1,15 +1,13 @@
 'use strict';
 
-require('co-mocha');
-
-const expect = require('chai').expect;
-const { BadgeUp } = require('./../src');
+import { expect } from 'chai';
+import { BadgeUp } from './../src';
 const bup = new BadgeUp({
     apiKey: 'eyJhY2NvdW50SWQiOiJ0aGViZXN0IiwiYXBwbGljYXRpb25JZCI6IjEzMzciLCJrZXkiOiJpY2VjcmVhbWFuZGNvb2tpZXN5dW0ifQ=='
 });
 
 describe('API Keys', function() {
-    it('should get a list of scopes', function*() {
+    it('should get a list of scopes', async function() {
         const payload = {
             data: [
                 { scope: 'a', description: '' },
@@ -27,7 +25,7 @@ describe('API Keys', function() {
             expect(options.headers).to.be.an('object');
         }
 
-        const result = yield bup.apiKeys.listScopes({ _payload, _validate });
+        const result = await bup.apiKeys.listScopes({ _payload, _validate });
 
         expect(result).to.be.an('array');
         expect(result).to.eql(payload.data);

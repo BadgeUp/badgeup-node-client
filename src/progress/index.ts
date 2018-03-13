@@ -15,7 +15,7 @@ export class ProgressQueryBuilder {
     // container for the query parameters
     private _params: IQueryParameters = {};
 
-    constructor(context) {
+    constructor(context: IResourceContext) {
         this.context = context;
     }
 
@@ -23,7 +23,7 @@ export class ProgressQueryBuilder {
      * Query by achievement ID
      * @param {string} achievementId
      */
-    achievementId(achievementId) {
+    achievementId(achievementId: string) {
         check.string(achievementId, 'achievementId must be a string');
         this._params.achievementId = achievementId;
         return this;
@@ -33,7 +33,7 @@ export class ProgressQueryBuilder {
      * Query by subject
      * @param {string} subject
      */
-    subject(subject) {
+    subject(subject: string) {
         check.string(subject, 'subject must be a string');
         this._params.subject = subject;
         return this;
@@ -44,7 +44,7 @@ export class ProgressQueryBuilder {
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object[]>} Promise that resolves to an array of progress objects
      */
-    getAll(userOpts) {
+    getAll(userOpts?) {
         if (!this._params.subject) {
             throw new Error('subject must be provided');
         }
@@ -75,7 +75,7 @@ export class ProgressQueryBuilder {
      * @param {object} userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next progress object
      */
-    *getIterator(userOpts) {
+    *getIterator(userOpts?) {
         if (!this._params.subject) {
             throw new Error('subject must be provided');
         }

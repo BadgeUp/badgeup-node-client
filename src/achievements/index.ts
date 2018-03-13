@@ -19,7 +19,7 @@ export function achievementsResource(context: IResourceContext) {
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object>} Promise that resolves with the list of criteria
      */
-    function getAchievementCriteria(id, userOpts) {
+    function getAchievementCriteria(id: string, userOpts?) {
         check.string(id, 'id must be a string');
 
         return context.http.makeRequest({
@@ -33,7 +33,7 @@ export function achievementsResource(context: IResourceContext) {
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object>} Promise that resolves with the list of awards
      */
-    function getAchievementAwards(id, userOpts) {
+    function getAchievementAwards(id: string, userOpts?) {
         check.string(id, 'id must be a string');
 
         return context.http.makeRequest({

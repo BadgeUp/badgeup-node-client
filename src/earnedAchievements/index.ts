@@ -18,7 +18,7 @@ export class EarnedAchievementQueryBuilder {
     // container for the query parameters
     private _params: IQueryParameters = {};
 
-    constructor(context) {
+    constructor(context: IResourceContext) {
         this.context = context;
     }
 
