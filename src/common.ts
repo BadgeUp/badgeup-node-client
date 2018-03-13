@@ -1,14 +1,14 @@
-import { pageToGenerator } from './utils/pageToGenerator';
-import { ResourceContext } from "./utils/ResourceContext";
 import * as check from 'check-types';
 import * as qs from 'qs';
+import { pageToGenerator } from './utils/pageToGenerator';
+import { IResourceContext } from './utils/ResourceContext';
 
 /**
  * Provides a set of common funcitonality that can be used on most endpoints
- * @param {ResourceContext} context The context to make requests in. Basically, `this`
+ * @param {IResourceContext} context The context to make requests in. Basically, `this`
  * @param {string} endpoint The endpoint used for this common module
  */
-export function common(context: ResourceContext, endpoint: string) {
+export function common(context: IResourceContext, endpoint: string) {
 
     /**
      * Retrieve resource object by ID
@@ -16,7 +16,7 @@ export function common(context: ResourceContext, endpoint: string) {
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object>} Promise that resolves with the retrieved object
      */
-    function get<T>(id: string, userOpts) : Promise<T> {
+    function get<T>(id: string, userOpts): Promise<T> {
         check.string(id, 'id must be a string');
 
         const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
@@ -31,7 +31,7 @@ export function common(context: ResourceContext, endpoint: string) {
      * @param {Object} userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */
-    function* getIterator(userOpts) {
+    function* getIterator<T>(userOpts): IterableIterator<Promise<T[]>> {
         function pageFn() {
             const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
             let url = `/v1/apps/${context.applicationId}/${endpoint}${query}`;
@@ -51,7 +51,7 @@ export function common(context: ResourceContext, endpoint: string) {
      * @param {Object} userOpts option overrides for this request
      * @returns {Promise<object[]>} Promise that resolves to an array of objects
      */
-    function getAll<T>(userOpts) : Promise<T[]> {
+    function getAll<T>(userOpts): Promise<T[]> {
         let array = [];
         const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
         let url = `/v1/apps/${context.applicationId}/${endpoint}${query}`;
@@ -98,7 +98,7 @@ export function common(context: ResourceContext, endpoint: string) {
      * @param {Object} userOpts option overrides for this request
      * @returns {Promise<Object>} A promise that resolves to the provided object
      */
-    function create<T>(object:T, userOpts) : Promise<T> {
+    function create<T>(object: T, userOpts): Promise<T> {
         check.object(object, 'object must be an object');
 
         const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
@@ -128,7 +128,7 @@ export function common(context: ResourceContext, endpoint: string) {
     }
 
     return {
-        get: get,
+        get,
         getIterator,
         getAll,
         create,

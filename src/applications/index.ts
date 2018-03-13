@@ -1,14 +1,14 @@
-import { pageToGenerator } from './../utils/pageToGenerator';
-import { ResourceContext } from "../utils/ResourceContext";
 import * as check from 'check-types';
+import { IResourceContext } from '../utils/ResourceContext';
+import { pageToGenerator } from './../utils/pageToGenerator';
 
 const ENDPT = 'apps';
 
 /**
  * Applications module
- * @param {ResourceContext} context The context to make requests in. Basically, `this`
+ * @param {IResourceContext} context The context to make requests in. Basically, `this`
  */
-export function applicationsResource(context: ResourceContext) {
+export function applicationsResource(context: IResourceContext) {
     /**
      * Create an application
      * @param {object} object event object
@@ -117,11 +117,11 @@ export function applicationsResource(context: ResourceContext) {
     }
 
     return {
-        get: get,
+        get,
         getAll,
         getIterator,
         create,
         update,
         remove
     };
-};
+}

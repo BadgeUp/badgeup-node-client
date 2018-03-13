@@ -1,6 +1,6 @@
-import { pageToGenerator } from '../utils/pageToGenerator';
-import { ResourceContext } from "../utils/ResourceContext";
 import * as check from 'check-types';
+import { pageToGenerator } from '../utils/pageToGenerator';
+import { IResourceContext } from '../utils/ResourceContext';
 
 const ENDPT = 'analytics';
 
@@ -8,9 +8,9 @@ const ENDPT = 'analytics';
  * Analytics module
  * USE OF THE ANALTYICS MODULE IS NOT RECOMMENDED (AT THIS TIME)
  * THIS MODULE IS NOT SUBJECT TO ANY SLAS AND MAY BE CHANGED AT ANY TIME
- * @param {ResourceContext} context The context to make requests in. Basically, `this`
+ * @param {IResourceContext} context The context to make requests in. Basically, `this`
  */
-export function analyticsResource(context: ResourceContext) {
+export function analyticsResource(context: IResourceContext) {
     /**
      * Retrieve event analytics
      * @param {object} userOpts option overrides for this request
@@ -116,4 +116,4 @@ export function analyticsResource(context: ResourceContext) {
         getSubjectsSummaryIterator,
         getAllMetricKeys
     };
-};
+}

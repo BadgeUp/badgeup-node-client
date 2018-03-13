@@ -6,4 +6,4 @@ export function collectQueryParams(source, keys: string[]) {
         // TODO switch to Array.prototype.includes when we drop support for Node v4
         return !!value && includes(keys, key);
     });
-};
+}

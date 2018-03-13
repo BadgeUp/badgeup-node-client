@@ -34,7 +34,7 @@ describe('metrics', function() {
     });
 
     it('should get all metrics with an iterator', function*() {
-        const metric = generateFakeMetric();
+        const fakeMetric = generateFakeMetric();
 
         function _payload(options) {
             if (options.url.indexOf('PAGE_TWO') > 0) {
@@ -44,7 +44,7 @@ describe('metrics', function() {
                         previous: null,
                         next: null
                     },
-                    data: (new Array(10)).fill(metric)
+                    data: (new Array(10)).fill(fakeMetric)
                 });
             } else {
                 // first page of data
@@ -53,7 +53,7 @@ describe('metrics', function() {
                         previous: null,
                         next: '/v1/apps/1337/metrics?after=PAGE_TWO'
                     },
-                    data: (new Array(10)).fill(metric)
+                    data: (new Array(10)).fill(fakeMetric)
                 });
             }
         }
@@ -152,7 +152,7 @@ describe('metrics', function() {
         expect(result).to.eql({ count: 1 });
     });
 
-    it('should error when deleting metrics without specifying key or subject', function(){
+    it('should error when deleting metrics without specifying key or subject', function() {
         function fn() {
             bup.metrics.query().remove();
         }

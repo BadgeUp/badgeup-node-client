@@ -1,6 +1,6 @@
 'use strict';
-import 'co-mocha';
 import { expect } from 'chai';
+import 'co-mocha';
 import { BadgeUp } from './../src';
 
 const bup = new BadgeUp({
@@ -22,7 +22,7 @@ function generateFakeEarnedAchievement() {
 
 describe('earned achievements', function() {
     it('should get all earned Achievements with an iterator', function*() {
-        const summary = generateFakeEarnedAchievement();
+        const achievement = generateFakeEarnedAchievement();
 
         function _payload(options) {
             if (options.url.indexOf('PAGE_TWO') > 0) {
@@ -32,7 +32,7 @@ describe('earned achievements', function() {
                         previous: null,
                         next: null
                     },
-                    data: (new Array(10)).fill(summary)
+                    data: (new Array(10)).fill(achievement)
                 });
             } else {
                 // first page of data
@@ -41,7 +41,7 @@ describe('earned achievements', function() {
                         previous: null,
                         next: '/v1/apps/1337/earnedachievements/?after=PAGE_TWO'
                     },
-                    data: (new Array(10)).fill(summary)
+                    data: (new Array(10)).fill(achievement)
                 });
             }
         }
@@ -165,7 +165,8 @@ describe('earned achievements', function() {
         const until = new Date();
 
         function _validate(options) {
-            expect(options.url).to.equal(`/v1/apps/1337/earnedachievements?subject=100&achievementId=100&since=${encodeURIComponent(since.toISOString())}&until=${encodeURIComponent(until.toISOString())}`);
+            expect(options.url).to.equal('/v1/apps/1337/earnedachievements?subject=100&achievementId=100&since='
+                + `${encodeURIComponent(since.toISOString())}&until=${encodeURIComponent(until.toISOString())}`);
             expect(options.method).to.be.oneOf([undefined, 'GET']);
             expect(options.headers).to.be.an('object');
         }
@@ -259,7 +260,8 @@ describe('earned achievements', function() {
         const until = new Date();
 
         function _validate(options) {
-            expect(options.url).to.equal(`/v1/apps/1337/earnedachievements?subject=100&achievementId=100&since=${encodeURIComponent(since.toISOString())}&until=${encodeURIComponent(until.toISOString())}`);
+            expect(options.url).to.equal('/v1/apps/1337/earnedachievements?subject=100&achievementId=100&since='
+                + `${encodeURIComponent(since.toISOString())}&until=${encodeURIComponent(until.toISOString())}`);
             expect(options.method).to.equal('DELETE');
             expect(options.headers).to.be.an('object');
         }

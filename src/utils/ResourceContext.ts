@@ -1,6 +1,6 @@
-import { BadgeUpHttp } from "../http";
+import { BadgeUpHttp } from '../http';
 
-export interface ResourceContext {
+export interface IResourceContext {
     applicationId: string;
     http: BadgeUpHttp;
 }

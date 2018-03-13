@@ -1,13 +1,13 @@
-import { common } from "../common";
-import { ResourceContext } from "../utils/ResourceContext";
+import { common } from '../common';
+import { IResourceContext } from '../utils/ResourceContext';
 
 const ENDPT = 'apikeys';
 
 /**
  * API Keys module
- * @param {ResourceContext} context The context to make requests in. Basically, `this`
+ * @param {IResourceContext} context The context to make requests in. Basically, `this`
  */
-export function apiKeysResource(context: ResourceContext) {
+export function apiKeysResource(context: IResourceContext) {
     const obj = common(context, ENDPT);
 
     /**
@@ -18,7 +18,7 @@ export function apiKeysResource(context: ResourceContext) {
     function listScopes(userOpts) {
         return context.http.makeRequest({
             url: `/v1/apps/${context.applicationId}/${ENDPT}/scopes`
-        }, userOpts).then(function(body) { return body.data; });
+        }, userOpts).then((body) => body.data);
     }
 
     return {
@@ -29,4 +29,4 @@ export function apiKeysResource(context: ResourceContext) {
         update: obj.update,
         listScopes
     };
-};
+}

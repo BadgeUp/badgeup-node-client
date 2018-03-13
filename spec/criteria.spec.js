@@ -14,7 +14,7 @@ function generateFakeCriterion() {
         name: 'criterion',
         description: 'criterion description',
         key: 'a:crit',
-        operator: "@gt",
+        operator: '@gt',
         threshold: 100
     };
 }
