@@ -98,7 +98,7 @@ export function common(context: IResourceContext, endpoint: string) {
      * @param {Object} userOpts option overrides for this request
      * @returns {Promise<Object>} A promise that resolves to the provided object
      */
-    function create<T>(object: T, userOpts?): Promise<T> {
+    function create<T>(object: any, userOpts?): Promise<T> {
         check.object(object, 'object must be an object');
 
         const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });

@@ -1,7 +1,7 @@
 export class Event {
     id?: string;
     applicationId?: string;
-    data?: string;
+    data?: any;
     key: string;
     modifier: IEventModifier;
     options?: IEventOptions;
