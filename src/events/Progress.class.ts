@@ -1,4 +1,4 @@
-import { IAchievementResponse } from "../achievements/Achievement.class";
+import { IAchievementResponse } from '../achievements/Achievement.class';
 
 export interface IProgress {
     isComplete: boolean;

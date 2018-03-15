@@ -19,14 +19,8 @@ describe('integration tests', function() {
         const subject = 'nodejs-ci-' + rand;
         const key = 'test';
 
-        // TODO
-        const e: Event = {
-            subject,
-            key,
-            modifier: {
-                '@inc': 5
-            }
-        };
+        const e = new Event(subject, key, { '@inc': 5 });
+
         return client.events.create(e).then(function(response) {
             expect(response).to.be.an('object');
             const event = response.event;

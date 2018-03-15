@@ -19,17 +19,13 @@ export interface IAchievementResponse {
 }
 
 export interface IAchievementResource {
-    criteria: Array<ICriterionResponse>;
-    awards: Array<IAwardResponse>;
-}
-
-export interface AchievementMeta {
-    icon: string;
+    criteria: ICriterionResponse[];
+    awards: IAwardResponse[];
 }
 
 export interface IEvalTreeGroup {
     type: string;
     condition: string;
-    groups: Array<IEvalTreeGroup>;
+    groups: IEvalTreeGroup[];
     criteria: any; // TODO
 }

@@ -1,7 +1,6 @@
 import { common } from '../common';
 import { IResourceContext } from '../utils/ResourceContext';
-import { Event } from './Event.class';
-import { IProgress } from './Progress.class';
+import { Event, IEventResponseV1 } from './Event.class';
 
 const ENDPT = 'events';
 
@@ -12,9 +11,9 @@ const ENDPT = 'events';
 export function eventsResource(context: IResourceContext) {
     const obj = common(context, ENDPT);
 
-    function create(object: Event, userOpts?): Promise<IProgress> {
-        return obj.create(object, userOpts) as Promise<IProgress>;
-    };
+    function create(object: Event, userOpts?): Promise<IEventResponseV1> {
+        return obj.create(object, userOpts) as Promise<IEventResponseV1>;
+    }
 
     return { create };
 }

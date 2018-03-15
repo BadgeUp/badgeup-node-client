@@ -16,9 +16,9 @@ export interface ICriterionEvaluation {
 }
 
 export enum ICriterionOperator {
-    greater = "@gt",
-    greaterOrEqual = "@gte",
-    less = "@lt",
-    lessOrEqual = "@lte",
-    equal = "@eq"
+    greater = '@gt',
+    greaterOrEqual = '@gte',
+    less = '@lt',
+    lessOrEqual = '@lte',
+    equal = '@eq'
 }

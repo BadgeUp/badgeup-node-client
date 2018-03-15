@@ -1,3 +1,5 @@
+import { IProgress } from './Progress.class';
+
 export class Event {
     id?: string;
     applicationId?: string;
@@ -38,4 +40,19 @@ export interface IEventModifier {
 
 export interface IEventOptions {
     discard: boolean;
+}
+
+export interface IEventResponseV1 {
+    event: Event;
+    progress: IProgress[];
+}
+
+export interface IEventResponseV2Preview {
+    results: IEventResponseResultV2Preview[];
+}
+
+export interface IEventResponseResultV2Preview {
+    event: Event;
+    cause: string;
+    progress: IProgress[];
 }

@@ -1,4 +1,4 @@
-import { IQueryParameters } from "./QueryBuilder";
+import { IQueryParameters } from './QueryBuilder';
 
 const pickBy = require('lodash.pickby');
 
