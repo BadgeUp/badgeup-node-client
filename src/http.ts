@@ -68,7 +68,8 @@ export class BadgeUpHttp {
         return fetch(url, options)
             .then(response => {
                 if (!response.ok) {
-                    return Promise.reject(response);
+                    const err = new Error(response.statusText);
+                    return Promise.reject(err);
                 }
                 return response.json();
             });
