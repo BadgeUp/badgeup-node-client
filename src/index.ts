@@ -1,5 +1,5 @@
-const defaults = require('lodash.defaultsdeep');
 import * as check from 'check-types';
+import { defaultsDeep } from 'lodash';
 import { achievementIconsResource } from './achievementIcons';
 import { achievementsResource } from './achievements';
 import { analyticsResource } from './analytics';
@@ -47,8 +47,8 @@ export class BadgeUp {
         }
 
         // ensure the request options are an object if not defined
-        globalOpts.request = defaults({}, globalOpts.request);
-        globalOpts.request!.headers = defaults({}, globalOpts.request!.headers);
+        globalOpts.request = defaultsDeep({}, globalOpts.request);
+        globalOpts.request!.headers = defaultsDeep({}, globalOpts.request!.headers);
 
         // setup the Authorization header
         if (globalOpts.token) { // JWT bearer token

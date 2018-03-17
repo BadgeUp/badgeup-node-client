@@ -1,4 +1,4 @@
-const defaults = require('lodash.defaultsdeep');
+import { defaultsDeep } from 'lodash';
 import fetch from 'node-fetch';
 import { replacer } from './utils/dateStringify';
 
@@ -33,7 +33,7 @@ export class BadgeUpHttp {
      * @return {Promise} Returns a Promise that resolves with the request data
      */
     makeRequest(reqOpts, userOpts): Promise<any> {
-        const options = defaults({}, userOpts, reqOpts, this.globalReqOpts, requestDefaults);
+        const options = defaultsDeep({}, userOpts, reqOpts, this.globalReqOpts, requestDefaults);
 
         // for internal unit tests
         if (options._validate) {
