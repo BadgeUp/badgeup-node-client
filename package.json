@@ -2,7 +2,7 @@
   "name": "@badgeup/badgeup-node-client",
   "version": "0.9.0",
   "description": "Official BadgeUp Node.js client",
-  "main": "dist/index.js",
+  "main": "dist/src/index.js",
   "scripts": {
     "pretest": "tsc",
     "watch": "tsc -w",
