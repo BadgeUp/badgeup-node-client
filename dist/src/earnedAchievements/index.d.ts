@@ -53,9 +53,9 @@ export declare class EarnedAchievementQueryBuilder {
  * @param {IResourceContext} context The context to make requests in. Basically, `this`
  */
 export declare function earnedAchievementsResource(context: IResourceContext): {
-    get: <T = EarnedAchievement>(id: string, userOpts: any) => Promise<T>;
-    getAll: <T = EarnedAchievement>(userOpts: any) => Promise<T[]>;
-    getIterator: <T>(userOpts?: any) => IterableIterator<Promise<T[]>>;
-    remove: (id: string, userOpts?: any) => Promise<any>;
+    get: (id: string, userOpts: any) => Promise<EarnedAchievement>;
+    getAll: (userOpts: any) => Promise<EarnedAchievement[]>;
+    getIterator: (userOpts?: any) => IterableIterator<Promise<EarnedAchievement>>;
+    remove: (id: string, userOpts?: any) => Promise<EarnedAchievement>;
     query: () => EarnedAchievementQueryBuilder;
 };

@@ -26,7 +26,7 @@ export declare class MetricQueryBuilder {
  */
 export declare function metricsResource(context: IResourceContext): {
     getAll: <T>(userOpts?: any) => Promise<T[]>;
-    getIterator: <T>(userOpts?: any) => IterableIterator<Promise<T[]>>;
+    getIterator: <T>(userOpts?: any) => IterableIterator<Promise<T>>;
     create: <T>(object: any, userOpts?: any) => Promise<T>;
     getAllSubjectMetrics: (subject: string, userOpts?: any) => any;
     getSubjectMetricsIterator: (subject: string, userOpts?: any) => IterableIterator<Promise<{}>>;

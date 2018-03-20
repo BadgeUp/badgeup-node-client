@@ -135,11 +135,13 @@ function earnedAchievementsResource(context) {
     }
     const getAll = obj.getAll;
     const get = obj.get;
+    const getIterator = obj.getIterator;
+    const remove = obj.remove;
     return {
         get,
         getAll,
-        getIterator: obj.getIterator,
-        remove: obj.remove,
+        getIterator,
+        remove,
         query
     };
 }

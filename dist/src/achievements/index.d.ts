@@ -5,7 +5,7 @@ import { IResourceContext } from '../utils/ResourceContext';
  */
 export declare function achievementsResource(context: IResourceContext): {
     get: <T>(id: string, userOpts?: any) => Promise<T>;
-    getIterator: <T>(userOpts?: any) => IterableIterator<Promise<T[]>>;
+    getIterator: <T>(userOpts?: any) => IterableIterator<Promise<T>>;
     getAll: <T>(userOpts?: any) => Promise<T[]>;
     create: <T>(object: any, userOpts?: any) => Promise<T>;
     update: (id: string, updates: any[], userOpts?: any) => Promise<any>;

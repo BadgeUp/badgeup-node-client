@@ -31,7 +31,7 @@ export function common(context: IResourceContext, endpoint: string) {
      * @param {Object} userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */
-    function* getIterator<T>(userOpts?): IterableIterator<Promise<T[]>> {
+    function* getIterator<T>(userOpts?): IterableIterator<Promise<T>> {
         function pageFn() {
             const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
             let url = `/v1/apps/${context.applicationId}/${endpoint}${query}`;
