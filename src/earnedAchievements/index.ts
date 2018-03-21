@@ -157,8 +157,8 @@ export function earnedAchievementsResource(context: IResourceContext) {
     function query() {
         return new EarnedAchievementQueryBuilder(context);
     }
-    const getAll: (userOpts: any) => Promise<EarnedAchievement[]> = obj.getAll;
-    const get: (id: string, userOpts: any) => Promise<EarnedAchievement> = obj.get;
+    const getAll: (userOpts?: any) => Promise<EarnedAchievement[]> = obj.getAll;
+    const get: (id: string, userOpts?: any) => Promise<EarnedAchievement> = obj.get;
     const getIterator: (userOpts?: any) => IterableIterator<Promise<EarnedAchievement>> = obj.getIterator;
     const remove: (id: string, userOpts?: any) => Promise<EarnedAchievement> = obj.remove;
     return {
@@ -169,5 +169,3 @@ export function earnedAchievementsResource(context: IResourceContext) {
         query
     };
 }
-
-
