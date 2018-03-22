@@ -10,7 +10,7 @@ const ENDPT = 'analytics';
  * THIS MODULE IS NOT SUBJECT TO ANY SLAS AND MAY BE CHANGED AT ANY TIME
  * @param {IResourceContext} context The context to make requests in. Basically, `this`
  */
-export function analyticsResource(context: IResourceContext) {
+export class analyticsResource(context: IResourceContext) {
     /**
      * Retrieve event analytics
      * @param {object} userOpts option overrides for this request

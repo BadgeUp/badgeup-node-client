@@ -1,3 +1,5 @@
+'use strict';
+
 import * as check from 'check-types';
 import * as qs from 'qs';
 import { pageToGenerator } from './utils/pageToGenerator';
@@ -8,7 +10,14 @@ import { IResourceContext } from './utils/ResourceContext';
  * @param {IResourceContext} context The context to make requests in. Basically, `this`
  * @param {string} endpoint The endpoint used for this common module
  */
-export function common(context: IResourceContext, endpoint: string) {
+export class Common {
+    private context: IResourceContext;
+    private endpoint: string;
+
+    constructor(context: IResourceContext, endpoint: string) {
+        this.context = context;
+        this.endpoint = endpoint;
+    }
 
     /**
      * Retrieve resource object by ID
@@ -16,13 +25,13 @@ export function common(context: IResourceContext, endpoint: string) {
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object>} Promise that resolves with the retrieved object
      */
-    function get<T>(id: string, userOpts?): Promise<T> {
+    get<T>(id: string, userOpts?): Promise<T> {
         check.string(id, 'id must be a string');
 
         const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
 
-        return context.http.makeRequest({
-            url: `/v1/apps/${context.applicationId}/${endpoint}/${id}${query}`
+        return this.context.http.makeRequest({
+            url: `/v1/apps/${this.context.applicationId}/${this.endpoint}/${id}${query}`
         }, userOpts);
     }
 
@@ -31,19 +40,17 @@ export function common(context: IResourceContext, endpoint: string) {
      * @param {Object} userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */
-    function* getIterator<T>(userOpts?): IterableIterator<Promise<T>> {
-        function pageFn() {
-            const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
-            let url = `/v1/apps/${context.applicationId}/${endpoint}${query}`;
-            return function() {
-                return context.http.makeRequest({ url }, userOpts).then(function(body) {
-                    url = body.pages.next;
-                    return body;
-                });
-            };
-        }
+     *getIterator<T>(userOpts?): IterableIterator<Promise<T>> {
+        const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
+        let url = `/v1/apps/${this.context.applicationId}/${this.endpoint}${query}`;
+        const pageFn = () => {
+            return this.context.http.makeRequest({ url }, userOpts).then(function(body) {
+                url = body.pages.next;
+                return body;
+            });
+        };
 
-        yield* pageToGenerator(pageFn());
+        yield* pageToGenerator(pageFn);
     }
 
     /**
@@ -51,13 +58,13 @@ export function common(context: IResourceContext, endpoint: string) {
      * @param {Object} userOpts option overrides for this request
      * @returns {Promise<object[]>} Promise that resolves to an array of objects
      */
-    function getAll<T>(userOpts?): Promise<T[]> {
+    getAll<T>(userOpts?): Promise<T[]> {
         let array = [];
         const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
-        let url = `/v1/apps/${context.applicationId}/${endpoint}${query}`;
+        let url = `/v1/apps/${this.context.applicationId}/${this.endpoint}${query}`;
 
-        function pageFn() {
-            return context.http.makeRequest({ url }, userOpts).then(function(body) {
+        const pageFn = () => {
+            return this.context.http.makeRequest({ url }, userOpts).then(function(body) {
                 array = array.concat(body.data || []); // concatinate the new data
 
                 url = body.pages.next;
@@ -79,16 +86,16 @@ export function common(context: IResourceContext, endpoint: string) {
      * @param {Object} userOpts option overrides for this request
      * @returns {Promise<Object>} A promise that resolves to the updated object
      */
-    function update(id: string, updates: any[], userOpts?) {
+    update(id: string, updates: any[], userOpts?) {
         check.string(id, 'id must be a string');
         check.array(updates, 'updates must be an array');
 
         const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
 
-        return context.http.makeRequest({
+        return this.context.http.makeRequest({
             method: 'PATCH',
             body: updates,
-            url: `/v1/apps/${context.applicationId}/${endpoint}/${id}${query}`
+            url: `/v1/apps/${this.context.applicationId}/${this.endpoint}/${id}${query}`
         }, userOpts);
     }
 
@@ -98,15 +105,15 @@ export function common(context: IResourceContext, endpoint: string) {
      * @param {Object} userOpts option overrides for this request
      * @returns {Promise<Object>} A promise that resolves to the provided object
      */
-    function create<T>(object: any, userOpts?): Promise<T> {
+    create<T>(object: any, userOpts?): Promise<T> {
         check.object(object, 'object must be an object');
 
         const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
 
-        return context.http.makeRequest({
+        return this.context.http.makeRequest({
             method: 'POST',
             body: object,
-            url: `/v1/apps/${context.applicationId}/${endpoint}${query}`
+            url: `/v1/apps/${this.context.applicationId}/${this.endpoint}${query}`
         }, userOpts);
     }
 
@@ -116,23 +123,14 @@ export function common(context: IResourceContext, endpoint: string) {
      * @param {Object} userOpts option overrides for this request
      * @returns {Promise<Object>} A promise that resolves to the deleted object
      */
-    function remove(id: string, userOpts?) {
+    remove(id: string, userOpts?) {
         check.string(id, 'id must be a string');
 
         const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
 
-        return context.http.makeRequest({
+        return this.context.http.makeRequest({
             method: 'DELETE',
-            url: `/v1/apps/${context.applicationId}/${endpoint}/${id}${query}`
+            url: `/v1/apps/${this.context.applicationId}/${this.endpoint}/${id}${query}`
         }, userOpts);
     }
-
-    return {
-        get,
-        getIterator,
-        getAll,
-        create,
-        update,
-        remove
-    };
 }

@@ -1,6 +1,6 @@
 import * as check from 'check-types';
 import * as querystring from 'querystring';
-import { common } from '../common';
+import { Common } from '../common';
 import { collectQueryParams } from '../utils/collectQueryParams';
 import { pageToGenerator } from '../utils/pageToGenerator';
 import { IQueryParameters } from '../utils/QueryBuilder';
@@ -146,8 +146,8 @@ export class EarnedAchievementQueryBuilder {
  * Earned Achievements module
  * @param {IResourceContext} context The context to make requests in. Basically, `this`
  */
-export function earnedAchievementsResource(context: IResourceContext) {
-    const obj = common(context, ENDPT);
+export class earnedAchievementsResource(context: IResourceContext) {
+    const obj = new Common(context, ENDPT);
 
     /**
      * Sets up a delete request targeting earned achievements using query filters

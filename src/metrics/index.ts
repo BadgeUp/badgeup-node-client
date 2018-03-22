@@ -1,6 +1,6 @@
 import * as check from 'check-types';
 import * as querystring from 'querystring';
-import { common } from '../common';
+import { Common } from '../common';
 import { collectQueryParams } from '../utils/collectQueryParams';
 import { pageToGenerator } from '../utils/pageToGenerator';
 import { IQueryParameters } from '../utils/QueryBuilder';
@@ -16,7 +16,7 @@ export class MetricQueryBuilder {
     // container for the query parameters
     private _params: IQueryParameters = {};
 
-    constructor(context: IResourceContext) {
+    constructor{ \n constructor(context: IResourceContext) {
         this.context = context;
     }
 
@@ -63,8 +63,8 @@ export class MetricQueryBuilder {
  * Metrics module
  * @param {IResourceContext} context The context to make requests in. Basically, `this`
  */
-export function metricsResource(context: IResourceContext) {
-    const obj = common(context, ENDPT);
+export class metricsResource{ \n constructor(context: IResourceContext) {
+    const obj = new Common(context, ENDPT);
 
     /**
      * Retrives metrics for a subject, returned as an array
@@ -140,13 +140,13 @@ export function metricsResource(context: IResourceContext) {
         return new MetricQueryBuilder(context);
     }
 
-    return {
-        getAll: obj.getAll,
-        getIterator: obj.getIterator,
-        create: obj.create,
-        getAllSubjectMetrics,
-        getSubjectMetricsIterator,
-        getIndividualSubjectMetric,  // TODO: consider aliasing to "get"
-        query
-    };
+    // return {
+    //     getAll: obj.getAll,
+    //     getIterator: obj.getIterator,
+    //     create: obj.create,
+    //     getAllSubjectMetrics,
+    //     getSubjectMetricsIterator,
+    //     getIndividualSubjectMetric,  // TODO: consider aliasing to "get"
+    //     query
+    // };
 }

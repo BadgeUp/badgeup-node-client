@@ -96,16 +96,17 @@ export class ProgressQueryBuilder {
     }
 }
 
-export function progressResource(context) {
+export class ProgressResource {
+    context: IResourceContext;
+
+    constructor(context: IResourceContext) {
+        this.context = context;
+    }
 
     /**
      * @returns Returns an instance of the ProgressQueryBuilder class
      */
-    function query() {
-        return new ProgressQueryBuilder(context);
+    query() {
+        return new ProgressQueryBuilder(this.context);
     }
-
-    return {
-        query
-    };
 }

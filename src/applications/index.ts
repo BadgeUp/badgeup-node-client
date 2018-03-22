@@ -8,7 +8,7 @@ const ENDPT = 'apps';
  * Applications module
  * @param {IResourceContext} context The context to make requests in. Basically, `this`
  */
-export function applicationsResource(context: IResourceContext) {
+export class applicationsResource(context: IResourceContext) {
     /**
      * Create an application
      * @param {object} object event object

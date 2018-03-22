@@ -1,4 +1,4 @@
-import { common } from '../common';
+import { Common } from '../common';
 import { IResourceContext } from '../utils/ResourceContext';
 
 const ENDPT = 'apikeys';
@@ -7,8 +7,8 @@ const ENDPT = 'apikeys';
  * API Keys module
  * @param {IResourceContext} context The context to make requests in. Basically, `this`
  */
-export function apiKeysResource(context: IResourceContext) {
-    const obj = common(context, ENDPT);
+export class apiKeysResource(context: IResourceContext) {
+    const obj = new Common(context, ENDPT);
 
     /**
      * Get all possible API key scopes

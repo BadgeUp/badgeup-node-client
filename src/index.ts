@@ -11,7 +11,7 @@ import { earnedAchievementsResource } from './earnedAchievements';
 import { eventsResource } from './events';
 import { BadgeUpHttp } from './http';
 import { metricsResource } from './metrics';
-import { progressResource } from './progress';
+import { ProgressResource } from './progress';
 import { IResourceContext } from './utils/ResourceContext';
 
 export class BadgeUp {
@@ -31,7 +31,7 @@ export class BadgeUp {
     public earnedAchievements: ReturnType<typeof earnedAchievementsResource>;
     public metrics: ReturnType<typeof metricsResource>;
     public events: ReturnType<typeof eventsResource>;
-    public progress: ReturnType<typeof progressResource>;
+    public progress: ReturnType<typeof ProgressResource>;
     public achievementIcons: ReturnType<typeof achievementIconsResource>;
 
     /**
@@ -83,7 +83,7 @@ export class BadgeUp {
         this.earnedAchievements = earnedAchievementsResource(this as IResourceContext);
         this.metrics = metricsResource(this as IResourceContext);
         this.events = eventsResource(this as IResourceContext);
-        this.progress = progressResource(this as IResourceContext);
+        this.progress = ProgressResource(this as IResourceContext);
         this.achievementIcons = achievementIconsResource(this as IResourceContext);
     }
 }
