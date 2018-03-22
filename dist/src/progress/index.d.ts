@@ -26,6 +26,11 @@ export declare class ProgressQueryBuilder {
      */
     getIterator(userOpts?: any): IterableIterator<Promise<{}>>;
 }
-export declare function progressResource(context: any): {
-    query: () => ProgressQueryBuilder;
-};
+export declare class ProgressResource {
+    context: IResourceContext;
+    constructor(context: IResourceContext);
+    /**
+     * @returns Returns an instance of the ProgressQueryBuilder class
+     */
+    query(): ProgressQueryBuilder;
+}

@@ -8,12 +8,15 @@ const ENDPT = 'events';
  * Events module
  * @param {IResourceContext} context The context to make requests in. Basically, `this`
  */
-export class eventsResource(context: IResourceContext) {
-    const obj = new Common(context, ENDPT);
+export class EventsResource {
+    private common: Common<IEventResponseV1>;
 
-    function create(object: Event, userOpts?): Promise<IEventResponseV1> {
-        return obj.create(object, userOpts) as Promise<IEventResponseV1>;
+    constructor(context: IResourceContext) {
+        this.common = new Common(context, ENDPT);
     }
 
-    return { create };
+    public create(object: Event, userOpts?): Promise<IEventResponseV1> {
+        return this.common.create(object, userOpts);
+    }
+
 }

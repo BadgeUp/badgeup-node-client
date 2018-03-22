@@ -10,8 +10,8 @@ import { IResourceContext } from './utils/ResourceContext';
  * @param {IResourceContext} context The context to make requests in. Basically, `this`
  * @param {string} endpoint The endpoint used for this common module
  */
-export class Common {
-    private context: IResourceContext;
+export class Common<T> {
+    protected context: IResourceContext;
     private endpoint: string;
 
     constructor(context: IResourceContext, endpoint: string) {
@@ -25,7 +25,7 @@ export class Common {
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object>} Promise that resolves with the retrieved object
      */
-    get<T>(id: string, userOpts?): Promise<T> {
+    get(id: string, userOpts?): Promise<T> {
         check.string(id, 'id must be a string');
 
         const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
@@ -40,7 +40,7 @@ export class Common {
      * @param {Object} userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */
-     *getIterator<T>(userOpts?): IterableIterator<Promise<T>> {
+    *getIterator(userOpts?): IterableIterator<Promise<T>> {
         const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
         let url = `/v1/apps/${this.context.applicationId}/${this.endpoint}${query}`;
         const pageFn = () => {
@@ -58,7 +58,7 @@ export class Common {
      * @param {Object} userOpts option overrides for this request
      * @returns {Promise<object[]>} Promise that resolves to an array of objects
      */
-    getAll<T>(userOpts?): Promise<T[]> {
+    getAll(userOpts?): Promise<T[]> {
         let array = [];
         const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
         let url = `/v1/apps/${this.context.applicationId}/${this.endpoint}${query}`;
@@ -74,7 +74,7 @@ export class Common {
                     return array;
                 }
             });
-        }
+        };
 
         return pageFn();
     }
@@ -86,7 +86,7 @@ export class Common {
      * @param {Object} userOpts option overrides for this request
      * @returns {Promise<Object>} A promise that resolves to the updated object
      */
-    update(id: string, updates: any[], userOpts?) {
+    update(id: string, updates: any[], userOpts?): Promise<T> {
         check.string(id, 'id must be a string');
         check.array(updates, 'updates must be an array');
 
@@ -105,7 +105,7 @@ export class Common {
      * @param {Object} userOpts option overrides for this request
      * @returns {Promise<Object>} A promise that resolves to the provided object
      */
-    create<T>(object: any, userOpts?): Promise<T> {
+    create(object: any, userOpts?): Promise<T> {
         check.object(object, 'object must be an object');
 
         const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
@@ -123,7 +123,7 @@ export class Common {
      * @param {Object} userOpts option overrides for this request
      * @returns {Promise<Object>} A promise that resolves to the deleted object
      */
-    remove(id: string, userOpts?) {
+    remove(id: string, userOpts?): Promise<T> {
         check.string(id, 'id must be a string');
 
         const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });

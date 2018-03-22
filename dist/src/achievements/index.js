@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const check = require("check-types");
 const common_1 = require("../common");
@@ -7,18 +7,22 @@ const ENDPT = 'achievements';
  * Achievements module
  * @param {IResourceContext} context The context to make requests in. Basically, `this`
  */
-function achievementsResource(context) {
-    const obj = common_1.common(context, ENDPT);
+class AchievementsResource extends common_1.Common {
+    constructor(context) {
+        super(context, ENDPT);
+        // this.common = new Common(context, ENDPT);
+        // this.context = context;
+    }
     /**
      * Retrieves a list of criteria
      * @param id ID of the achievement to retrieve criteria for
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object>} Promise that resolves with the list of criteria
      */
-    function getAchievementCriteria(id, userOpts) {
+    getAchievementCriteria(id, userOpts) {
         check.string(id, 'id must be a string');
-        return context.http.makeRequest({
-            url: `/v1/apps/${context.applicationId}/${ENDPT}/${id}/criteria`
+        return this.context.http.makeRequest({
+            url: `/v1/apps/${this.context.applicationId}/${ENDPT}/${id}/criteria`
         }, userOpts).then(function (body) { return body.data; });
     }
     /**
@@ -27,13 +31,12 @@ function achievementsResource(context) {
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object>} Promise that resolves with the list of awards
      */
-    function getAchievementAwards(id, userOpts) {
+    getAchievementAwards(id, userOpts) {
         check.string(id, 'id must be a string');
-        return context.http.makeRequest({
-            url: `/v1/apps/${context.applicationId}/${ENDPT}/${id}/awards`
+        return this.context.http.makeRequest({
+            url: `/v1/apps/${this.context.applicationId}/${ENDPT}/${id}/awards`
         }, userOpts).then((body) => body.data);
     }
-    return Object.assign(obj, { getAchievementCriteria, getAchievementAwards });
 }
-exports.achievementsResource = achievementsResource;
+exports.AchievementsResource = AchievementsResource;
 //# sourceMappingURL=index.js.map

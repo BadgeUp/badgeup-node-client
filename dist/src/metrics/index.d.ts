@@ -24,12 +24,38 @@ export declare class MetricQueryBuilder {
  * Metrics module
  * @param {IResourceContext} context The context to make requests in. Basically, `this`
  */
-export declare function metricsResource(context: IResourceContext): {
-    getAll: <T>(userOpts?: any) => Promise<T[]>;
-    getIterator: <T>(userOpts?: any) => IterableIterator<Promise<T>>;
-    create: <T>(object: any, userOpts?: any) => Promise<T>;
-    getAllSubjectMetrics: (subject: string, userOpts?: any) => any;
-    getSubjectMetricsIterator: (subject: string, userOpts?: any) => IterableIterator<Promise<{}>>;
-    getIndividualSubjectMetric: (subject: string, key: string, userOpts?: any) => Promise<any>;
-    query: () => MetricQueryBuilder;
-};
+export declare class MetricsResource {
+    private common;
+    private context;
+    constructor(context: IResourceContext);
+    getAll(userOpts?: any): Promise<any[]>;
+    getIterator(userOpts?: any): IterableIterator<Promise<any>>;
+    create(object: any, userOpts?: any): Promise<any>;
+    /**
+     * Retrives metrics for a subject, returned as an array
+     * @param {string} subject subject to retrieve the metrics for
+     * @param {object} userOpts option overrides for this request
+     * @returns {Promise<object[]>} Promise that resolves to a list of metrics
+     */
+    getAllSubjectMetrics(subject: string, userOpts?: any): any;
+    /**
+     * Retrives metrics for a subject, returned as an iterator
+     * @param {string} subject subject to retrieve the metrics for
+     * @param userOpts option overrides for this request
+     * @return An iterator that returns promises that resolve with the next object
+     */
+    getSubjectMetricsIterator(subject: string, userOpts?: any): IterableIterator<Promise<{}>>;
+    /**
+     * Retrieves a single metric for a subject by key
+     * @param {string} subject subject to retrieve the metric for
+     * @param {string} key metric key to retrive the metric for
+     * @param {object} userOpts option overrides for this request
+     * @returns {Promise<object>} Promise that resolves to a single metric
+     */
+    getIndividualSubjectMetric(subject: string, key: string, userOpts?: any): Promise<any>;
+    /**
+     * Sets up a delete/get request targeting metrics using query filters
+     * @returns Returns an instance of the EventQueryBuilder class
+     */
+    query(): MetricQueryBuilder;
+}

@@ -1,20 +1,20 @@
 import * as check from 'check-types';
 import { defaultsDeep } from 'lodash';
-import { achievementIconsResource } from './achievementIcons';
-import { achievementsResource } from './achievements';
-import { analyticsResource } from './analytics';
-import { apiKeysResource } from './apiKeys';
-import { applicationsResource } from './applications';
-import { awardsResource } from './awards';
-import { criteriaResource } from './criteria';
-import { earnedAchievementsResource } from './earnedAchievements';
-import { eventsResource } from './events';
+import { AchievementIconsResource } from './achievementIcons';
+import { AchievementsResource } from './achievements';
+import { AnalyticsResource } from './analytics';
+import { ApiKeysResource } from './apiKeys';
+import { ApplicationsResource } from './applications';
+import { AwardsResource } from './awards';
+import { CriteriaResource } from './criteria';
+import { EarnedAchievementsResource } from './earnedAchievements';
+import { EventsResource } from './events';
 import { BadgeUpHttp } from './http';
-import { metricsResource } from './metrics';
+import { MetricsResource } from './metrics';
 import { ProgressResource } from './progress';
 import { IResourceContext } from './utils/ResourceContext';
 
-export class BadgeUp {
+export class BadgeUp implements IResourceContext {
 
     applicationId: string | null = null;
 
@@ -22,17 +22,17 @@ export class BadgeUp {
     http: BadgeUpHttp;
 
     // resources
-    public applications: ReturnType<typeof applicationsResource>;
-    public achievements: ReturnType<typeof achievementsResource>;
-    public _analytics: ReturnType<typeof analyticsResource>;
-    public apiKeys: ReturnType<typeof apiKeysResource>;
-    public awards: ReturnType<typeof awardsResource>;
-    public criteria: ReturnType<typeof criteriaResource>;
-    public earnedAchievements: ReturnType<typeof earnedAchievementsResource>;
-    public metrics: ReturnType<typeof metricsResource>;
-    public events: ReturnType<typeof eventsResource>;
-    public progress: ReturnType<typeof ProgressResource>;
-    public achievementIcons: ReturnType<typeof achievementIconsResource>;
+    public applications: ApplicationsResource;
+    public achievements: AchievementsResource;
+    public _analytics: AnalyticsResource;
+    public apiKeys: ApiKeysResource;
+    public awards: AwardsResource;
+    public criteria: CriteriaResource;
+    public earnedAchievements: EarnedAchievementsResource;
+    public metrics: MetricsResource;
+    public events: EventsResource;
+    public progress: ProgressResource;
+    public achievementIcons: AchievementIconsResource;
 
     /**
      * Construct an instance of the BadgeUp client.
@@ -74,17 +74,17 @@ export class BadgeUp {
 
         this.http = new BadgeUpHttp(globalOpts.request);
 
-        this.applications = applicationsResource(this as IResourceContext);
-        this.achievements = achievementsResource(this as IResourceContext);
-        this._analytics = analyticsResource(this as IResourceContext);
-        this.apiKeys = apiKeysResource(this as IResourceContext);
-        this.awards = awardsResource(this as IResourceContext);
-        this.criteria = criteriaResource(this as IResourceContext);
-        this.earnedAchievements = earnedAchievementsResource(this as IResourceContext);
-        this.metrics = metricsResource(this as IResourceContext);
-        this.events = eventsResource(this as IResourceContext);
-        this.progress = ProgressResource(this as IResourceContext);
-        this.achievementIcons = achievementIconsResource(this as IResourceContext);
+        this.applications = new ApplicationsResource(this);
+        this.achievements = new AchievementsResource(this);
+        this._analytics = new AnalyticsResource(this);
+        this.apiKeys = new ApiKeysResource(this);
+        this.awards = new AwardsResource(this);
+        this.criteria = new CriteriaResource(this);
+        this.earnedAchievements = new EarnedAchievementsResource(this);
+        this.metrics = new MetricsResource(this);
+        this.events = new EventsResource(this);
+        this.progress = new ProgressResource(this);
+        this.achievementIcons = new AchievementIconsResource(this);
     }
 }
 

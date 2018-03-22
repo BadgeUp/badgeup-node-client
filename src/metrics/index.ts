@@ -16,7 +16,7 @@ export class MetricQueryBuilder {
     // container for the query parameters
     private _params: IQueryParameters = {};
 
-    constructor{ \n constructor(context: IResourceContext) {
+    constructor(context: IResourceContext) {
         this.context = context;
     }
 
@@ -63,8 +63,25 @@ export class MetricQueryBuilder {
  * Metrics module
  * @param {IResourceContext} context The context to make requests in. Basically, `this`
  */
-export class metricsResource{ \n constructor(context: IResourceContext) {
-    const obj = new Common(context, ENDPT);
+export class MetricsResource {
+    private common: Common<any>;
+    private context: IResourceContext;
+
+
+    constructor(context: IResourceContext) {
+        this.common = new Common(context, ENDPT);
+        this.context = context;
+    }
+
+    public getAll(userOpts?) {
+        return this.common.getAll(userOpts);
+    }
+    getIterator(userOpts?) {
+        return this.common.getIterator(userOpts);
+    }
+    public create(object: any, userOpts?) {
+        return this.common.create(object, userOpts);
+    }
 
     /**
      * Retrives metrics for a subject, returned as an array
@@ -72,14 +89,14 @@ export class metricsResource{ \n constructor(context: IResourceContext) {
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object[]>} Promise that resolves to a list of metrics
      */
-    function getAllSubjectMetrics(subject: string, userOpts?: any) {
+    public getAllSubjectMetrics(subject: string, userOpts?: any) {
         check.string(subject, 'subject must be a string');
 
         let array = [];
-        let url = `/v1/apps/${context.applicationId}/${ENDPT}/${subject}`;
+        let url = `/v1/apps/${this.context.applicationId}/${ENDPT}/${subject}`;
 
-        function pageFn() {
-            return context.http.makeRequest({ url }, userOpts).then(function(body) {
+        const pageFn = () => {
+            return this.context.http.makeRequest({ url }, userOpts).then(function(body) {
                 array = array.concat(body.data || []); // concatinate the new data
 
                 url = body.pages.next;
@@ -89,7 +106,7 @@ export class metricsResource{ \n constructor(context: IResourceContext) {
                     return array;
                 }
             });
-        }
+        };
 
         return pageFn();
     }
@@ -100,18 +117,18 @@ export class metricsResource{ \n constructor(context: IResourceContext) {
      * @param userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */
-    function* getSubjectMetricsIterator(subject: string, userOpts?: any) {
+    public *getSubjectMetricsIterator(subject: string, userOpts?: any) {
         check.string(subject, 'subject must be a string');
 
-        function pageFn() {
-            let url = `/v1/apps/${context.applicationId}/${ENDPT}/${subject}`;
-            return function() {
-                return context.http.makeRequest({ url }, userOpts).then(function(body) {
+        const pageFn = () => {
+            let url = `/v1/apps/${this.context.applicationId}/${ENDPT}/${subject}`;
+            return () => {
+                return this.context.http.makeRequest({ url }, userOpts).then(function(body) {
                     url = body.pages.next;
                     return body;
                 });
             };
-        }
+        };
 
         yield* pageToGenerator(pageFn());
     }
@@ -123,12 +140,12 @@ export class metricsResource{ \n constructor(context: IResourceContext) {
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object>} Promise that resolves to a single metric
      */
-    function getIndividualSubjectMetric(subject: string, key: string, userOpts?: any) {
+    public getIndividualSubjectMetric(subject: string, key: string, userOpts?: any) {
         check.string(subject, 'subject must be a string');
         check.string(key, 'key must be a string');
 
-        return context.http.makeRequest({
-            url: `/v1/apps/${context.applicationId}/${ENDPT}/${subject}/${key}`
+        return this.context.http.makeRequest({
+            url: `/v1/apps/${this.context.applicationId}/${ENDPT}/${subject}/${key}`
         }, userOpts);
     }
 
@@ -136,17 +153,8 @@ export class metricsResource{ \n constructor(context: IResourceContext) {
      * Sets up a delete/get request targeting metrics using query filters
      * @returns Returns an instance of the EventQueryBuilder class
      */
-    function query() {
-        return new MetricQueryBuilder(context);
+    public query() {
+        return new MetricQueryBuilder(this.context);
     }
 
-    // return {
-    //     getAll: obj.getAll,
-    //     getIterator: obj.getIterator,
-    //     create: obj.create,
-    //     getAllSubjectMetrics,
-    //     getSubjectMetricsIterator,
-    //     getIndividualSubjectMetric,  // TODO: consider aliasing to "get"
-    //     query
-    // };
 }

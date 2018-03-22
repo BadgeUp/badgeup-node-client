@@ -5,7 +5,7 @@ import { collectQueryParams } from '../utils/collectQueryParams';
 import { pageToGenerator } from '../utils/pageToGenerator';
 import { IQueryParameters } from '../utils/QueryBuilder';
 import { IResourceContext } from '../utils/ResourceContext';
-import { EarnedAchievement } from './EarnedAchievement.class';
+import { IEarnedAchievementResponse } from './EarnedAchievement.class';
 
 const ENDPT = 'earnedachievements';
 
@@ -146,26 +146,17 @@ export class EarnedAchievementQueryBuilder {
  * Earned Achievements module
  * @param {IResourceContext} context The context to make requests in. Basically, `this`
  */
-export class earnedAchievementsResource(context: IResourceContext) {
-    const obj = new Common(context, ENDPT);
+export class EarnedAchievementsResource extends Common<IEarnedAchievementResponse> {
+    constructor(context: IResourceContext) {
+        super(context, ENDPT);
+    }
 
     /**
      * Sets up a delete request targeting earned achievements using query filters
      * @param queryBy: filters to query events by
      * @returns Returns an instance of the EarnedAchievementQueryBuilder class
      */
-    function query() {
-        return new EarnedAchievementQueryBuilder(context);
+    public query() {
+        return new EarnedAchievementQueryBuilder(this.context);
     }
-    const getAll: (userOpts?: any) => Promise<EarnedAchievement[]> = obj.getAll;
-    const get: (id: string, userOpts?: any) => Promise<EarnedAchievement> = obj.get;
-    const getIterator: (userOpts?: any) => IterableIterator<Promise<EarnedAchievement>> = obj.getIterator;
-    const remove: (id: string, userOpts?: any) => Promise<EarnedAchievement> = obj.remove;
-    return {
-        get,
-        getAll,
-        getIterator,
-        remove,
-        query
-    };
 }

@@ -6,8 +6,10 @@ const ENDPT = 'awards';
  * Awards module
  * @param {IResourceContext} context The context to make requests in. Basically, `this`
  */
-function awardsResource(context) {
-    return common_1.common(context, ENDPT);
+class AwardsResource extends common_1.Common {
+    constructor(context) {
+        super(context, ENDPT);
+    }
 }
-exports.awardsResource = awardsResource;
+exports.AwardsResource = AwardsResource;
 //# sourceMappingURL=index.js.map

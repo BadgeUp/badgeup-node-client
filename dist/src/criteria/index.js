@@ -6,16 +6,10 @@ const ENDPT = 'criteria';
  * Criterion module
  * @param {IResourceContext} context The context to make requests in. Basically, `this`
  */
-function criteriaResource(context) {
-    const obj = common_1.common(context, ENDPT);
-    return {
-        get: obj.get,
-        getIterator: obj.getIterator,
-        getAll: obj.getAll,
-        create: obj.create,
-        update: obj.update,
-        remove: obj.remove
-    };
+class CriteriaResource extends common_1.Common {
+    constructor(context) {
+        super(context, ENDPT);
+    }
 }
-exports.criteriaResource = criteriaResource;
+exports.CriteriaResource = CriteriaResource;
 //# sourceMappingURL=index.js.map

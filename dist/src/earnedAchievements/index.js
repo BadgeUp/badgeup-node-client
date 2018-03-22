@@ -123,27 +123,18 @@ exports.EarnedAchievementQueryBuilder = EarnedAchievementQueryBuilder;
  * Earned Achievements module
  * @param {IResourceContext} context The context to make requests in. Basically, `this`
  */
-function earnedAchievementsResource(context) {
-    const obj = common_1.common(context, ENDPT);
+class EarnedAchievementsResource extends common_1.Common {
+    constructor(context) {
+        super(context, ENDPT);
+    }
     /**
      * Sets up a delete request targeting earned achievements using query filters
      * @param queryBy: filters to query events by
      * @returns Returns an instance of the EarnedAchievementQueryBuilder class
      */
-    function query() {
-        return new EarnedAchievementQueryBuilder(context);
+    query() {
+        return new EarnedAchievementQueryBuilder(this.context);
     }
-    const getAll = obj.getAll;
-    const get = obj.get;
-    const getIterator = obj.getIterator;
-    const remove = obj.remove;
-    return {
-        get,
-        getAll,
-        getIterator,
-        remove,
-        query
-    };
 }
-exports.earnedAchievementsResource = earnedAchievementsResource;
+exports.EarnedAchievementsResource = EarnedAchievementsResource;
 //# sourceMappingURL=index.js.map

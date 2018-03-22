@@ -1,6 +1,7 @@
 import * as check from 'check-types';
 import { Common } from '../common';
 import { IResourceContext } from '../utils/ResourceContext';
+import { IAchievementResponse } from './Achievement.class';
 
 const ENDPT = 'achievements';
 
@@ -8,10 +9,12 @@ const ENDPT = 'achievements';
  * Achievements module
  * @param {IResourceContext} context The context to make requests in. Basically, `this`
  */
-export class achievementsResource {
+export class AchievementsResource extends Common<IAchievementResponse> {
 
     constructor(context: IResourceContext) {
-        const obj = new Common(context, ENDPT);
+        super(context, ENDPT);
+       // this.common = new Common(context, ENDPT);
+        // this.context = context;
     }
 
     /**
@@ -20,11 +23,11 @@ export class achievementsResource {
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object>} Promise that resolves with the list of criteria
      */
-    getAchievementCriteria(id: string, userOpts?) {
+    public getAchievementCriteria(id: string, userOpts?) {
         check.string(id, 'id must be a string');
 
-        return context.http.makeRequest({
-            url: `/v1/apps/${context.applicationId}/${ENDPT}/${id}/criteria`
+        return this.context.http.makeRequest({
+            url: `/v1/apps/${this.context.applicationId}/${ENDPT}/${id}/criteria`
         }, userOpts).then(function(body) { return body.data; });
     }
 
@@ -34,13 +37,11 @@ export class achievementsResource {
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object>} Promise that resolves with the list of awards
      */
-    getAchievementAwards(id: string, userOpts?) {
+    public getAchievementAwards(id: string, userOpts?) {
         check.string(id, 'id must be a string');
 
-        return context.http.makeRequest({
-            url: `/v1/apps/${context.applicationId}/${ENDPT}/${id}/awards`
+        return this.context.http.makeRequest({
+            url: `/v1/apps/${this.context.applicationId}/${ENDPT}/${id}/awards`
         }, userOpts).then((body) => body.data);
     }
-
-    return Object.assign(obj, { getAchievementCriteria, getAchievementAwards });
 }

@@ -64,7 +64,8 @@ describe('metrics', function() {
         }
 
         let count = 0;
-        for (let metric of bup.metrics.getIterator({ _payload, _validate })) {
+        const iterator = bup.metrics.getIterator({ _payload, _validate });
+        for (const metric of iterator) {
             count++;
             const tmp = await metric;
             expect(tmp).to.be.an('object');

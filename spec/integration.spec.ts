@@ -1,7 +1,7 @@
 'use strict';
 
 import { expect } from 'chai';
-import { EarnedAchievement } from '../src/earnedAchievements/EarnedAchievement.class';
+import { IEarnedAchievementResponse } from '../src/earnedAchievements/EarnedAchievement.class';
 import { BadgeUp } from './../src';
 import { Event, IEventResponseV1 } from './../src/events/Event.class';
 const INTEGRATION_API_KEY = process.env.INTEGRATION_API_KEY;
@@ -51,8 +51,9 @@ describe('integration tests', function() {
     it('should iterate achievements via iterator', async function() {
         const client = new BadgeUp({ apiKey: INTEGRATION_API_KEY });
 
-        for (const summary of client.earnedAchievements.getIterator()) {
-            const tmp: EarnedAchievement = await summary;
+        const iterator = client.earnedAchievements.getIterator();
+        for (const summary of iterator) {
+            const tmp: IEarnedAchievementResponse = await summary;
             expect(tmp).to.be.an('object');
             expect(tmp.achievementId).to.be.a('string');
         }

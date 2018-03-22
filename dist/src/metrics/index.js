@@ -52,20 +52,32 @@ exports.MetricQueryBuilder = MetricQueryBuilder;
  * Metrics module
  * @param {IResourceContext} context The context to make requests in. Basically, `this`
  */
-function metricsResource(context) {
-    const obj = common_1.common(context, ENDPT);
+class MetricsResource {
+    constructor(context) {
+        this.common = new common_1.Common(context, ENDPT);
+        this.context = context;
+    }
+    getAll(userOpts) {
+        return this.common.getAll(userOpts);
+    }
+    getIterator(userOpts) {
+        return this.common.getIterator(userOpts);
+    }
+    create(object, userOpts) {
+        return this.common.create(object, userOpts);
+    }
     /**
      * Retrives metrics for a subject, returned as an array
      * @param {string} subject subject to retrieve the metrics for
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object[]>} Promise that resolves to a list of metrics
      */
-    function getAllSubjectMetrics(subject, userOpts) {
+    getAllSubjectMetrics(subject, userOpts) {
         check.string(subject, 'subject must be a string');
         let array = [];
-        let url = `/v1/apps/${context.applicationId}/${ENDPT}/${subject}`;
-        function pageFn() {
-            return context.http.makeRequest({ url }, userOpts).then(function (body) {
+        let url = `/v1/apps/${this.context.applicationId}/${ENDPT}/${subject}`;
+        const pageFn = () => {
+            return this.context.http.makeRequest({ url }, userOpts).then(function (body) {
                 array = array.concat(body.data || []); // concatinate the new data
                 url = body.pages.next;
                 if (url) {
@@ -75,7 +87,7 @@ function metricsResource(context) {
                     return array;
                 }
             });
-        }
+        };
         return pageFn();
     }
     /**
@@ -84,17 +96,17 @@ function metricsResource(context) {
      * @param userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */
-    function* getSubjectMetricsIterator(subject, userOpts) {
+    *getSubjectMetricsIterator(subject, userOpts) {
         check.string(subject, 'subject must be a string');
-        function pageFn() {
-            let url = `/v1/apps/${context.applicationId}/${ENDPT}/${subject}`;
-            return function () {
-                return context.http.makeRequest({ url }, userOpts).then(function (body) {
+        const pageFn = () => {
+            let url = `/v1/apps/${this.context.applicationId}/${ENDPT}/${subject}`;
+            return () => {
+                return this.context.http.makeRequest({ url }, userOpts).then(function (body) {
                     url = body.pages.next;
                     return body;
                 });
             };
-        }
+        };
         yield* pageToGenerator_1.pageToGenerator(pageFn());
     }
     /**
@@ -104,29 +116,20 @@ function metricsResource(context) {
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object>} Promise that resolves to a single metric
      */
-    function getIndividualSubjectMetric(subject, key, userOpts) {
+    getIndividualSubjectMetric(subject, key, userOpts) {
         check.string(subject, 'subject must be a string');
         check.string(key, 'key must be a string');
-        return context.http.makeRequest({
-            url: `/v1/apps/${context.applicationId}/${ENDPT}/${subject}/${key}`
+        return this.context.http.makeRequest({
+            url: `/v1/apps/${this.context.applicationId}/${ENDPT}/${subject}/${key}`
         }, userOpts);
     }
     /**
      * Sets up a delete/get request targeting metrics using query filters
      * @returns Returns an instance of the EventQueryBuilder class
      */
-    function query() {
-        return new MetricQueryBuilder(context);
+    query() {
+        return new MetricQueryBuilder(this.context);
     }
-    return {
-        getAll: obj.getAll,
-        getIterator: obj.getIterator,
-        create: obj.create,
-        getAllSubjectMetrics,
-        getSubjectMetricsIterator,
-        getIndividualSubjectMetric,
-        query
-    };
 }
-exports.metricsResource = metricsResource;
+exports.MetricsResource = MetricsResource;
 //# sourceMappingURL=index.js.map

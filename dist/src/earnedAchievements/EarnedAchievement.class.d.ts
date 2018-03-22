@@ -1,4 +1,4 @@
-export declare class EarnedAchievement {
+export interface IEarnedAchievementResponse {
     id?: string;
     applicationId?: string;
     achievementId?: string;

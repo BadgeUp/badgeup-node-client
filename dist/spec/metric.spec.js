@@ -59,7 +59,8 @@ describe('metrics', function () {
             chai_1.expect(options.headers).to.be.an('object');
         }
         let count = 0;
-        for (let metric of bup.metrics.getIterator({ _payload, _validate })) {
+        const iterator = bup.metrics.getIterator({ _payload, _validate });
+        for (const metric of iterator) {
             count++;
             const tmp = await metric;
             chai_1.expect(tmp).to.be.an('object');

@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 Object.defineProperty(exports, "__esModule", { value: true });
 const check = require("check-types");
 const qs = require("qs");
@@ -8,18 +8,22 @@ const pageToGenerator_1 = require("./utils/pageToGenerator");
  * @param {IResourceContext} context The context to make requests in. Basically, `this`
  * @param {string} endpoint The endpoint used for this common module
  */
-function common(context, endpoint) {
+class Common {
+    constructor(context, endpoint) {
+        this.context = context;
+        this.endpoint = endpoint;
+    }
     /**
      * Retrieve resource object by ID
      * @param {string} id ID of the object to retrieve
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object>} Promise that resolves with the retrieved object
      */
-    function get(id, userOpts) {
+    get(id, userOpts) {
         check.string(id, 'id must be a string');
         const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
-        return context.http.makeRequest({
-            url: `/v1/apps/${context.applicationId}/${endpoint}/${id}${query}`
+        return this.context.http.makeRequest({
+            url: `/v1/apps/${this.context.applicationId}/${this.endpoint}/${id}${query}`
         }, userOpts);
     }
     /**
@@ -27,30 +31,28 @@ function common(context, endpoint) {
      * @param {Object} userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */
-    function* getIterator(userOpts) {
-        function pageFn() {
-            const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
-            let url = `/v1/apps/${context.applicationId}/${endpoint}${query}`;
-            return function () {
-                return context.http.makeRequest({ url }, userOpts).then(function (body) {
-                    url = body.pages.next;
-                    return body;
-                });
-            };
-        }
-        yield* pageToGenerator_1.pageToGenerator(pageFn());
+    *getIterator(userOpts) {
+        const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
+        let url = `/v1/apps/${this.context.applicationId}/${this.endpoint}${query}`;
+        const pageFn = () => {
+            return this.context.http.makeRequest({ url }, userOpts).then(function (body) {
+                url = body.pages.next;
+                return body;
+            });
+        };
+        yield* pageToGenerator_1.pageToGenerator(pageFn);
     }
     /**
      * Retrieve all objects, returned as an array
      * @param {Object} userOpts option overrides for this request
      * @returns {Promise<object[]>} Promise that resolves to an array of objects
      */
-    function getAll(userOpts) {
+    getAll(userOpts) {
         let array = [];
         const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
-        let url = `/v1/apps/${context.applicationId}/${endpoint}${query}`;
-        function pageFn() {
-            return context.http.makeRequest({ url }, userOpts).then(function (body) {
+        let url = `/v1/apps/${this.context.applicationId}/${this.endpoint}${query}`;
+        const pageFn = () => {
+            return this.context.http.makeRequest({ url }, userOpts).then(function (body) {
                 array = array.concat(body.data || []); // concatinate the new data
                 url = body.pages.next;
                 if (url) {
@@ -60,7 +62,7 @@ function common(context, endpoint) {
                     return array;
                 }
             });
-        }
+        };
         return pageFn();
     }
     /**
@@ -70,14 +72,14 @@ function common(context, endpoint) {
      * @param {Object} userOpts option overrides for this request
      * @returns {Promise<Object>} A promise that resolves to the updated object
      */
-    function update(id, updates, userOpts) {
+    update(id, updates, userOpts) {
         check.string(id, 'id must be a string');
         check.array(updates, 'updates must be an array');
         const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
-        return context.http.makeRequest({
+        return this.context.http.makeRequest({
             method: 'PATCH',
             body: updates,
-            url: `/v1/apps/${context.applicationId}/${endpoint}/${id}${query}`
+            url: `/v1/apps/${this.context.applicationId}/${this.endpoint}/${id}${query}`
         }, userOpts);
     }
     /**
@@ -86,13 +88,13 @@ function common(context, endpoint) {
      * @param {Object} userOpts option overrides for this request
      * @returns {Promise<Object>} A promise that resolves to the provided object
      */
-    function create(object, userOpts) {
+    create(object, userOpts) {
         check.object(object, 'object must be an object');
         const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
-        return context.http.makeRequest({
+        return this.context.http.makeRequest({
             method: 'POST',
             body: object,
-            url: `/v1/apps/${context.applicationId}/${endpoint}${query}`
+            url: `/v1/apps/${this.context.applicationId}/${this.endpoint}${query}`
         }, userOpts);
     }
     /**
@@ -101,22 +103,14 @@ function common(context, endpoint) {
      * @param {Object} userOpts option overrides for this request
      * @returns {Promise<Object>} A promise that resolves to the deleted object
      */
-    function remove(id, userOpts) {
+    remove(id, userOpts) {
         check.string(id, 'id must be a string');
         const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
-        return context.http.makeRequest({
+        return this.context.http.makeRequest({
             method: 'DELETE',
-            url: `/v1/apps/${context.applicationId}/${endpoint}/${id}${query}`
+            url: `/v1/apps/${this.context.applicationId}/${this.endpoint}/${id}${query}`
         }, userOpts);
     }
-    return {
-        get,
-        getIterator,
-        getAll,
-        create,
-        update,
-        remove
-    };
 }
-exports.common = common;
+exports.Common = Common;
 //# sourceMappingURL=common.js.map

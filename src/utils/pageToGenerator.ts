@@ -12,7 +12,6 @@ export function* pageToGenerator<T>(pageFn: () => Promise<IPaginatedData>): Iter
                 return pageFn().then(function(response) {
                     nextPageExists = !!response.pages.next;
                     bank = response.data;
-
                     return bank.shift();
                 });
             }

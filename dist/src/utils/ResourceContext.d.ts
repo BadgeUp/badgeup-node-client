@@ -1,5 +1,5 @@
 import { BadgeUpHttp } from '../http';
 export interface IResourceContext {
-    applicationId: string;
+    applicationId: string | null;
     http: BadgeUpHttp;
 }

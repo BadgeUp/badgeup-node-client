@@ -50,6 +50,10 @@ rules:
     - false
   only-arrow-functions:
     false
+  max-classes-per-file:
+    false
+  member-ordering:
+    false
 jsRules:
   max-line-length:
     options: [180]

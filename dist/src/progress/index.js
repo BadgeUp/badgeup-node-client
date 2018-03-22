@@ -79,16 +79,16 @@ class ProgressQueryBuilder {
     }
 }
 exports.ProgressQueryBuilder = ProgressQueryBuilder;
-function progressResource(context) {
+class ProgressResource {
+    constructor(context) {
+        this.context = context;
+    }
     /**
      * @returns Returns an instance of the ProgressQueryBuilder class
      */
-    function query() {
-        return new ProgressQueryBuilder(context);
+    query() {
+        return new ProgressQueryBuilder(this.context);
     }
-    return {
-        query
-    };
 }
-exports.progressResource = progressResource;
+exports.ProgressResource = ProgressResource;
 //# sourceMappingURL=index.js.map

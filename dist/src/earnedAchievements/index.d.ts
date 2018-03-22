@@ -1,5 +1,6 @@
+import { Common } from '../common';
 import { IResourceContext } from '../utils/ResourceContext';
-import { EarnedAchievement } from './EarnedAchievement.class';
+import { IEarnedAchievementResponse } from './EarnedAchievement.class';
 export declare class EarnedAchievementQueryBuilder {
     context: IResourceContext;
     private _params;
@@ -52,10 +53,12 @@ export declare class EarnedAchievementQueryBuilder {
  * Earned Achievements module
  * @param {IResourceContext} context The context to make requests in. Basically, `this`
  */
-export declare function earnedAchievementsResource(context: IResourceContext): {
-    get: (id: string, userOpts?: any) => Promise<EarnedAchievement>;
-    getAll: (userOpts?: any) => Promise<EarnedAchievement[]>;
-    getIterator: (userOpts?: any) => IterableIterator<Promise<EarnedAchievement>>;
-    remove: (id: string, userOpts?: any) => Promise<EarnedAchievement>;
-    query: () => EarnedAchievementQueryBuilder;
-};
+export declare class EarnedAchievementsResource extends Common<IEarnedAchievementResponse> {
+    constructor(context: IResourceContext);
+    /**
+     * Sets up a delete request targeting earned achievements using query filters
+     * @param queryBy: filters to query events by
+     * @returns Returns an instance of the EarnedAchievementQueryBuilder class
+     */
+    query(): EarnedAchievementQueryBuilder;
+}

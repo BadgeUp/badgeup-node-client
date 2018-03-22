@@ -37,7 +37,8 @@ describe('integration tests', function () {
     });
     it('should iterate achievements via iterator', async function () {
         const client = new src_1.BadgeUp({ apiKey: INTEGRATION_API_KEY });
-        for (const summary of client.earnedAchievements.getIterator()) {
+        const iterator = client.earnedAchievements.getIterator();
+        for (const summary of iterator) {
             const tmp = await summary;
             chai_1.expect(tmp).to.be.an('object');
             chai_1.expect(tmp.achievementId).to.be.a('string');

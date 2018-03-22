@@ -7,9 +7,9 @@ const ENDPT = 'achievementicons';
  * Achievement icons module
  * @param {IResourceContext} context The context to make requests in. Basically, `this`
  */
-export class achievementIconsResource {
-    private common: Common;
-    private context: IResourceContext
+export class AchievementIconsResource {
+    private common: Common<any>;
+    private context: IResourceContext;
 
     constructor(context: IResourceContext) {
         this.context = context;
@@ -21,14 +21,14 @@ export class achievementIconsResource {
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object[]>} A promise that resolves to an array of achievement icon identifiers
      */
-    getAll(userOpts?) {
+    public getAll(userOpts?) {
         return this.context.http.makeRequest({
             method: 'GET',
             url: `/v1/apps/${this.context.applicationId}/${ENDPT}`
         }, userOpts);
     }
 
-    remove(id: string, userOpts?) {
+    public remove(id: string, userOpts?) {
         return this.common.remove(id, userOpts);
     }
 }

@@ -1,29 +1,30 @@
-import { achievementIconsResource } from './achievementIcons';
-import { achievementsResource } from './achievements';
-import { analyticsResource } from './analytics';
-import { apiKeysResource } from './apiKeys';
-import { applicationsResource } from './applications';
-import { awardsResource } from './awards';
-import { criteriaResource } from './criteria';
-import { earnedAchievementsResource } from './earnedAchievements';
-import { eventsResource } from './events';
+import { AchievementIconsResource } from './achievementIcons';
+import { AchievementsResource } from './achievements';
+import { AnalyticsResource } from './analytics';
+import { ApiKeysResource } from './apiKeys';
+import { ApplicationsResource } from './applications';
+import { AwardsResource } from './awards';
+import { CriteriaResource } from './criteria';
+import { EarnedAchievementsResource } from './earnedAchievements';
+import { EventsResource } from './events';
 import { BadgeUpHttp } from './http';
-import { metricsResource } from './metrics';
-import { progressResource } from './progress';
-export declare class BadgeUp {
+import { MetricsResource } from './metrics';
+import { ProgressResource } from './progress';
+import { IResourceContext } from './utils/ResourceContext';
+export declare class BadgeUp implements IResourceContext {
     applicationId: string | null;
     http: BadgeUpHttp;
-    applications: ReturnType<typeof applicationsResource>;
-    achievements: ReturnType<typeof achievementsResource>;
-    _analytics: ReturnType<typeof analyticsResource>;
-    apiKeys: ReturnType<typeof apiKeysResource>;
-    awards: ReturnType<typeof awardsResource>;
-    criteria: ReturnType<typeof criteriaResource>;
-    earnedAchievements: ReturnType<typeof earnedAchievementsResource>;
-    metrics: ReturnType<typeof metricsResource>;
-    events: ReturnType<typeof eventsResource>;
-    progress: ReturnType<typeof progressResource>;
-    achievementIcons: ReturnType<typeof achievementIconsResource>;
+    applications: ApplicationsResource;
+    achievements: AchievementsResource;
+    _analytics: AnalyticsResource;
+    apiKeys: ApiKeysResource;
+    awards: AwardsResource;
+    criteria: CriteriaResource;
+    earnedAchievements: EarnedAchievementsResource;
+    metrics: MetricsResource;
+    events: EventsResource;
+    progress: ProgressResource;
+    achievementIcons: AchievementIconsResource;
     /**
      * Construct an instance of the BadgeUp client.
      * @param {{apiKey: string, token: string, applicationId: string, request: object }} globalOpts - Client and global options

@@ -6,12 +6,13 @@ const ENDPT = 'events';
  * Events module
  * @param {IResourceContext} context The context to make requests in. Basically, `this`
  */
-function eventsResource(context) {
-    const obj = common_1.common(context, ENDPT);
-    function create(object, userOpts) {
-        return obj.create(object, userOpts);
+class EventsResource {
+    constructor(context) {
+        this.common = new common_1.Common(context, ENDPT);
     }
-    return { create };
+    create(object, userOpts) {
+        return this.common.create(object, userOpts);
+    }
 }
-exports.eventsResource = eventsResource;
+exports.EventsResource = EventsResource;
 //# sourceMappingURL=index.js.map

@@ -51,17 +51,17 @@ class BadgeUp {
             globalOpts.request.headers.authorization = 'Basic ' + Buffer.from(globalOpts.apiKey + ':', 'ascii').toString('base64');
         }
         this.http = new http_1.BadgeUpHttp(globalOpts.request);
-        this.applications = applications_1.applicationsResource(this);
-        this.achievements = achievements_1.achievementsResource(this);
-        this._analytics = analytics_1.analyticsResource(this);
-        this.apiKeys = apiKeys_1.apiKeysResource(this);
-        this.awards = awards_1.awardsResource(this);
-        this.criteria = criteria_1.criteriaResource(this);
-        this.earnedAchievements = earnedAchievements_1.earnedAchievementsResource(this);
-        this.metrics = metrics_1.metricsResource(this);
-        this.events = events_1.eventsResource(this);
-        this.progress = progress_1.progressResource(this);
-        this.achievementIcons = achievementIcons_1.achievementIconsResource(this);
+        this.applications = new applications_1.ApplicationsResource(this);
+        this.achievements = new achievements_1.AchievementsResource(this);
+        this._analytics = new analytics_1.AnalyticsResource(this);
+        this.apiKeys = new apiKeys_1.ApiKeysResource(this);
+        this.awards = new awards_1.AwardsResource(this);
+        this.criteria = new criteria_1.CriteriaResource(this);
+        this.earnedAchievements = new earnedAchievements_1.EarnedAchievementsResource(this);
+        this.metrics = new metrics_1.MetricsResource(this);
+        this.events = new events_1.EventsResource(this);
+        this.progress = new progress_1.ProgressResource(this);
+        this.achievementIcons = new achievementIcons_1.AchievementIconsResource(this);
     }
 }
 exports.BadgeUp = BadgeUp;

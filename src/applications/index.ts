@@ -6,19 +6,24 @@ const ENDPT = 'apps';
 
 /**
  * Applications module
- * @param {IResourceContext} context The context to make requests in. Basically, `this`
+ * @param {IResourceContext} this.context The this.context to make requests in. Basically, `this`
  */
-export class applicationsResource(context: IResourceContext) {
+export class ApplicationsResource {
+    private context: IResourceContext;
+
+    constructor(context: IResourceContext) {
+        this.context = context;
+    }
     /**
      * Create an application
      * @param {object} object event object
      * @param {object} userOpts option overrides for this request
      * @returns An iterator that returns promises that resolve with the next object
      */
-    function create(object, userOpts?) {
+    public create(object, userOpts?) {
         check.object(object, 'object must be an object');
 
-        return context.http.makeRequest({
+        return this.context.http.makeRequest({
             method: 'POST',
             body: object,
             url: `/v1/${ENDPT}`
@@ -32,11 +37,11 @@ export class applicationsResource(context: IResourceContext) {
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object>} Promise that resolves to the updated application
      */
-    function update(id: string, updates, userOpts?) {
+    public update(id: string, updates, userOpts?) {
         check.string(id, 'id must be a string');
         check.array(updates, 'updates must be an array');
 
-        return context.http.makeRequest({
+        return this.context.http.makeRequest({
             method: 'PATCH',
             body: updates,
             url: `/v1/${ENDPT}/${id}`
@@ -49,10 +54,10 @@ export class applicationsResource(context: IResourceContext) {
      * @param {object} userOpts option overrides for this request
      * @returns Returns a promise
      */
-    function remove(id: string, userOpts?) {
+    public remove(id: string, userOpts?) {
         check.string(id, 'id must be a string');
 
-        return context.http.makeRequest({
+        return this.context.http.makeRequest({
             method: 'DELETE',
             url: `/v1/${ENDPT}/${id}`
         }, userOpts);
@@ -64,10 +69,10 @@ export class applicationsResource(context: IResourceContext) {
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object>} Promise that resolves with the retrieved application
      */
-    function get(id: string, userOpts?) {
+    public get(id: string, userOpts?) {
         check.string(id, 'id must be a string');
 
-        return context.http.makeRequest({
+        return this.context.http.makeRequest({
             url: `/v1/${ENDPT}/${id}`
         }, userOpts);
     }
@@ -77,12 +82,12 @@ export class applicationsResource(context: IResourceContext) {
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object[]>} Promise that resolves to an array of objects
      */
-    function getAll(userOpts?) {
+    public getAll(userOpts?) {
         let array = [];
         let url = `/v1/${ENDPT}`;
 
-        function pageFn() {
-            return context.http.makeRequest({ url }, userOpts).then(function(body) {
+        const pageFn = () => {
+            return this.context.http.makeRequest({ url }, userOpts).then(function(body) {
                 array = array.concat(body.data || []); // concatinate the new data
 
                 url = body.pages.next;
@@ -92,7 +97,7 @@ export class applicationsResource(context: IResourceContext) {
                     return array;
                 }
             });
-        }
+        };
 
         return pageFn();
     }
@@ -102,26 +107,17 @@ export class applicationsResource(context: IResourceContext) {
      * @param {object} userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */
-    function* getIterator(userOpts?) {
-        function pageFn() {
+    public *getIterator(userOpts?) {
+        const pageFn = () => {
             let url = `/v1/${ENDPT}`;
-            return function() {
-                return context.http.makeRequest({ url }, userOpts).then(function(body) {
+            return () => {
+                return this.context.http.makeRequest({ url }, userOpts).then(function(body) {
                     url = body.pages.next;
                     return body;
                 });
             };
-        }
+        };
 
-        yield* pageToGenerator(pageFn());
+        yield *pageToGenerator(pageFn());
     }
-
-    return {
-        get,
-        getAll,
-        getIterator,
-        create,
-        update,
-        remove
-    };
 }

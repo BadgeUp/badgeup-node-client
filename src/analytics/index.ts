@@ -10,17 +10,22 @@ const ENDPT = 'analytics';
  * THIS MODULE IS NOT SUBJECT TO ANY SLAS AND MAY BE CHANGED AT ANY TIME
  * @param {IResourceContext} context The context to make requests in. Basically, `this`
  */
-export class analyticsResource(context: IResourceContext) {
+export class AnalyticsResource {
+    private context: IResourceContext;
+
+    constructor(context: IResourceContext) {
+        this.context = context;
+    }
     /**
      * Retrieve event analytics
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object>} Promise that resolves with the retrieved object
      */
-    function eventsLastNDays(numDays: number, userOpts?) {
+    public eventsLastNDays(numDays: number, userOpts?) {
         check.assert(check.integer(numDays) && check.greater(numDays, 0), 'numDays must be a positive integer');
 
-        return context.http.makeRequest({
-            url: `/v1/apps/${context.applicationId}/${ENDPT}/events/last-n-days?duration=${numDays}`
+        return this.context.http.makeRequest({
+            url: `/v1/apps/${this.context.applicationId}/${ENDPT}/events/last-n-days?duration=${numDays}`
         }, userOpts);
     }
 
@@ -29,12 +34,12 @@ export class analyticsResource(context: IResourceContext) {
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object>} Promise that resolves with the retrieved object
      */
-    function eventsLastNDaysBySubject(numDays: number, subject, userOpts?) {
+    public eventsLastNDaysBySubject(numDays: number, subject, userOpts?) {
         check.assert(check.integer(numDays) && check.greater(numDays, 0), 'numDays must be a positive integer');
         check.string(subject, 'subject must be a string');
 
-        return context.http.makeRequest({
-            url: `/v1/apps/${context.applicationId}/${ENDPT}/events/last-n-days/subject/${subject}?duration=${numDays}`
+        return this.context.http.makeRequest({
+            url: `/v1/apps/${this.context.applicationId}/${ENDPT}/events/last-n-days/subject/${subject}?duration=${numDays}`
         }, userOpts);
     }
 
@@ -43,11 +48,11 @@ export class analyticsResource(context: IResourceContext) {
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object>} Promise that resolves with the retrieved object
      */
-    function subjectsLastNDays(numDays: number, userOpts?) {
+    public subjectsLastNDays(numDays: number, userOpts?) {
         check.assert(check.integer(numDays) && check.greater(numDays, 0), 'numDays must be a positive integer');
 
-        return context.http.makeRequest({
-            url: `/v1/apps/${context.applicationId}/${ENDPT}/subjects/last-n-days?duration=${numDays}`
+        return this.context.http.makeRequest({
+            url: `/v1/apps/${this.context.applicationId}/${ENDPT}/subjects/last-n-days?duration=${numDays}`
         }, userOpts);
     }
 
@@ -56,11 +61,11 @@ export class analyticsResource(context: IResourceContext) {
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object>} Promise that resolves with the retrieved object
      */
-    function newSubjectsLastNDays(numDays: number, userOpts?) {
+    public newSubjectsLastNDays(numDays: number, userOpts?) {
         check.assert(check.integer(numDays) && check.greater(numDays, 0), 'numDays must be a positive integer');
 
-        return context.http.makeRequest({
-            url: `/v1/apps/${context.applicationId}/${ENDPT}/subjects/new/last-n-days?duration=${numDays}`
+        return this.context.http.makeRequest({
+            url: `/v1/apps/${this.context.applicationId}/${ENDPT}/subjects/new/last-n-days?duration=${numDays}`
         }, userOpts);
     }
 
@@ -69,11 +74,11 @@ export class analyticsResource(context: IResourceContext) {
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object>} Promise that resolves with the retrieved object
      */
-    function earnedAchievementsLastNDays(numDays: number, userOpts?) {
+    public earnedAchievementsLastNDays(numDays: number, userOpts?) {
         check.assert(check.integer(numDays) && check.greater(numDays, 0), 'numDays must be a positive integer');
 
-        return context.http.makeRequest({
-            url: `/v1/apps/${context.applicationId}/${ENDPT}/earnedachievements/last-n-days?duration=${numDays}`
+        return this.context.http.makeRequest({
+            url: `/v1/apps/${this.context.applicationId}/${ENDPT}/earnedachievements/last-n-days?duration=${numDays}`
         }, userOpts);
     }
 
@@ -82,16 +87,16 @@ export class analyticsResource(context: IResourceContext) {
      * @param {object} userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */
-    function* getSubjectsSummaryIterator(userOpts?) {
-        function pageFn() {
-            let url = `/v1/apps/${context.applicationId}/${ENDPT}/subjects/summary`;
-            return function() {
-                return context.http.makeRequest({ url }, userOpts).then(function(body) {
+    public* getSubjectsSummaryIterator(userOpts?) {
+        const pageFn = () => {
+            let url = `/v1/apps/${this.context.applicationId}/${ENDPT}/subjects/summary`;
+            return () => {
+                return this.context.http.makeRequest({ url }, userOpts).then(function(body) {
                     url = body.pages.next;
                     return body;
                 });
             };
-        }
+        };
 
         yield* pageToGenerator(pageFn());
     }
@@ -101,19 +106,9 @@ export class analyticsResource(context: IResourceContext) {
      * @param {object} userOpts option overrides for this request
      * @returns {Promise<object>} Promise that resolves with an array of retrieved metric keys
      */
-    function getAllMetricKeys(userOpts?) {
-        return context.http.makeRequest({
-            url: `/v1/apps/${context.applicationId}/${ENDPT}/metrics/keys`
+    public getAllMetricKeys(userOpts?) {
+        return this.context.http.makeRequest({
+            url: `/v1/apps/${this.context.applicationId}/${ENDPT}/metrics/keys`
         }, userOpts).then(obj => obj.data);
     }
-
-    return {
-        eventsLastNDays,
-        eventsLastNDaysBySubject,
-        subjectsLastNDays,
-        newSubjectsLastNDays,
-        earnedAchievementsLastNDays,
-        getSubjectsSummaryIterator,
-        getAllMetricKeys
-    };
 }
