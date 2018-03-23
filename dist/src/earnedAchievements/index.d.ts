@@ -8,22 +8,22 @@ export declare class EarnedAchievementQueryBuilder {
      * Query by achievement ID
      * @param achievementId
      */
-    achievementId(achievementId: string): this;
+    achievementId(achievementId: string): EarnedAchievementQueryBuilder;
     /**
      * Query by subject
      * @param subject
      */
-    subject(subject: any): this;
+    subject(subject: string): EarnedAchievementQueryBuilder;
     /**
      * Query by starting date (find after)
      * @param {Date} since
      */
-    since(since: any): this;
+    since(since: Date): EarnedAchievementQueryBuilder;
     /**
      * Query by ending date (find before)
      * @param {Date} until
      */
-    until(until: any): this;
+    until(until: Date): EarnedAchievementQueryBuilder;
     /**
      * Checks and builds query parameters for use in a URL
      * @returns Returns a string containing URL query paramters
@@ -34,17 +34,17 @@ export declare class EarnedAchievementQueryBuilder {
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to a list of metrics
      */
-    getAll(userOpts: any): any;
+    getAll(userOpts: any): Promise<IEarnedAchievementResponse[]>;
     /**
      * Retrives earned achievements, returned as an iterator
      * @param userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */
-    getIterator(userOpts: any): IterableIterator<Promise<{}>>;
+    getIterator(userOpts: any): IterableIterator<Promise<IEarnedAchievementResponse>>;
     /**
      * Delete all queried earned achievements
      * @param userOpts option overrides for this request
-     * @returns Promise that resolves to an object stating the number of deleted metrics
+     * @returns Promise that resolves to an object stating the number of deleted earned achievements
      */
     remove(userOpts: any): Promise<any>;
 }
@@ -75,7 +75,7 @@ export declare class EarnedAchievementsResource {
     /**
      * Retrieve all earned achievements, returned as an array
      * @param userOpts option overrides for this request
-     * @returns Promise that resolves to an array of objects
+     * @returns Promise that resolves to an array of earned achievements
      */
     getAll(userOpts?: any): Promise<IEarnedAchievementResponse[]>;
     /**

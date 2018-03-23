@@ -90,7 +90,9 @@ class AchievementsResource {
         check.string(id, 'id must be a string');
         return this.context.http.makeRequest({
             url: `/v1/apps/${this.context.applicationId}/${ENDPT}/${id}/awards`
-        }, userOpts).then((body) => body.data);
+        }, userOpts).then((body) => {
+            return body.data;
+        });
     }
 }
 exports.AchievementsResource = AchievementsResource;

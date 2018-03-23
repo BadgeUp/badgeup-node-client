@@ -25,7 +25,7 @@ export class AnalyticsResource {
      * @param userOpts option overrides for this request
      * @returns Promise that resolves with the retrieved object
      */
-    public eventsLastNDays(numDays: number, userOpts?) {
+    public eventsLastNDays(numDays: number, userOpts?)  {
         check.assert(check.integer(numDays) && check.greater(numDays, 0), 'numDays must be a positive integer');
 
         return this.context.http.makeRequest({

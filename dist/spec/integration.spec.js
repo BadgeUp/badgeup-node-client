@@ -15,7 +15,7 @@ describe('integration tests', function () {
         const rand = Math.floor(Math.random() * 100000);
         const subject = 'nodejs-ci-' + rand;
         const key = 'test';
-        const e = new Event_class_1.Event(subject, key, { '@inc': 5 });
+        const e = new Event_class_1.EventRequest(subject, key, { '@inc': 5 });
         const response = await client.events.create(e);
         chai_1.expect(response).to.be.an('object');
         const event = response.event;
@@ -43,6 +43,22 @@ describe('integration tests', function () {
             chai_1.expect(tmp).to.be.an('object');
             chai_1.expect(tmp.achievementId).to.be.a('string');
         }
+    });
+    it('should get all achievement icons', async function () {
+        const client = new src_1.BadgeUp({ apiKey: INTEGRATION_API_KEY });
+        return client.achievementIcons.getAll().then(function (response) {
+            chai_1.expect(response).to.be.an('array');
+            chai_1.expect(response).to.have.length.greaterThan(0, 'no icons found, possibly none were uploaded to the account against which integration tests are executed');
+        });
+    });
+    it('should get all achievement icons2', async function () {
+        const client = new src_1.BadgeUp({ apiKey: INTEGRATION_API_KEY });
+        // const achievement:IAchievementResponse = {};
+        // client.achievements.create(achievement);
+        return client.criteria.getAll().then(function (response) {
+            chai_1.expect(response).to.be.an('array');
+            chai_1.expect(response).to.have.length.greaterThan(0, 'no icons found, possibly none were uploaded to the account against which integration tests are executed');
+        });
     });
 });
 //# sourceMappingURL=integration.spec.js.map

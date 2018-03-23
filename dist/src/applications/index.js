@@ -16,9 +16,9 @@ class ApplicationsResource {
     }
     /**
      * Create an application
-     * @param object event object
+     * @param object application object
      * @param userOpts option overrides for this request
-     * @returns An iterator that returns promises that resolve with the next object
+     * @returns A promise that resolves to the provided application
      */
     create(object, userOpts) {
         check.object(object, 'object must be an object');
@@ -48,7 +48,7 @@ class ApplicationsResource {
      * Delete an application
      * @param id ID of the application to be updated
      * @param userOpts option overrides for this request
-     * @returns Returns a promise
+     * @returns A promise that resolves to the deleted application
      */
     remove(id, userOpts) {
         check.string(id, 'id must be a string');

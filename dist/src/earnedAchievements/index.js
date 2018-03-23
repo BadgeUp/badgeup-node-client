@@ -107,7 +107,7 @@ class EarnedAchievementQueryBuilder {
     /**
      * Delete all queried earned achievements
      * @param userOpts option overrides for this request
-     * @returns Promise that resolves to an object stating the number of deleted metrics
+     * @returns Promise that resolves to an object stating the number of deleted earned achievements
      */
     remove(userOpts) {
         const queryBy = collectQueryParams_1.collectQueryParams(this.params, AVAILABLE_QUERY_PARAMS);
@@ -151,7 +151,7 @@ class EarnedAchievementsResource {
     /**
      * Retrieve all earned achievements, returned as an array
      * @param userOpts option overrides for this request
-     * @returns Promise that resolves to an array of objects
+     * @returns Promise that resolves to an array of earned achievements
      */
     getAll(userOpts) {
         return this.common.getAll(userOpts);

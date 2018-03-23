@@ -7,8 +7,7 @@ const bup = new src_1.BadgeUp({
     apiKey: 'eyJhY2NvdW50SWQiOiJ0aGViZXN0IiwiYXBwbGljYXRpb25JZCI6IjEzMzciLCJrZXkiOiJpY2VjcmVhbWFuZGNvb2tpZXN5dW0ifQ=='
 });
 function generateFakeEvent() {
-    const e = new Event_class_1.Event('kram', 'event:key');
-    e.id = Math.floor(Math.random() * 1e6) + '';
+    const e = new Event_class_1.EventResponse(Math.floor(Math.random() * 1e6) + '', 'appId', 'kram', 'event:key');
     e.modifier = { '@inc': 5 };
     e.timestamp = new Date();
     return e;

@@ -61,6 +61,7 @@ class MetricsResource {
         this.common = new common_1.Common(context, ENDPT);
         this.context = context;
     }
+    // TODO: comments missing for some methods
     getAll(userOpts) {
         return this.common.getAll(userOpts);
     }

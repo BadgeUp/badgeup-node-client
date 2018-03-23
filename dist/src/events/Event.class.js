@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-class Event {
+class EventRequest {
     constructor(subject, key, modifier = {}, options) {
         this.subject = '';
         this.subject = subject;
@@ -23,5 +23,16 @@ class Event {
         }
     }
 }
-exports.Event = Event;
+exports.EventRequest = EventRequest;
+class EventResponse extends EventRequest {
+    constructor(id, applicationId, subject, key, modifier = {}, options) {
+        super(subject, key, modifier, options);
+        this.id = id;
+        this.applicationId = applicationId;
+    }
+    static fromSource(source) {
+        return new EventResponse(source.id, source.applicationId, source.subject, source.key, source.modifier, source.options);
+    }
+}
+exports.EventResponse = EventResponse;
 //# sourceMappingURL=Event.class.js.map

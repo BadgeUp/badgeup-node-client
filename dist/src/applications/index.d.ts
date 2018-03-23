@@ -1,4 +1,5 @@
 import { IResourceContext } from '../utils/ResourceContext';
+import { IBadgeUpApplicationResponse } from './Application.class';
 /**
  * Applications resource
  */
@@ -11,11 +12,11 @@ export declare class ApplicationsResource {
     constructor(context: IResourceContext);
     /**
      * Create an application
-     * @param object event object
+     * @param object application object
      * @param userOpts option overrides for this request
-     * @returns An iterator that returns promises that resolve with the next object
+     * @returns A promise that resolves to the provided application
      */
-    create(object: any, userOpts?: any): Promise<any>;
+    create(object: any, userOpts?: any): Promise<IBadgeUpApplicationResponse>;
     /**
      * Update an application
      * @param id ID of the application to be updated
@@ -23,31 +24,31 @@ export declare class ApplicationsResource {
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to the updated application
      */
-    update(id: string, updates: any, userOpts?: any): Promise<any>;
+    update(id: string, updates: any, userOpts?: any): Promise<IBadgeUpApplicationResponse>;
     /**
      * Delete an application
      * @param id ID of the application to be updated
      * @param userOpts option overrides for this request
-     * @returns Returns a promise
+     * @returns A promise that resolves to the deleted application
      */
-    remove(id: string, userOpts?: any): Promise<any>;
+    remove(id: string, userOpts?: any): Promise<IBadgeUpApplicationResponse>;
     /**
      * Retrieve application by ID
      * @param id ID of the application to retrieve
      * @param userOpts option overrides for this request
      * @returns Promise that resolves with the retrieved application
      */
-    get(id: string, userOpts?: any): Promise<any>;
+    get(id: string, userOpts?: any): Promise<IBadgeUpApplicationResponse>;
     /**
      * Retrieve all objects, returned as an array
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to an array of objects
      */
-    getAll(userOpts?: any): any;
+    getAll(userOpts?: any): Promise<IBadgeUpApplicationResponse[]>;
     /**
      * Retrieve all applications
      * @param userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */
-    getIterator(userOpts?: any): IterableIterator<Promise<{}>>;
+    getIterator(userOpts?: any): IterableIterator<Promise<IBadgeUpApplicationResponse>>;
 }

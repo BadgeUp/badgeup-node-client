@@ -1,6 +1,7 @@
 import * as check from 'check-types';
 import { IResourceContext } from '../utils/ResourceContext';
 import { pageToGenerator } from './../utils/pageToGenerator';
+import { IBadgeUpApplicationResponse } from './Application.class';
 
 const ENDPT = 'apps';
 
@@ -20,11 +21,11 @@ export class ApplicationsResource {
 
     /**
      * Create an application
-     * @param object event object
+     * @param object application object
      * @param userOpts option overrides for this request
-     * @returns An iterator that returns promises that resolve with the next object
+     * @returns A promise that resolves to the provided application
      */
-    public create(object, userOpts?) {
+    public create(object: any, userOpts?): Promise<IBadgeUpApplicationResponse> {
         check.object(object, 'object must be an object');
 
         return this.context.http.makeRequest({
@@ -41,7 +42,7 @@ export class ApplicationsResource {
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to the updated application
      */
-    public update(id: string, updates, userOpts?) {
+    public update(id: string, updates: any, userOpts?): Promise<IBadgeUpApplicationResponse> {
         check.string(id, 'id must be a string');
         check.array(updates, 'updates must be an array');
 
@@ -56,9 +57,9 @@ export class ApplicationsResource {
      * Delete an application
      * @param id ID of the application to be updated
      * @param userOpts option overrides for this request
-     * @returns Returns a promise
+     * @returns A promise that resolves to the deleted application
      */
-    public remove(id: string, userOpts?) {
+    public remove(id: string, userOpts?): Promise<IBadgeUpApplicationResponse> {
         check.string(id, 'id must be a string');
 
         return this.context.http.makeRequest({
@@ -73,7 +74,7 @@ export class ApplicationsResource {
      * @param userOpts option overrides for this request
      * @returns Promise that resolves with the retrieved application
      */
-    public get(id: string, userOpts?) {
+    public get(id: string, userOpts?): Promise<IBadgeUpApplicationResponse> {
         check.string(id, 'id must be a string');
 
         return this.context.http.makeRequest({
@@ -86,7 +87,7 @@ export class ApplicationsResource {
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to an array of objects
      */
-    public getAll(userOpts?) {
+    public getAll(userOpts?): Promise<IBadgeUpApplicationResponse[]> {
         let array = [];
         let url = `/v1/${ENDPT}`;
 
@@ -111,7 +112,7 @@ export class ApplicationsResource {
      * @param userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */
-    public *getIterator(userOpts?) {
+    public *getIterator(userOpts?): IterableIterator<Promise<IBadgeUpApplicationResponse>> {
         const pageFn = () => {
             let url = `/v1/${ENDPT}`;
             return () => {

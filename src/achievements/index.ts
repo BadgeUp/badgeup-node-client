@@ -1,5 +1,7 @@
 import * as check from 'check-types';
+import { IAwardResponse } from '../awards/Award.class';
 import { Common } from '../common';
+import { ICriterionResponse } from '../criteria/Criterion.class';
 import { IResourceContext } from '../utils/ResourceContext';
 import { IAchievementResponse } from './Achievement.class';
 
@@ -27,7 +29,7 @@ export class AchievementsResource {
      * @param userOpts option overrides for this request
      * @returns Promise that resolves with the retrieved achievement
      */
-    public get(id: string, userOpts?) {
+    public get(id: string, userOpts?): Promise<IAchievementResponse> {
         return this.common.get(id, userOpts);
     }
 
@@ -36,7 +38,7 @@ export class AchievementsResource {
      * @param userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next achievement
      */
-    public getIterator(userOpts?) {
+    public getIterator(userOpts?): IterableIterator<Promise<IAchievementResponse>> {
         return this.common.getIterator(userOpts);
     }
 
@@ -45,7 +47,7 @@ export class AchievementsResource {
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to an array of objects
      */
-    public getAll(userOpts?) {
+    public getAll(userOpts?): Promise<IAchievementResponse[]> {
         return this.common.getAll(userOpts);
     }
 
@@ -56,7 +58,7 @@ export class AchievementsResource {
      * @param userOpts option overrides for this request
      * @returns A promise that resolves to the updated object
      */
-    public update(id: string, updates: any[], userOpts?) {
+    public update(id: string, updates: any[], userOpts?): Promise<IAchievementResponse> {
         return this.common.update(id, updates, userOpts);
     }
 
@@ -66,7 +68,7 @@ export class AchievementsResource {
      * @param userOpts option overrides for this request
      * @returns A promise that resolves to the provided achievement
      */
-    public create(achievement: any, userOpts?) {
+    public create(achievement: IAchievementResponse, userOpts?): Promise<IAchievementResponse> {
         return this.common.create(achievement, userOpts);
     }
 
@@ -76,7 +78,7 @@ export class AchievementsResource {
      * @param userOpts option overrides for this request
      * @returns A promise that resolves to the deleted achievement
      */
-    public remove(id: string, userOpts?) {
+    public remove(id: string, userOpts?): Promise<IAchievementResponse> {
         return this.common.remove(id, userOpts);
     }
 
@@ -86,12 +88,12 @@ export class AchievementsResource {
      * @param userOpts option overrides for this request
      * @returns Promise that resolves with the list of criteria
      */
-    public getAchievementCriteria(id: string, userOpts?) {
+    public getAchievementCriteria(id: string, userOpts?): Promise<ICriterionResponse[]> {
         check.string(id, 'id must be a string');
 
         return this.context.http.makeRequest({
             url: `/v1/apps/${this.context.applicationId}/${ENDPT}/${id}/criteria`
-        }, userOpts).then(function(body) { return body.data; });
+        }, userOpts).then(function(body) { return body.data as ICriterionResponse[]; });
     }
 
     /**
@@ -100,11 +102,14 @@ export class AchievementsResource {
      * @param userOpts option overrides for this request
      * @returns Promise that resolves with the list of awards
      */
-    public getAchievementAwards(id: string, userOpts?) {
+    public getAchievementAwards(id: string, userOpts?): Promise<IAwardResponse[]> {
         check.string(id, 'id must be a string');
 
         return this.context.http.makeRequest({
             url: `/v1/apps/${this.context.applicationId}/${ENDPT}/${id}/awards`
-        }, userOpts).then((body) => body.data);
+        }, userOpts).then((body) => {
+            return body.data; }
+            );
+
     }
 }

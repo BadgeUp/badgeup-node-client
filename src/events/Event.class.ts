@@ -1,8 +1,15 @@
-import { IProgress } from './Progress.class';
+import { IProgress } from '../progress/Progress.class';
 
-export class Event {
-    id?: string;
-    applicationId?: string;
+export interface IEventRequest {
+    data?: any;
+    key: string;
+    modifier: IEventModifier;
+    options?: IEventOptions;
+    subject: string;
+    timestamp?: Date;
+}
+
+export class EventRequest implements IEventRequest {
     data?: any;
     key: string;
     modifier: IEventModifier;
@@ -34,6 +41,20 @@ export class Event {
     }
 }
 
+export interface IEventResponse extends IEventRequest {
+    id: string;
+    applicationId: string;
+}
+
+export class EventResponse extends EventRequest implements IEventResponse {
+    constructor(public id, public applicationId, subject: string, key: string, modifier: IEventModifier = {}, options?: IEventOptions) {
+        super(subject, key, modifier, options);
+    }
+    public static fromSource(source: IEventResponse): EventResponse {
+        return new EventResponse(source.id, source.applicationId, source.subject, source.key, source.modifier, source.options);
+    }
+}
+
 export interface IEventModifier {
     [key: string]: number;
 }
@@ -43,7 +64,7 @@ export interface IEventOptions {
 }
 
 export interface IEventResponseV1 {
-    event: Event;
+    event: IEventResponse;
     progress: IProgress[];
 }
 
@@ -52,7 +73,7 @@ export interface IEventResponseV2Preview {
 }
 
 export interface IEventResponseResultV2Preview {
-    event: Event;
+    event: IEventResponse;
     cause: string;
     progress: IProgress[];
 }

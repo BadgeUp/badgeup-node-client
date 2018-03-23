@@ -1,4 +1,5 @@
 import { IResourceContext } from '../utils/ResourceContext';
+import { IApiKeyResponse, IApiKeyScope } from './ApiKey.class';
 /**
  * API Keys resource
  */
@@ -15,13 +16,13 @@ export declare class ApiKeysResource {
      * @param userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */
-    getIterator(userOpts?: any): IterableIterator<IterableIterator<Promise<any>>>;
+    getIterator(userOpts?: any): IterableIterator<Promise<IApiKeyResponse>>;
     /**
      * Retrieve all API Keys, returned as an array
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to an array of API Keys
      */
-    getAll(userOpts?: any): Promise<any[]>;
+    getAll(userOpts?: any): Promise<IApiKeyResponse[]>;
     /**
      * Updates an API Key by ID
      * @param id ID of the API Key to update
@@ -29,25 +30,25 @@ export declare class ApiKeysResource {
      * @param userOpts option overrides for this request
      * @returns A promise that resolves to the updated API Key
      */
-    update(id: string, updates: any[], userOpts?: any): Promise<any>;
+    update(id: string, updates: any[], userOpts?: any): Promise<IApiKeyResponse>;
     /**
      * Create an API Key
      * @param apiKey API Key to create
      * @param userOpts option overrides for this request
      * @returns A promise that resolves to the API Key
      */
-    create(apiKey: any, userOpts?: any): Promise<any>;
+    create(apiKey: IApiKeyResponse, userOpts?: any): Promise<IApiKeyResponse>;
     /**
      * Delete an API Key by ID
      * @param id ID of the API Key to delete
      * @param userOpts option overrides for this request
      * @returns A promise that resolves to the deleted API Key
      */
-    remove(id: string, userOpts?: any): Promise<any>;
+    remove(id: string, userOpts?: any): Promise<IApiKeyResponse>;
     /**
      * Get all possible API key scopes
      * @param userOpts option overrides for this request
      * @returns Promise that resolves with the requested API key scopes
      */
-    listScopes(userOpts?: any): Promise<any>;
+    listScopes(userOpts?: any): Promise<IApiKeyScope[]>;
 }

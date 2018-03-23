@@ -1,5 +1,5 @@
 import { IResourceContext } from '../utils/ResourceContext';
-import { Event, IEventResponseV1 } from './Event.class';
+import { IEventRequest, IEventResponseV1 } from './Event.class';
 /**
  * Events resource
  */
@@ -10,5 +10,5 @@ export declare class EventsResource {
      * @param context The context to make requests as
      */
     constructor(context: IResourceContext);
-    create(object: Event, userOpts?: any): Promise<IEventResponseV1>;
+    create(object: IEventRequest, userOpts?: any): Promise<IEventResponseV1>;
 }

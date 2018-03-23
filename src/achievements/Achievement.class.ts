@@ -8,10 +8,7 @@ export interface IAchievementResponse {
     description: string;
     evalTree: IEvalTreeGroup;
     awards: string[];
-    meta: {
-        // TODO extend existing meta
-        icon: string;
-    };
+    meta: IAchievementMeta;
     options: {
         suspended: boolean;
     };
@@ -27,5 +24,10 @@ export interface IEvalTreeGroup {
     type: string;
     condition: string;
     groups: IEvalTreeGroup[];
-    criteria: any; // TODO
+    criteria: ICriterionResponse[];
 }
+
+export interface IAchievementMeta {
+    icon: string;
+}
+

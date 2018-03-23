@@ -4,6 +4,7 @@ import { collectQueryParams } from '../utils/collectQueryParams';
 import { IQueryParameters } from '../utils/QueryBuilder';
 import { IResourceContext } from '../utils/ResourceContext';
 import { pageToGenerator } from './../utils/pageToGenerator';
+import { IProgress } from './Progress.class';
 
 const ENDPT = 'progress';
 const GET_QUERYPARAMS = ['subject', 'achievementId'];
@@ -23,7 +24,7 @@ export class ProgressQueryBuilder {
      * Query by achievement ID
      * @param achievementId
      */
-    achievementId(achievementId: string) {
+    achievementId(achievementId: string): ProgressQueryBuilder {
         check.string(achievementId, 'achievementId must be a string');
         this.params.achievementId = achievementId;
         return this;
@@ -33,7 +34,7 @@ export class ProgressQueryBuilder {
      * Query by subject
      * @param subject
      */
-    subject(subject: string) {
+    subject(subject: string): ProgressQueryBuilder {
         check.string(subject, 'subject must be a string');
         this.params.subject = subject;
         return this;
@@ -44,7 +45,7 @@ export class ProgressQueryBuilder {
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to an array of progress objects
      */
-    getAll(userOpts?) {
+    getAll(userOpts?): Promise<IProgress> {
         if (!this.params.subject) {
             throw new Error('subject must be provided');
         }
@@ -75,7 +76,7 @@ export class ProgressQueryBuilder {
      * @param userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next progress object
      */
-    *getIterator(userOpts?) {
+    *getIterator(userOpts?): IterableIterator<Promise<IProgress>> {
         if (!this.params.subject) {
             throw new Error('subject must be provided');
         }
@@ -92,7 +93,7 @@ export class ProgressQueryBuilder {
             };
         };
 
-        yield* pageToGenerator(pageFn());
+        yield* pageToGenerator<IProgress>(pageFn());
     }
 }
 
@@ -113,7 +114,7 @@ export class ProgressResource {
     /**
      * @returns Returns an instance of the ProgressQueryBuilder class
      */
-    query() {
+    query(): ProgressQueryBuilder {
         return new ProgressQueryBuilder(this.context);
     }
 }

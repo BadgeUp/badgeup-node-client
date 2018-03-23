@@ -109,7 +109,7 @@ describe('metrics', function() {
             expect(options.headers).to.be.an('object');
         }
 
-        let metrics = await bup.metrics.getAll({ _payload, _validate });
+        const metrics = await bup.metrics.getAll({ _payload, _validate });
 
         // total number of metrics
         expect(metrics.length).to.equal(20);

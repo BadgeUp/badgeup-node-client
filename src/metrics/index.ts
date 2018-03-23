@@ -5,6 +5,7 @@ import { collectQueryParams } from '../utils/collectQueryParams';
 import { pageToGenerator } from '../utils/pageToGenerator';
 import { IQueryParameters } from '../utils/QueryBuilder';
 import { IResourceContext } from '../utils/ResourceContext';
+import { IMetricRequest, IMetricResponse } from './Metric.class';
 
 const ENDPT = 'metrics';
 
@@ -68,7 +69,7 @@ export class MetricQueryBuilder {
  * @param {IResourceContext} context The context to make requests as
  */
 export class MetricsResource {
-    private common: Common<any>;
+    private common: Common<IMetricResponse>;
     private context: IResourceContext;
 
 
@@ -77,13 +78,14 @@ export class MetricsResource {
         this.context = context;
     }
 
-    public getAll(userOpts?) {
+    // TODO: comments missing for some methods
+    public getAll(userOpts?): Promise<IMetricResponse[]> {
         return this.common.getAll(userOpts);
     }
-    getIterator(userOpts?) {
+    getIterator(userOpts?): IterableIterator<Promise<IMetricResponse>> {
         return this.common.getIterator(userOpts);
     }
-    public create(object: any, userOpts?) {
+    public create(object: IMetricRequest, userOpts?): Promise<IMetricResponse> {
         return this.common.create(object, userOpts);
     }
 
@@ -93,7 +95,7 @@ export class MetricsResource {
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to a list of metrics
      */
-    public getAllSubjectMetrics(subject: string, userOpts?: any) {
+    public getAllSubjectMetrics(subject: string, userOpts?: any): Promise<IMetricResponse[]> {
         check.string(subject, 'subject must be a string');
 
         let array = [];
@@ -121,7 +123,7 @@ export class MetricsResource {
      * @param userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */
-    public *getSubjectMetricsIterator(subject: string, userOpts?: any) {
+    public *getSubjectMetricsIterator(subject: string, userOpts?: any): IterableIterator<Promise<IMetricResponse>> {
         check.string(subject, 'subject must be a string');
 
         const pageFn = () => {
@@ -134,7 +136,7 @@ export class MetricsResource {
             };
         };
 
-        yield* pageToGenerator(pageFn());
+        yield* pageToGenerator<IMetricResponse>(pageFn());
     }
 
     /**
@@ -144,7 +146,7 @@ export class MetricsResource {
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to a single metric
      */
-    public getIndividualSubjectMetric(subject: string, key: string, userOpts?: any) {
+    public getIndividualSubjectMetric(subject: string, key: string, userOpts?: any): Promise<IMetricResponse> {
         check.string(subject, 'subject must be a string');
         check.string(key, 'key must be a string');
 
@@ -157,7 +159,7 @@ export class MetricsResource {
      * Sets up a delete/get request targeting metrics using query filters
      * @returns Returns an instance of the EventQueryBuilder class
      */
-    public query() {
+    public query(): MetricQueryBuilder {
         return new MetricQueryBuilder(this.context);
     }
 

@@ -3,7 +3,7 @@
 import { expect } from 'chai';
 import { IEarnedAchievementResponse } from '../src/earnedAchievements/EarnedAchievement.class';
 import { BadgeUp } from './../src';
-import { Event, IEventResponseV1 } from './../src/events/Event.class';
+import {  EventRequest, IEventResponseV1 } from './../src/events/Event.class';
 const INTEGRATION_API_KEY = process.env.INTEGRATION_API_KEY;
 
 describe('integration tests', function() {
@@ -20,7 +20,7 @@ describe('integration tests', function() {
         const subject = 'nodejs-ci-' + rand;
         const key = 'test';
 
-        const e = new Event(subject, key, { '@inc': 5 });
+        const e = new EventRequest(subject, key, { '@inc': 5 });
 
         const response: IEventResponseV1 = await client.events.create(e);
         expect(response).to.be.an('object');
@@ -57,5 +57,25 @@ describe('integration tests', function() {
             expect(tmp).to.be.an('object');
             expect(tmp.achievementId).to.be.a('string');
         }
+    });
+
+    it('should get all achievement icons', async function() {
+        const client = new BadgeUp({ apiKey: INTEGRATION_API_KEY });
+
+        return client.achievementIcons.getAll().then(function(response) {
+            expect(response).to.be.an('array');
+            expect(response).to.have.length.greaterThan(0, 'no icons found, possibly none were uploaded to the account against which integration tests are executed');
+        });
+    });
+
+    it('should get all achievement icons2', async function() {
+        const client = new BadgeUp({ apiKey: INTEGRATION_API_KEY });
+
+        // const achievement:IAchievementResponse = {};
+        // client.achievements.create(achievement);
+        return client.criteria.getAll().then(function(response) {
+            expect(response).to.be.an('array');
+            expect(response).to.have.length.greaterThan(0, 'no icons found, possibly none were uploaded to the account against which integration tests are executed');
+        });
     });
 });
