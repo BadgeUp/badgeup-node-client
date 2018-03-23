@@ -5,21 +5,25 @@ import { IResourceContext } from '../utils/ResourceContext';
 const ENDPT = 'analytics';
 
 /**
- * Analytics module
- * USE OF THE ANALTYICS MODULE IS NOT RECOMMENDED (AT THIS TIME)
- * THIS MODULE IS NOT SUBJECT TO ANY SLAS AND MAY BE CHANGED AT ANY TIME
- * @param {IResourceContext} context The context to make requests in. Basically, `this`
+ * Analytics resource
+ * USE OF THE ANALTYICS RESOURCE IS NOT RECOMMENDED (AT THIS TIME)
+ * THIS RESOURCE IS NOT SUBJECT TO ANY SLAS AND MAY BE CHANGED AT ANY TIME
  */
 export class AnalyticsResource {
     private context: IResourceContext;
 
+    /**
+     * Construct the analytics resource
+     * @param context The context to make requests as
+     */
     constructor(context: IResourceContext) {
         this.context = context;
     }
+
     /**
      * Retrieve event analytics
-     * @param {object} userOpts option overrides for this request
-     * @returns {Promise<object>} Promise that resolves with the retrieved object
+     * @param userOpts option overrides for this request
+     * @returns Promise that resolves with the retrieved object
      */
     public eventsLastNDays(numDays: number, userOpts?) {
         check.assert(check.integer(numDays) && check.greater(numDays, 0), 'numDays must be a positive integer');
@@ -31,8 +35,8 @@ export class AnalyticsResource {
 
     /**
      * Retrieve event analytics for a single subject
-     * @param {object} userOpts option overrides for this request
-     * @returns {Promise<object>} Promise that resolves with the retrieved object
+     * @param userOpts option overrides for this request
+     * @returns Promise that resolves with the retrieved object
      */
     public eventsLastNDaysBySubject(numDays: number, subject, userOpts?) {
         check.assert(check.integer(numDays) && check.greater(numDays, 0), 'numDays must be a positive integer');
@@ -45,8 +49,8 @@ export class AnalyticsResource {
 
     /**
      * Retrieve subject analytics
-     * @param {object} userOpts option overrides for this request
-     * @returns {Promise<object>} Promise that resolves with the retrieved object
+     * @param userOpts option overrides for this request
+     * @returns Promise that resolves with the retrieved object
      */
     public subjectsLastNDays(numDays: number, userOpts?) {
         check.assert(check.integer(numDays) && check.greater(numDays, 0), 'numDays must be a positive integer');
@@ -58,8 +62,8 @@ export class AnalyticsResource {
 
     /**
      * Retrieve new subject analytics
-     * @param {object} userOpts option overrides for this request
-     * @returns {Promise<object>} Promise that resolves with the retrieved object
+     * @param userOpts option overrides for this request
+     * @returns Promise that resolves with the retrieved object
      */
     public newSubjectsLastNDays(numDays: number, userOpts?) {
         check.assert(check.integer(numDays) && check.greater(numDays, 0), 'numDays must be a positive integer');
@@ -71,8 +75,8 @@ export class AnalyticsResource {
 
     /**
      * Retrieve earned achievement analytics
-     * @param {object} userOpts option overrides for this request
-     * @returns {Promise<object>} Promise that resolves with the retrieved object
+     * @param userOpts option overrides for this request
+     * @returns Promise that resolves with the retrieved object
      */
     public earnedAchievementsLastNDays(numDays: number, userOpts?) {
         check.assert(check.integer(numDays) && check.greater(numDays, 0), 'numDays must be a positive integer');
@@ -84,10 +88,10 @@ export class AnalyticsResource {
 
     /**
      * Retrieve subject summary list
-     * @param {object} userOpts option overrides for this request
+     * @param userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */
-    public* getSubjectsSummaryIterator(userOpts?) {
+    public *getSubjectsSummaryIterator(userOpts?) {
         const pageFn = () => {
             let url = `/v1/apps/${this.context.applicationId}/${ENDPT}/subjects/summary`;
             return () => {
@@ -103,8 +107,8 @@ export class AnalyticsResource {
 
     /**
      * Retrieve a list of unique metric keys
-     * @param {object} userOpts option overrides for this request
-     * @returns {Promise<object>} Promise that resolves with an array of retrieved metric keys
+     * @param userOpts option overrides for this request
+     * @returns Promise that resolves with an array of retrieved metric keys
      */
     public getAllMetricKeys(userOpts?) {
         return this.context.http.makeRequest({

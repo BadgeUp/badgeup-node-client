@@ -5,10 +5,10 @@ import { IAwardResponse } from './Award.class';
 const ENDPT = 'awards';
 
 /**
- * Awards module
- * @param {IResourceContext} context The context to make requests in. Basically, `this`
+ * Awards resource
+ * @param {IResourceContext} context The context to make requests as
  */
-export class AwardsResource extends  Common<IAwardResponse> {
+export class AwardsResource extends Common<IAwardResponse> {
     constructor(context: IResourceContext) {
         super(context, ENDPT);
     }

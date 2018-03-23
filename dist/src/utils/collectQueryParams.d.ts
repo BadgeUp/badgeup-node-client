@@ -1,2 +1,2 @@
 import { IQueryParameters } from './QueryBuilder';
-export declare function collectQueryParams(source: IQueryParameters, keys: string[]): Partial<IQueryParameters>;
+export declare function collectQueryParams(source: IQueryParameters, keys: string[]): any;

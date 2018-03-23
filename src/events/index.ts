@@ -5,12 +5,15 @@ import { Event, IEventResponseV1 } from './Event.class';
 const ENDPT = 'events';
 
 /**
- * Events module
- * @param {IResourceContext} context The context to make requests in. Basically, `this`
+ * Events resource
  */
 export class EventsResource {
     private common: Common<IEventResponseV1>;
 
+    /**
+     * Construct the Events resource
+     * @param context The context to make requests as
+     */
     constructor(context: IResourceContext) {
         this.common = new Common(context, ENDPT);
     }

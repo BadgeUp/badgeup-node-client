@@ -2,27 +2,31 @@ import { IResourceContext } from '../utils/ResourceContext';
 export declare class MetricQueryBuilder {
     context: IResourceContext;
     private _params;
+    /**
+     * Construct the metrics resource
+     * @param context The context to make requests as
+     */
     constructor(context: IResourceContext);
     /**
      * Query by key
-     * @param {string} key
+     * @param key
      */
     key(key: string): this;
     /**
      * Query by subject
-     * @param {string} subject
+     * @param subject
      */
     subject(subject: string): this;
     /**
      * Deletes all queried metrics
-     * @param {object} userOpts option overrides for this request
-     * @returns {Promise<object>} Promise that resolves to an object stating the number of deleted metrics
+     * @param userOpts option overrides for this request
+     * @returns Promise that resolves to an object stating the number of deleted metrics
      */
     remove(userOpts?: any): Promise<any>;
 }
 /**
  * Metrics module
- * @param {IResourceContext} context The context to make requests in. Basically, `this`
+ * @param {IResourceContext} context The context to make requests as
  */
 export declare class MetricsResource {
     private common;
@@ -33,24 +37,24 @@ export declare class MetricsResource {
     create(object: any, userOpts?: any): Promise<any>;
     /**
      * Retrives metrics for a subject, returned as an array
-     * @param {string} subject subject to retrieve the metrics for
-     * @param {object} userOpts option overrides for this request
-     * @returns {Promise<object[]>} Promise that resolves to a list of metrics
+     * @param subject subject to retrieve the metrics for
+     * @param userOpts option overrides for this request
+     * @returns Promise that resolves to a list of metrics
      */
     getAllSubjectMetrics(subject: string, userOpts?: any): any;
     /**
      * Retrives metrics for a subject, returned as an iterator
-     * @param {string} subject subject to retrieve the metrics for
+     * @param subject subject to retrieve the metrics for
      * @param userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */
     getSubjectMetricsIterator(subject: string, userOpts?: any): IterableIterator<Promise<{}>>;
     /**
      * Retrieves a single metric for a subject by key
-     * @param {string} subject subject to retrieve the metric for
-     * @param {string} key metric key to retrive the metric for
-     * @param {object} userOpts option overrides for this request
-     * @returns {Promise<object>} Promise that resolves to a single metric
+     * @param subject subject to retrieve the metric for
+     * @param key metric key to retrive the metric for
+     * @param userOpts option overrides for this request
+     * @returns Promise that resolves to a single metric
      */
     getIndividualSubjectMetric(subject: string, key: string, userOpts?: any): Promise<any>;
     /**

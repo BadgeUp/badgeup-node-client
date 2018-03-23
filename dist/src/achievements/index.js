@@ -4,20 +4,75 @@ const check = require("check-types");
 const common_1 = require("../common");
 const ENDPT = 'achievements';
 /**
- * Achievements module
- * @param {IResourceContext} context The context to make requests in. Basically, `this`
+ * Achievements resource
  */
-class AchievementsResource extends common_1.Common {
+class AchievementsResource {
+    /**
+     * Construct the achievements resource
+     * @param context The context to make requests as
+     */
     constructor(context) {
-        super(context, ENDPT);
-        // this.common = new Common(context, ENDPT);
-        // this.context = context;
+        this.context = context;
+        this.common = new common_1.Common(context, ENDPT);
+    }
+    /**
+     * Retrieve an achievement by ID
+     * @param id ID of the achievement to retrieve
+     * @param userOpts option overrides for this request
+     * @returns Promise that resolves with the retrieved achievement
+     */
+    get(id, userOpts) {
+        return this.common.get(id, userOpts);
+    }
+    /**
+     * Retrieve all achievements, returned as an iterator
+     * @param userOpts option overrides for this request
+     * @return An iterator that returns promises that resolve with the next achievement
+     */
+    getIterator(userOpts) {
+        return this.common.getIterator(userOpts);
+    }
+    /**
+     * Retrieve all achievements, returned as an array
+     * @param userOpts option overrides for this request
+     * @returns Promise that resolves to an array of objects
+     */
+    getAll(userOpts) {
+        return this.common.getAll(userOpts);
+    }
+    /**
+     * Updates an achievement by ID
+     * @param id ID of the achievement to be updated
+     * @param updates JSON patch updates
+     * @param userOpts option overrides for this request
+     * @returns A promise that resolves to the updated object
+     */
+    update(id, updates, userOpts) {
+        return this.common.update(id, updates, userOpts);
+    }
+    /**
+     * Create an achievement
+     * @param achievement Sub-resource to achievement to create
+     * @param userOpts option overrides for this request
+     * @returns A promise that resolves to the provided achievement
+     */
+    create(achievement, userOpts) {
+        return this.common.create(achievement, userOpts);
+    }
+    /**
+     * Delete an achievement by ID
+     * @param id ID of the achievement to delete
+     * @param userOpts option overrides for this request
+     * @returns A promise that resolves to the deleted achievement
+     */
+    remove(id, userOpts) {
+        return this.common.remove(id, userOpts);
     }
     /**
      * Retrieves a list of criteria
      * @param id ID of the achievement to retrieve criteria for
-     * @param {object} userOpts option overrides for this request
-     * @returns {Promise<object>} Promise that resolves with the list of criteria
+     * @param userOpts option overrides for this request
+     * @returns Promise that resolves with the list of criteria
      */
     getAchievementCriteria(id, userOpts) {
         check.string(id, 'id must be a string');
@@ -28,8 +83,8 @@ class AchievementsResource extends common_1.Common {
     /**
      * Retrieves a list of awards
      * @param id ID of the achievement to retrieve criteria for
-     * @param {object} userOpts option overrides for this request
-     * @returns {Promise<object>} Promise that resolves with the list of awards
+     * @param userOpts option overrides for this request
+     * @returns Promise that resolves with the list of awards
      */
     getAchievementAwards(id, userOpts) {
         check.string(id, 'id must be a string');

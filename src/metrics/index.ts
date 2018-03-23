@@ -16,13 +16,17 @@ export class MetricQueryBuilder {
     // container for the query parameters
     private _params: IQueryParameters = {};
 
+    /**
+     * Construct the metrics resource
+     * @param context The context to make requests as
+     */
     constructor(context: IResourceContext) {
         this.context = context;
     }
 
     /**
      * Query by key
-     * @param {string} key
+     * @param key
      */
     key(key: string) {
         check.string(key, 'key must be a string');
@@ -32,7 +36,7 @@ export class MetricQueryBuilder {
 
     /**
      * Query by subject
-     * @param {string} subject
+     * @param subject
      */
     subject(subject: string) {
         check.string(subject, 'subject must be a string');
@@ -42,8 +46,8 @@ export class MetricQueryBuilder {
 
     /**
      * Deletes all queried metrics
-     * @param {object} userOpts option overrides for this request
-     * @returns {Promise<object>} Promise that resolves to an object stating the number of deleted metrics
+     * @param userOpts option overrides for this request
+     * @returns Promise that resolves to an object stating the number of deleted metrics
      */
     remove(userOpts?: any) {
         const queryBy = collectQueryParams(this._params, DELETE_QUERY_PARAMS);
@@ -61,7 +65,7 @@ export class MetricQueryBuilder {
 
 /**
  * Metrics module
- * @param {IResourceContext} context The context to make requests in. Basically, `this`
+ * @param {IResourceContext} context The context to make requests as
  */
 export class MetricsResource {
     private common: Common<any>;
@@ -85,9 +89,9 @@ export class MetricsResource {
 
     /**
      * Retrives metrics for a subject, returned as an array
-     * @param {string} subject subject to retrieve the metrics for
-     * @param {object} userOpts option overrides for this request
-     * @returns {Promise<object[]>} Promise that resolves to a list of metrics
+     * @param subject subject to retrieve the metrics for
+     * @param userOpts option overrides for this request
+     * @returns Promise that resolves to a list of metrics
      */
     public getAllSubjectMetrics(subject: string, userOpts?: any) {
         check.string(subject, 'subject must be a string');
@@ -113,7 +117,7 @@ export class MetricsResource {
 
     /**
      * Retrives metrics for a subject, returned as an iterator
-     * @param {string} subject subject to retrieve the metrics for
+     * @param subject subject to retrieve the metrics for
      * @param userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */
@@ -135,10 +139,10 @@ export class MetricsResource {
 
     /**
      * Retrieves a single metric for a subject by key
-     * @param {string} subject subject to retrieve the metric for
-     * @param {string} key metric key to retrive the metric for
-     * @param {object} userOpts option overrides for this request
-     * @returns {Promise<object>} Promise that resolves to a single metric
+     * @param subject subject to retrieve the metric for
+     * @param key metric key to retrive the metric for
+     * @param userOpts option overrides for this request
+     * @returns Promise that resolves to a single metric
      */
     public getIndividualSubjectMetric(subject: string, key: string, userOpts?: any) {
         check.string(subject, 'subject must be a string');

@@ -20,7 +20,7 @@ export class BadgeUpHttp {
 
     /**
      * Constructor for the HTTP stack for BadgeUp
-     * @param {object} globalReqOpts Options from the user for BadgeUp as a whole.
+     * @param globalReqOpts Options from the user for BadgeUp as a whole.
      */
     constructor(globalReqOpts) {
         this.globalReqOpts = globalReqOpts || {};
@@ -28,9 +28,9 @@ export class BadgeUpHttp {
 
     /**
      * Performs a HTTP request given the collective options
-     * @param {object} reqOpts Request options from this library's functions.
-     * @param {object} userOpts Option overrides from the user. Highest priority.
-     * @return {Promise} Returns a Promise that resolves with the request data
+     * @param reqOpts Request options from this library's functions.
+     * @param userOpts Option overrides from the user. Highest priority.
+     * @return Returns a Promise that resolves with the request data
      */
     makeRequest(reqOpts, userOpts): Promise<any> {
         const options = defaultsDeep({}, userOpts, reqOpts, this.globalReqOpts, requestDefaults);

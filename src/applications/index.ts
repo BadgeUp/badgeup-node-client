@@ -5,19 +5,23 @@ import { pageToGenerator } from './../utils/pageToGenerator';
 const ENDPT = 'apps';
 
 /**
- * Applications module
- * @param {IResourceContext} this.context The this.context to make requests in. Basically, `this`
+ * Applications resource
  */
 export class ApplicationsResource {
     private context: IResourceContext;
 
+    /**
+     * Construct the Applications resource
+     * @param context The context to make requests as
+     */
     constructor(context: IResourceContext) {
         this.context = context;
     }
+
     /**
      * Create an application
-     * @param {object} object event object
-     * @param {object} userOpts option overrides for this request
+     * @param object event object
+     * @param userOpts option overrides for this request
      * @returns An iterator that returns promises that resolve with the next object
      */
     public create(object, userOpts?) {
@@ -32,10 +36,10 @@ export class ApplicationsResource {
 
     /**
      * Update an application
-     * @param {string} id ID of the application to be updated
+     * @param id ID of the application to be updated
      * @param {object[]} updates JSON patch updates
-     * @param {object} userOpts option overrides for this request
-     * @returns {Promise<object>} Promise that resolves to the updated application
+     * @param userOpts option overrides for this request
+     * @returns Promise that resolves to the updated application
      */
     public update(id: string, updates, userOpts?) {
         check.string(id, 'id must be a string');
@@ -50,8 +54,8 @@ export class ApplicationsResource {
 
     /**
      * Delete an application
-     * @param {string} id ID of the application to be updated
-     * @param {object} userOpts option overrides for this request
+     * @param id ID of the application to be updated
+     * @param userOpts option overrides for this request
      * @returns Returns a promise
      */
     public remove(id: string, userOpts?) {
@@ -65,9 +69,9 @@ export class ApplicationsResource {
 
     /**
      * Retrieve application by ID
-     * @param {string} id ID of the application to retrieve
-     * @param {object} userOpts option overrides for this request
-     * @returns {Promise<object>} Promise that resolves with the retrieved application
+     * @param id ID of the application to retrieve
+     * @param userOpts option overrides for this request
+     * @returns Promise that resolves with the retrieved application
      */
     public get(id: string, userOpts?) {
         check.string(id, 'id must be a string');
@@ -79,8 +83,8 @@ export class ApplicationsResource {
 
     /**
      * Retrieve all objects, returned as an array
-     * @param {object} userOpts option overrides for this request
-     * @returns {Promise<object[]>} Promise that resolves to an array of objects
+     * @param userOpts option overrides for this request
+     * @returns Promise that resolves to an array of objects
      */
     public getAll(userOpts?) {
         let array = [];
@@ -104,7 +108,7 @@ export class ApplicationsResource {
 
     /**
      * Retrieve all applications
-     * @param {object} userOpts option overrides for this request
+     * @param userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */
     public *getIterator(userOpts?) {

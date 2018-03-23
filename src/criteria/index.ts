@@ -6,7 +6,7 @@ const ENDPT = 'criteria';
 
 /**
  * Criterion module
- * @param {IResourceContext} context The context to make requests in. Basically, `this`
+ * @param {IResourceContext} context The context to make requests as
  */
 export class CriteriaResource extends Common<ICriterionResponse> {
     constructor(context: IResourceContext) {

@@ -4,19 +4,22 @@ const check = require("check-types");
 const pageToGenerator_1 = require("../utils/pageToGenerator");
 const ENDPT = 'analytics';
 /**
- * Analytics module
- * USE OF THE ANALTYICS MODULE IS NOT RECOMMENDED (AT THIS TIME)
- * THIS MODULE IS NOT SUBJECT TO ANY SLAS AND MAY BE CHANGED AT ANY TIME
- * @param {IResourceContext} context The context to make requests in. Basically, `this`
+ * Analytics resource
+ * USE OF THE ANALTYICS RESOURCE IS NOT RECOMMENDED (AT THIS TIME)
+ * THIS RESOURCE IS NOT SUBJECT TO ANY SLAS AND MAY BE CHANGED AT ANY TIME
  */
 class AnalyticsResource {
+    /**
+     * Construct the analytics resource
+     * @param context The context to make requests as
+     */
     constructor(context) {
         this.context = context;
     }
     /**
      * Retrieve event analytics
-     * @param {object} userOpts option overrides for this request
-     * @returns {Promise<object>} Promise that resolves with the retrieved object
+     * @param userOpts option overrides for this request
+     * @returns Promise that resolves with the retrieved object
      */
     eventsLastNDays(numDays, userOpts) {
         check.assert(check.integer(numDays) && check.greater(numDays, 0), 'numDays must be a positive integer');
@@ -26,8 +29,8 @@ class AnalyticsResource {
     }
     /**
      * Retrieve event analytics for a single subject
-     * @param {object} userOpts option overrides for this request
-     * @returns {Promise<object>} Promise that resolves with the retrieved object
+     * @param userOpts option overrides for this request
+     * @returns Promise that resolves with the retrieved object
      */
     eventsLastNDaysBySubject(numDays, subject, userOpts) {
         check.assert(check.integer(numDays) && check.greater(numDays, 0), 'numDays must be a positive integer');
@@ -38,8 +41,8 @@ class AnalyticsResource {
     }
     /**
      * Retrieve subject analytics
-     * @param {object} userOpts option overrides for this request
-     * @returns {Promise<object>} Promise that resolves with the retrieved object
+     * @param userOpts option overrides for this request
+     * @returns Promise that resolves with the retrieved object
      */
     subjectsLastNDays(numDays, userOpts) {
         check.assert(check.integer(numDays) && check.greater(numDays, 0), 'numDays must be a positive integer');
@@ -49,8 +52,8 @@ class AnalyticsResource {
     }
     /**
      * Retrieve new subject analytics
-     * @param {object} userOpts option overrides for this request
-     * @returns {Promise<object>} Promise that resolves with the retrieved object
+     * @param userOpts option overrides for this request
+     * @returns Promise that resolves with the retrieved object
      */
     newSubjectsLastNDays(numDays, userOpts) {
         check.assert(check.integer(numDays) && check.greater(numDays, 0), 'numDays must be a positive integer');
@@ -60,8 +63,8 @@ class AnalyticsResource {
     }
     /**
      * Retrieve earned achievement analytics
-     * @param {object} userOpts option overrides for this request
-     * @returns {Promise<object>} Promise that resolves with the retrieved object
+     * @param userOpts option overrides for this request
+     * @returns Promise that resolves with the retrieved object
      */
     earnedAchievementsLastNDays(numDays, userOpts) {
         check.assert(check.integer(numDays) && check.greater(numDays, 0), 'numDays must be a positive integer');
@@ -71,7 +74,7 @@ class AnalyticsResource {
     }
     /**
      * Retrieve subject summary list
-     * @param {object} userOpts option overrides for this request
+     * @param userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */
     *getSubjectsSummaryIterator(userOpts) {
@@ -88,8 +91,8 @@ class AnalyticsResource {
     }
     /**
      * Retrieve a list of unique metric keys
-     * @param {object} userOpts option overrides for this request
-     * @returns {Promise<object>} Promise that resolves with an array of retrieved metric keys
+     * @param userOpts option overrides for this request
+     * @returns Promise that resolves with an array of retrieved metric keys
      */
     getAllMetricKeys(userOpts) {
         return this.context.http.makeRequest({

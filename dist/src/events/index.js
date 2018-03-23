@@ -3,10 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const common_1 = require("../common");
 const ENDPT = 'events';
 /**
- * Events module
- * @param {IResourceContext} context The context to make requests in. Basically, `this`
+ * Events resource
  */
 class EventsResource {
+    /**
+     * Construct the Events resource
+     * @param context The context to make requests as
+     */
     constructor(context) {
         this.common = new common_1.Common(context, ENDPT);
     }

@@ -3,18 +3,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const common_1 = require("../common");
 const ENDPT = 'achievementicons';
 /**
- * Achievement icons module
- * @param {IResourceContext} context The context to make requests in. Basically, `this`
+ * Achievement icons resource
  */
 class AchievementIconsResource {
+    /**
+     * Construct the achievement icons resource
+     * @param context The context to make requests as
+     */
     constructor(context) {
         this.context = context;
         this.common = new common_1.Common(context, ENDPT);
     }
     /**
      * Get all achievement icons
-     * @param {object} userOpts option overrides for this request
-     * @returns {Promise<object[]>} A promise that resolves to an array of achievement icon identifiers
+     * @param userOpts option overrides for this request
+     * @returns A promise that resolves to an array of achievement icon identifiers
      */
     getAll(userOpts) {
         return this.context.http.makeRequest({

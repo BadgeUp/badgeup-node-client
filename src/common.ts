@@ -7,8 +7,8 @@ import { IResourceContext } from './utils/ResourceContext';
 
 /**
  * Provides a set of common funcitonality that can be used on most endpoints
- * @param {IResourceContext} context The context to make requests in. Basically, `this`
- * @param {string} endpoint The endpoint used for this common module
+ * @param {IResourceContext} context The context to make requests as
+ * @param endpoint The endpoint used for this common module
  */
 export class Common<T> {
     protected context: IResourceContext;
@@ -21,9 +21,9 @@ export class Common<T> {
 
     /**
      * Retrieve resource object by ID
-     * @param {string} id ID of the object to retrieve
-     * @param {object} userOpts option overrides for this request
-     * @returns {Promise<object>} Promise that resolves with the retrieved object
+     * @param id ID of the object to retrieve
+     * @param userOpts option overrides for this request
+     * @returns Promise that resolves with the retrieved object
      */
     get(id: string, userOpts?): Promise<T> {
         check.string(id, 'id must be a string');
@@ -37,7 +37,7 @@ export class Common<T> {
 
     /**
      * Retrieve all objects, returned as an iterator
-     * @param {Object} userOpts option overrides for this request
+     * @param userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */
     *getIterator(userOpts?): IterableIterator<Promise<T>> {
@@ -55,8 +55,8 @@ export class Common<T> {
 
     /**
      * Retrieve all objects, returned as an array
-     * @param {Object} userOpts option overrides for this request
-     * @returns {Promise<object[]>} Promise that resolves to an array of objects
+     * @param userOpts option overrides for this request
+     * @returns Promise that resolves to an array of objects
      */
     getAll(userOpts?): Promise<T[]> {
         let array = [];
@@ -81,10 +81,10 @@ export class Common<T> {
 
     /**
      * Updates a resource by ID
-     * @param {string} id ID of the object to be updated
-     * @param {Array<object>} updates JSON patch updates
-     * @param {Object} userOpts option overrides for this request
-     * @returns {Promise<Object>} A promise that resolves to the updated object
+     * @param id ID of the object to be updated
+     * @param updates JSON patch updates
+     * @param userOpts option overrides for this request
+     * @returns A promise that resolves to the updated object
      */
     update(id: string, updates: any[], userOpts?): Promise<T> {
         check.string(id, 'id must be a string');
@@ -101,9 +101,9 @@ export class Common<T> {
 
     /**
      * Create an object
-     * @param {Object} object Sub-resource to object to create
-     * @param {Object} userOpts option overrides for this request
-     * @returns {Promise<Object>} A promise that resolves to the provided object
+     * @param object Sub-resource to object to create
+     * @param userOpts option overrides for this request
+     * @returns A promise that resolves to the provided object
      */
     create(object: any, userOpts?): Promise<T> {
         check.object(object, 'object must be an object');
@@ -119,9 +119,9 @@ export class Common<T> {
 
     /**
      * Delete an object by ID
-     * @param {string} id ID of the object to delete
-     * @param {Object} userOpts option overrides for this request
-     * @returns {Promise<Object>} A promise that resolves to the deleted object
+     * @param id ID of the object to delete
+     * @param userOpts option overrides for this request
+     * @returns A promise that resolves to the deleted object
      */
     remove(id: string, userOpts?): Promise<T> {
         check.string(id, 'id must be a string');

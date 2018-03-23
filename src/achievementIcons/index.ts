@@ -4,13 +4,16 @@ import { IResourceContext } from '../utils/ResourceContext';
 const ENDPT = 'achievementicons';
 
 /**
- * Achievement icons module
- * @param {IResourceContext} context The context to make requests in. Basically, `this`
+ * Achievement icons resource
  */
 export class AchievementIconsResource {
     private common: Common<any>;
     private context: IResourceContext;
 
+    /**
+     * Construct the achievement icons resource
+     * @param context The context to make requests as
+     */
     constructor(context: IResourceContext) {
         this.context = context;
         this.common = new Common(context, ENDPT);
@@ -18,8 +21,8 @@ export class AchievementIconsResource {
 
     /**
      * Get all achievement icons
-     * @param {object} userOpts option overrides for this request
-     * @returns {Promise<object[]>} A promise that resolves to an array of achievement icon identifiers
+     * @param userOpts option overrides for this request
+     * @returns A promise that resolves to an array of achievement icon identifiers
      */
     public getAll(userOpts?) {
         return this.context.http.makeRequest({
