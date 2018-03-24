@@ -1,5 +1,4 @@
 import { IAchievementResponse } from '../achievements/Achievement.class';
-
 export interface IProgress {
     /**
      * States if the achievement has been earned.
@@ -26,7 +25,6 @@ export interface IProgress {
      */
     earnedAchievementId: string;
 }
-
 export interface IProgressGroup {
     [key: string]: number;
 }

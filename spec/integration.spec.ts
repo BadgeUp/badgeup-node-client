@@ -35,8 +35,6 @@ describe('integration tests', function() {
         expect(progress.length).to.equal(1);
         expect(progress[0].isComplete).to.equal(true);
         expect(progress[0].isNew).to.equal(true);
-
-
     });
 
     it('should get all achievements', async function() {

@@ -106,11 +106,21 @@ export interface IEventOptions {
 }
 
 /**
+ * Event response progress element
+ */
+export interface IEventProgress extends IProgress {
+    /**
+     * Set to `true` every time a new earned achievement record is created, even if `earnLimit` allows an achievement to be earned multiple times and the achievement has already been earned before.
+     */
+    isNew: boolean;
+}
+
+/**
  * Event response structure for the source event (API v1)
  */
 export interface IEventResponseV1 {
     event: IEventResponse;
-    progress: IProgress[];
+    progress: IEventProgress[];
 }
 
 /**
@@ -126,5 +136,5 @@ export interface IEventResponseV2Preview {
 export interface IEventResponseResultV2Preview {
     event: IEventResponse;
     cause: string;
-    progress: IProgress[];
+    progress: IEventProgress[];
 }
