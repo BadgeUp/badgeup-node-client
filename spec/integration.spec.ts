@@ -20,12 +20,12 @@ describe('integration tests', function() {
         const subject = 'nodejs-ci-' + rand;
         const key = 'test';
 
-        const e = new EventRequest(subject, key, { '@inc': 5 });
+        const eventRequest = new EventRequest(subject, key, { '@inc': 5 });
 
-        const response: IEventResponseV1 = await client.events.create(e);
-        expect(response).to.be.an('object');
-        const event = response.event;
-        const progress = response.progress;
+        const eventResponse: IEventResponseV1 = await client.events.create(eventRequest);
+        expect(eventResponse).to.be.an('object');
+        const event = eventResponse.event;
+        const progress = eventResponse.progress;
 
         expect(event).to.be.an('object');
         expect(event.key).to.be.equal(key);
@@ -61,6 +61,24 @@ describe('integration tests', function() {
                 expect(achievement.name).to.be.a('string');
                 expect(achievement.options).to.be.an('object');
                 expect(achievement.resources).to.be.undefined;
+
+                for (const awardId of achievement.awards) {
+                    expect(awardId).to.be.a('string');
+                    const award = await client.awards.get(awardId);
+                    expect(award).to.be.an('object');
+                    expect(award.applicationId).to.be.a('string');
+                    expect(award.id).to.be.a('string');
+                    expect(award.data).to.be.an('object');
+                    expect(award.description).to.be.a('string');
+                    expect(award.meta).to.be.an('object');
+                    expect(award.meta.created).to.be.a('Date');
+                }
+
+                for (const criterionId of Object.keys(prog.progressTree.criteria)) {
+                    const criterion = await client.criteria.get(criterionId);
+                    expect(criterion).to.be.an('object');
+                    expect(criterion.id).to.equal(criterionId);
+                }
             }
         }
     });

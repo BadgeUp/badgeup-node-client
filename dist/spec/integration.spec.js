@@ -15,11 +15,11 @@ describe('integration tests', function () {
         const rand = Math.floor(Math.random() * 100000);
         const subject = 'nodejs-ci-' + rand;
         const key = 'test';
-        const e = new Event_class_1.EventRequest(subject, key, { '@inc': 5 });
-        const response = await client.events.create(e);
-        chai_1.expect(response).to.be.an('object');
-        const event = response.event;
-        const progress = response.progress;
+        const eventRequest = new Event_class_1.EventRequest(subject, key, { '@inc': 5 });
+        const eventResponse = await client.events.create(eventRequest);
+        chai_1.expect(eventResponse).to.be.an('object');
+        const event = eventResponse.event;
+        const progress = eventResponse.progress;
         chai_1.expect(event).to.be.an('object');
         chai_1.expect(event.key).to.be.equal(key);
         chai_1.expect(event.subject).to.be.equal(subject);
@@ -51,6 +51,22 @@ describe('integration tests', function () {
                 chai_1.expect(achievement.name).to.be.a('string');
                 chai_1.expect(achievement.options).to.be.an('object');
                 chai_1.expect(achievement.resources).to.be.undefined;
+                for (const awardId of achievement.awards) {
+                    chai_1.expect(awardId).to.be.a('string');
+                    const award = await client.awards.get(awardId);
+                    chai_1.expect(award).to.be.an('object');
+                    chai_1.expect(award.applicationId).to.be.a('string');
+                    chai_1.expect(award.id).to.be.a('string');
+                    chai_1.expect(award.data).to.be.an('object');
+                    chai_1.expect(award.description).to.be.a('string');
+                    chai_1.expect(award.meta).to.be.an('object');
+                    chai_1.expect(award.meta.created).to.be.a('Date');
+                }
+                for (const criterionId of Object.keys(prog.progressTree.criteria)) {
+                    const criterion = await client.criteria.get(criterionId);
+                    chai_1.expect(criterion).to.be.an('object');
+                    chai_1.expect(criterion.id).to.equal(criterionId);
+                }
             }
         }
     });
