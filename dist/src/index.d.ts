@@ -39,5 +39,6 @@ export interface IGlobalOptions {
         headers: {
             [key: string]: string;
         };
+        baseUrl?: string;
     };
 }
