@@ -16,7 +16,7 @@ export declare class BadgeUp implements IResourceContext {
     http: BadgeUpHttp;
     applications: ApplicationsResource;
     achievements: AchievementsResource;
-    _analytics: AnalyticsResource;
+    analytics: AnalyticsResource;
     apiKeys: ApiKeysResource;
     awards: AwardsResource;
     criteria: CriteriaResource;

@@ -27,6 +27,32 @@ describe('integration tests', function () {
         chai_1.expect(progress.length).to.equal(1);
         chai_1.expect(progress[0].isComplete).to.equal(true);
         chai_1.expect(progress[0].isNew).to.equal(true);
+        for (const prog of progress) {
+            if (prog.isComplete && prog.isNew) {
+                // from here you can use prog.achievementId and prog.earnedAchievementId to get the original achievement and awards objects
+                const earnedAchievement = await client.earnedAchievements.get(prog.earnedAchievementId);
+                chai_1.expect(earnedAchievement).to.be.an('object');
+                chai_1.expect(earnedAchievement.id).to.be.a('string');
+                chai_1.expect(earnedAchievement.achievementId).to.be.a('string');
+                chai_1.expect(earnedAchievement.applicationId).to.be.a('string');
+                chai_1.expect(earnedAchievement.subject).to.be.a('string');
+                chai_1.expect(earnedAchievement.meta).to.be.an('object');
+                chai_1.expect(earnedAchievement.meta.created).to.be.a('Date');
+                const achievement = await client.achievements.get(prog.achievementId);
+                chai_1.expect(achievement).to.be.an('object');
+                chai_1.expect(achievement.id).to.be.a('string');
+                chai_1.expect(achievement.applicationId).to.be.a('string');
+                chai_1.expect(achievement.awards).to.be.an('array');
+                chai_1.expect(achievement.description).to.be.a('string');
+                chai_1.expect(achievement.evalTree).to.be.an('object');
+                chai_1.expect(achievement.meta).to.be.an('object');
+                chai_1.expect(achievement.meta.icon).to.be.a('string');
+                chai_1.expect(achievement.meta.created).to.be.a('Date');
+                chai_1.expect(achievement.name).to.be.a('string');
+                chai_1.expect(achievement.options).to.be.an('object');
+                chai_1.expect(achievement.resources).to.be.undefined;
+            }
+        }
     });
     it('should get all achievements', async function () {
         const client = new src_1.BadgeUp({ apiKey: INTEGRATION_API_KEY });

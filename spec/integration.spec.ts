@@ -35,6 +35,34 @@ describe('integration tests', function() {
         expect(progress.length).to.equal(1);
         expect(progress[0].isComplete).to.equal(true);
         expect(progress[0].isNew).to.equal(true);
+
+        for (const prog of progress) {
+            if (prog.isComplete && prog.isNew) {
+                // from here you can use prog.achievementId and prog.earnedAchievementId to get the original achievement and awards objects
+                const earnedAchievement = await client.earnedAchievements.get(prog.earnedAchievementId);
+                expect(earnedAchievement).to.be.an('object');
+                expect(earnedAchievement.id).to.be.a('string');
+                expect(earnedAchievement.achievementId).to.be.a('string');
+                expect(earnedAchievement.applicationId).to.be.a('string');
+                expect(earnedAchievement.subject).to.be.a('string');
+                expect(earnedAchievement.meta).to.be.an('object');
+                expect(earnedAchievement.meta.created).to.be.a('Date');
+
+                const achievement = await client.achievements.get(prog.achievementId);
+                expect(achievement).to.be.an('object');
+                expect(achievement.id).to.be.a('string');
+                expect(achievement.applicationId).to.be.a('string');
+                expect(achievement.awards).to.be.an('array');
+                expect(achievement.description).to.be.a('string');
+                expect(achievement.evalTree).to.be.an('object');
+                expect(achievement.meta).to.be.an('object');
+                expect(achievement.meta.icon).to.be.a('string');
+                expect(achievement.meta.created).to.be.a('Date');
+                expect(achievement.name).to.be.a('string');
+                expect(achievement.options).to.be.an('object');
+                expect(achievement.resources).to.be.undefined;
+            }
+        }
     });
 
     it('should get all achievements', async function() {

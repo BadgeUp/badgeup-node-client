@@ -48,9 +48,9 @@ describe('Analytics', function () {
             chai_1.expect(options.headers).to.be.an('object');
         }
         let count = 0;
-        for (let summary of bup._analytics.getSubjectsSummaryIterator({ _payload, _validate })) {
+        for (const summary of bup.analytics.getSubjectsSummaryIterator({ _payload, _validate })) {
             count++;
-            let tmp = await summary;
+            const tmp = await summary;
             chai_1.expect(tmp).to.be.an('object');
         }
         // total number of results
@@ -65,7 +65,7 @@ describe('Analytics', function () {
         function _validate(options) {
             chai_1.expect(options.url).to.equal('/v1/apps/1337/analytics/metrics/keys');
         }
-        const result = await bup._analytics.getAllMetricKeys({ _payload, _validate });
+        const result = await bup.analytics.getAllMetricKeys({ _payload, _validate });
         chai_1.expect(result).to.be.an('array');
         chai_1.expect(result[0]).to.equal('foo');
     });

@@ -27,12 +27,7 @@ class EventRequest {
      * States if this event is set to be discarded (not persisted long-term)
      */
     get discard() {
-        if (this.options && this.options.discard === true) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return !!(this.options && this.options.discard === true);
     }
 }
 exports.EventRequest = EventRequest;

@@ -49,9 +49,9 @@ describe('Analytics', function() {
         }
 
         let count = 0;
-        for (let summary of bup._analytics.getSubjectsSummaryIterator({ _payload, _validate })) {
+        for (const summary of bup.analytics.getSubjectsSummaryIterator({ _payload, _validate })) {
             count++;
-            let tmp = await summary;
+            const tmp = await summary;
             expect(tmp).to.be.an('object');
         }
 
@@ -70,7 +70,7 @@ describe('Analytics', function() {
             expect(options.url).to.equal('/v1/apps/1337/analytics/metrics/keys');
         }
 
-        const result = await bup._analytics.getAllMetricKeys({ _payload, _validate });
+        const result = await bup.analytics.getAllMetricKeys({ _payload, _validate });
 
         expect(result).to.be.an('array');
         expect(result[0]).to.equal('foo');

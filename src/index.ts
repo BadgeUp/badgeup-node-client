@@ -24,7 +24,7 @@ export class BadgeUp implements IResourceContext {
     // resources
     public applications: ApplicationsResource;
     public achievements: AchievementsResource;
-    public _analytics: AnalyticsResource;
+    public analytics: AnalyticsResource;
     public apiKeys: ApiKeysResource;
     public awards: AwardsResource;
     public criteria: CriteriaResource;
@@ -66,7 +66,12 @@ export class BadgeUp implements IResourceContext {
                 }
                 this.applicationId = applicationId;
             } catch (error) {
-                throw new Error('Malformed API key');
+                // TODO: test this
+                if (error.message !== 'applicationId not present') {
+                    throw new Error('Malformed API key');
+                } else {
+                    throw error;
+                }
             }
 
             globalOpts.request!.headers.authorization = 'Basic ' + Buffer.from(globalOpts.apiKey + ':', 'ascii').toString('base64');
@@ -76,7 +81,7 @@ export class BadgeUp implements IResourceContext {
 
         this.applications = new ApplicationsResource(this);
         this.achievements = new AchievementsResource(this);
-        this._analytics = new AnalyticsResource(this);
+        this.analytics = new AnalyticsResource(this);
         this.apiKeys = new ApiKeysResource(this);
         this.awards = new AwardsResource(this);
         this.criteria = new CriteriaResource(this);

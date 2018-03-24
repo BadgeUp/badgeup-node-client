@@ -1,6 +1,7 @@
 extends:
   - "tslint:recommended"
   - "tslint-eslint-rules"
+  - "tslint-no-unused-expression-chai"
 rules:
   max-line-length:
     options: [180]

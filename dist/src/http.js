@@ -59,7 +59,15 @@ class BadgeUpHttp {
                 const err = new Error(response.statusText);
                 return Promise.reject(err);
             }
-            return response.json();
+            return response.text().then(responseText => {
+                const f = (key, value) => {
+                    if (key === 'created') {
+                        return new Date(value);
+                    }
+                    return value;
+                };
+                return JSON.parse(responseText, f);
+            });
         });
     }
 }

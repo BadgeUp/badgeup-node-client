@@ -46,14 +46,20 @@ class BadgeUp {
                 this.applicationId = applicationId;
             }
             catch (error) {
-                throw new Error('Malformed API key');
+                // TODO: test this
+                if (error.message !== 'applicationId not present') {
+                    throw new Error('Malformed API key');
+                }
+                else {
+                    throw error;
+                }
             }
             globalOpts.request.headers.authorization = 'Basic ' + Buffer.from(globalOpts.apiKey + ':', 'ascii').toString('base64');
         }
         this.http = new http_1.BadgeUpHttp(globalOpts.request);
         this.applications = new applications_1.ApplicationsResource(this);
         this.achievements = new achievements_1.AchievementsResource(this);
-        this._analytics = new analytics_1.AnalyticsResource(this);
+        this.analytics = new analytics_1.AnalyticsResource(this);
         this.apiKeys = new apiKeys_1.ApiKeysResource(this);
         this.awards = new awards_1.AwardsResource(this);
         this.criteria = new criteria_1.CriteriaResource(this);

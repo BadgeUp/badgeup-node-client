@@ -5,7 +5,6 @@ const ENDPT = 'apikeys';
 /**
  * API Keys resource
  */
-// TODO: define type here
 class ApiKeysResource {
     /**
      * Construct the API Keys resource

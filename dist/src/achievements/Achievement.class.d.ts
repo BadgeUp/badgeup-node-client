@@ -1,5 +1,6 @@
 import { IAwardResponse } from '../awards/Award.class';
 import { ICriterionResponse } from '../criteria/Criterion.class';
+import { IMeta } from '../utils/Meta.class';
 export interface IAchievementResponse {
     id: string;
     applicationId: string;
@@ -23,6 +24,6 @@ export interface IEvalTreeGroup {
     groups: IEvalTreeGroup[];
     criteria: ICriterionResponse[];
 }
-export interface IAchievementMeta {
+export interface IAchievementMeta extends IMeta {
     icon: string;
 }

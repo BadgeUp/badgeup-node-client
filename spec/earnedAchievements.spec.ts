@@ -56,7 +56,7 @@ describe('earned achievements', function() {
         }
 
         let count = 0;
-        for (let summary of bup.earnedAchievements.getIterator({ _payload, _validate })) {
+        for (const summary of bup.earnedAchievements.getIterator({ _payload, _validate })) {
             count++;
             const tmp = await summary;
             expect(tmp).to.be.an('object');

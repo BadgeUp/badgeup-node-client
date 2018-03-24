@@ -76,7 +76,8 @@ export interface IEventOptions {
  */
 export interface IEventProgress extends IProgress {
     /**
-     * Set to `true` every time a new earned achievement record is created, even if `earnLimit` allows an achievement to be earned multiple times and the achievement has already been earned before.
+     * Set to `true` every time a new earned achievement record is created, even if `earnLimit` allows an
+     * achievement to be earned multiple times and the achievement has already been earned before.
      */
     isNew: boolean;
 }

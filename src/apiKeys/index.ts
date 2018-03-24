@@ -7,7 +7,6 @@ const ENDPT = 'apikeys';
 /**
  * API Keys resource
  */
-// TODO: define type here
 export class ApiKeysResource {
     private common: Common<IApiKeyResponse>;
     private context: IResourceContext;

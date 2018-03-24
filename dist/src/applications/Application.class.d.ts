@@ -17,7 +17,7 @@ export interface IBadgeUpApplicationResponse {
      */
     description: string;
     /**
-     * Meta information object. Custom fields may be added.
+     * IMeta information object. Custom fields may be added.
      */
     meta: IBadgeUpApplicationMeta;
 }

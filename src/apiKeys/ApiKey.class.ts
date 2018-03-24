@@ -21,7 +21,7 @@ export interface IApiKeyResponse {
     scopes: string[];
 
     /**
-     * Meta information object. Contrary to the rest of the BadgeUp API, adding custom fields to the API Key meta object is not permistted.
+     * IMeta information object. Contrary to the rest of the BadgeUp API, adding custom fields to the API Key meta object is not permistted.
      */
     meta: {
         created: Date

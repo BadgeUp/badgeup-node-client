@@ -52,7 +52,7 @@ describe('earned achievements', function () {
             chai_1.expect(options.headers).to.be.an('object');
         }
         let count = 0;
-        for (let summary of bup.earnedAchievements.getIterator({ _payload, _validate })) {
+        for (const summary of bup.earnedAchievements.getIterator({ _payload, _validate })) {
             count++;
             const tmp = await summary;
             chai_1.expect(tmp).to.be.an('object');

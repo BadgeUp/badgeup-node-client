@@ -28,7 +28,7 @@ export interface IAwardResponse {
     data: any;
 
     /**
-     * Meta information object. Custom fields may be added.
+     * IMeta information object. Custom fields may be added.
      */
     meta: IMeta;
 }

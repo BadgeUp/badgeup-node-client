@@ -149,11 +149,10 @@ describe('metrics', function() {
         expect(result).to.eql({ count: 1 });
     });
 
-    it('should error when deleting metrics without specifying key or subject', function() {
+    it('should error when deleting metrics without specifying key or subject', async function() {
         function fn() {
-            bup.metrics.query().remove();
+            return bup.metrics.query().remove();
         }
-
         expect(fn).to.throw('You must specify at least the "subject" or "key"');
     });
 });

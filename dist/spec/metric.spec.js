@@ -131,9 +131,9 @@ describe('metrics', function () {
         const result = await bup.metrics.query().subject(metric.subject).key(metric.key).remove({ _payload, _validate });
         chai_1.expect(result).to.eql({ count: 1 });
     });
-    it('should error when deleting metrics without specifying key or subject', function () {
+    it('should error when deleting metrics without specifying key or subject', async function () {
         function fn() {
-            bup.metrics.query().remove();
+            return bup.metrics.query().remove();
         }
         chai_1.expect(fn).to.throw('You must specify at least the "subject" or "key"');
     });

@@ -87,7 +87,6 @@ export declare class EarnedAchievementsResource {
     remove(id: string, userOpts?: any): Promise<IEarnedAchievementResponse>;
     /**
      * Sets up a delete request targeting earned achievements using query filters
-     * @param queryBy filters to query events by
      * @returns Returns an instance of the EarnedAchievementQueryBuilder class
      */
     query(): EarnedAchievementQueryBuilder;

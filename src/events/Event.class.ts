@@ -65,11 +65,7 @@ export class EventRequest implements IEventRequest {
      * States if this event is set to be discarded (not persisted long-term)
      */
     get discard() {
-        if (this.options && this.options.discard === true) {
-            return true;
-        } else {
-            return false;
-        }
+        return !!(this.options && this.options.discard === true);
     }
 }
 
@@ -110,7 +106,8 @@ export interface IEventOptions {
  */
 export interface IEventProgress extends IProgress {
     /**
-     * Set to `true` every time a new earned achievement record is created, even if `earnLimit` allows an achievement to be earned multiple times and the achievement has already been earned before.
+     * Set to `true` every time a new earned achievement record is created, even if `earnLimit` allows an
+     * achievement to be earned multiple times and the achievement has already been earned before.
      */
     isNew: boolean;
 }
