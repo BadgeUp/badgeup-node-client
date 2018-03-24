@@ -55,7 +55,7 @@ export class BadgeUp implements IResourceContext {
             check.assert.string(globalOpts.applicationId, 'You must provide your applicationId.');
             // setup the application this client is pointing to
             this.applicationId = globalOpts.applicationId!;
-            globalOpts.request!.headers.authorization = 'Bearer ' + globalOpts.token;
+            globalOpts.request!.headers!.authorization = 'Bearer ' + globalOpts.token;
         } else if (globalOpts.apiKey) { // BadgeUp APIKey
             let applicationId;
 
@@ -74,7 +74,7 @@ export class BadgeUp implements IResourceContext {
                 }
             }
 
-            globalOpts.request!.headers.authorization = 'Basic ' + Buffer.from(globalOpts.apiKey + ':', 'ascii').toString('base64');
+            globalOpts.request!.headers!.authorization = 'Basic ' + Buffer.from(globalOpts.apiKey + ':', 'ascii').toString('base64');
         }
 
         this.http = new BadgeUpHttp(globalOpts.request);

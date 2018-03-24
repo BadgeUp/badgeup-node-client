@@ -32,13 +32,31 @@ export declare class BadgeUp implements IResourceContext {
     constructor(globalOpts: IGlobalOptions);
 }
 export interface IGlobalOptions {
+    /**
+     * API Key acquired from the BadgeUp Dashboard
+     */
     apiKey?: string;
+    /**
+     * JWT token as an alternative method of authorization
+     */
     token?: string;
+    /**
+     * Current application ID. Only needed if you provide a token.
+     */
     applicationId?: string;
+    /**
+     * Additional HTTP request overrides
+     */
     request?: {
-        headers: {
+        /**
+         * request headers to override
+         */
+        headers?: {
             [key: string]: string;
         };
+        /**
+         * provide a different BadgeUp base URL
+         */
         baseUrl?: string;
     };
 }
