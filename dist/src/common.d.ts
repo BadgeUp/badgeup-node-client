@@ -41,7 +41,7 @@ export declare class Common<T> {
      * @param userOpts option overrides for this request
      * @returns A promise that resolves to the provided object
      */
-    create(object: any, userOpts?: any): Promise<T>;
+    create<K = T>(object: any, userOpts?: any): Promise<K>;
     /**
      * Delete an object by ID
      * @param id ID of the object to delete

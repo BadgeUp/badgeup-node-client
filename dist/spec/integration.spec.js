@@ -43,7 +43,6 @@ describe('integration tests', function () {
                 chai_1.expect(achievement.id).to.be.a('string');
                 chai_1.expect(achievement.applicationId).to.be.a('string');
                 chai_1.expect(achievement.awards).to.be.an('array');
-                chai_1.expect(achievement.description).to.be.a('string');
                 chai_1.expect(achievement.evalTree).to.be.an('object');
                 chai_1.expect(achievement.meta).to.be.an('object');
                 chai_1.expect(achievement.meta.icon).to.be.a('string');
@@ -58,7 +57,6 @@ describe('integration tests', function () {
                     chai_1.expect(award.applicationId).to.be.a('string');
                     chai_1.expect(award.id).to.be.a('string');
                     chai_1.expect(award.data).to.be.an('object');
-                    chai_1.expect(award.description).to.be.a('string');
                     chai_1.expect(award.meta).to.be.an('object');
                     chai_1.expect(award.meta.created).to.be.a('Date');
                 }
@@ -70,12 +68,30 @@ describe('integration tests', function () {
             }
         }
     });
+    it('should send an event and get progress back v2', async function () {
+        const client = new src_1.BadgeUp({ apiKey: INTEGRATION_API_KEY });
+        const rand = Math.floor(Math.random() * 100000);
+        const subject = 'nodejs-ci-' + rand;
+        const key = 'test';
+        const eventRequest = new Event_class_1.EventRequest(subject, key, { '@inc': 5 });
+        const eventResponse = await client.events.createV2Preview(eventRequest);
+        chai_1.expect(eventResponse).to.be.an('object');
+        chai_1.expect(eventResponse.results).to.be.an('array');
+        chai_1.expect(eventResponse.results).to.have.length.greaterThan(0);
+        eventResponse.results.forEach((e) => {
+            chai_1.expect(e).to.be.an('object');
+            chai_1.expect(e.event).to.be.an('object');
+            chai_1.expect(e.event.applicationId).to.be.a('string');
+            chai_1.expect(e.event.id).to.be.a('string');
+            chai_1.expect(e.event.key).to.be.a('string');
+            chai_1.expect(e.event.subject).to.be.a('string');
+        });
+    });
     it('should get all achievements', async function () {
         const client = new src_1.BadgeUp({ apiKey: INTEGRATION_API_KEY });
-        return client.achievements.getAll().then(function (response) {
-            chai_1.expect(response).to.be.an('array');
-            chai_1.expect(response).to.have.length.greaterThan(0);
-        });
+        const response = await client.achievements.getAll();
+        chai_1.expect(response).to.be.an('array');
+        chai_1.expect(response).to.have.length.greaterThan(0);
     });
     it('should iterate achievements via iterator', async function () {
         const client = new src_1.BadgeUp({ apiKey: INTEGRATION_API_KEY });

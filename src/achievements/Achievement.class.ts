@@ -1,5 +1,6 @@
 import { IAwardResponse } from '../awards/Award.class';
 import { ICriterionResponse } from '../criteria/Criterion.class';
+import { Condition } from '../progress/Progress.class';
 import { IMeta } from '../utils/Meta.class';
 
 export interface IAchievementResponse {
@@ -23,7 +24,7 @@ export interface IAchievementResource {
 
 export interface IEvalTreeGroup {
     type: string;
-    condition: string;
+    condition: Condition;
     groups: IEvalTreeGroup[];
     criteria: ICriterionResponse[];
 }

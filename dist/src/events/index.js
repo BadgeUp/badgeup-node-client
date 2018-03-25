@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const lodash_1 = require("lodash");
 const common_1 = require("../common");
 const ENDPT = 'events';
 /**
@@ -21,6 +22,11 @@ class EventsResource {
      * </summary>
      */
     create(object, userOpts) {
+        return this.common.create(object, userOpts);
+    }
+    createV2Preview(object, userOpts) {
+        // TODO: test how this works with user-provided headers, should be resolved by defaultsDeep
+        userOpts = lodash_1.defaultsDeep(userOpts, { headers: { 'X-V2-PREVIEW': 'true' } });
         return this.common.create(object, userOpts);
     }
 }

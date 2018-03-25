@@ -11,7 +11,7 @@ export interface IProgress {
     /**
      * An object that defines the evaluation logic of associated criteria.
      */
-    progressTree: IProgressTree;
+    progressTree: IProgressTreeGroup;
     /**
      * A string that uniquely identifies this achievement.
      */
@@ -25,13 +25,13 @@ export interface IProgress {
      */
     earnedAchievementId: string;
 }
-export interface IProgressTree {
+export interface IProgressTreeGroup {
     criteria: {
         [key: string]: number;
     };
     type: string;
     condition: Condition;
-    groups: IProgressTree[];
+    groups: IProgressTreeGroup[];
 }
 export declare enum Condition {
     and = "AND",

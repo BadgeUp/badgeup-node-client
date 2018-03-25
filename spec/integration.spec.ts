@@ -2,7 +2,7 @@
 
 import { expect } from 'chai';
 import { IEarnedAchievementResponse } from '../src/earnedAchievements/EarnedAchievement.class';
-import { BadgeUp } from './../src';
+import { BadgeUp, IEventResponseV2Preview } from './../src';
 import {  EventRequest, IEventResponseV1 } from './../src/events/Event.class';
 const INTEGRATION_API_KEY = process.env.INTEGRATION_API_KEY;
 
@@ -53,7 +53,6 @@ describe('integration tests', function() {
                 expect(achievement.id).to.be.a('string');
                 expect(achievement.applicationId).to.be.a('string');
                 expect(achievement.awards).to.be.an('array');
-                expect(achievement.description).to.be.a('string');
                 expect(achievement.evalTree).to.be.an('object');
                 expect(achievement.meta).to.be.an('object');
                 expect(achievement.meta.icon).to.be.a('string');
@@ -69,7 +68,6 @@ describe('integration tests', function() {
                     expect(award.applicationId).to.be.a('string');
                     expect(award.id).to.be.a('string');
                     expect(award.data).to.be.an('object');
-                    expect(award.description).to.be.a('string');
                     expect(award.meta).to.be.an('object');
                     expect(award.meta.created).to.be.a('Date');
                 }
@@ -83,13 +81,35 @@ describe('integration tests', function() {
         }
     });
 
+    it('should send an event and get progress back v2', async function() {
+        const client = new BadgeUp({ apiKey: INTEGRATION_API_KEY });
+
+        const rand = Math.floor(Math.random() * 100000);
+        const subject = 'nodejs-ci-' + rand;
+        const key = 'test';
+
+        const eventRequest = new EventRequest(subject, key, { '@inc': 5 });
+
+        const eventResponse: IEventResponseV2Preview = await client.events.createV2Preview(eventRequest);
+        expect(eventResponse).to.be.an('object');
+        expect(eventResponse.results).to.be.an('array');
+        expect(eventResponse.results).to.have.length.greaterThan(0);
+        eventResponse.results.forEach((e) => {
+            expect(e).to.be.an('object');
+            expect(e.event).to.be.an('object');
+            expect(e.event.applicationId).to.be.a('string');
+            expect(e.event.id).to.be.a('string');
+            expect(e.event.key).to.be.a('string');
+            expect(e.event.subject).to.be.a('string');
+        });
+    });
+
     it('should get all achievements', async function() {
         const client = new BadgeUp({ apiKey: INTEGRATION_API_KEY });
 
-        return client.achievements.getAll().then(function(response) {
-            expect(response).to.be.an('array');
-            expect(response).to.have.length.greaterThan(0);
-        });
+        const response = await client.achievements.getAll();
+        expect(response).to.be.an('array');
+        expect(response).to.have.length.greaterThan(0);
     });
 
     it('should iterate achievements via iterator', async function() {

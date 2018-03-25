@@ -1,5 +1,5 @@
 import { IResourceContext } from '../utils/ResourceContext';
-import { IEventRequest, IEventResponseV1 } from './Event.class';
+import { IEventRequest, IEventResponseV1, IEventResponseV2Preview } from './Event.class';
 /**
  * Events resource
  */
@@ -18,4 +18,5 @@ export declare class EventsResource {
      * </summary>
      */
     create(object: IEventRequest, userOpts?: any): Promise<IEventResponseV1>;
+    createV2Preview(object: IEventRequest, userOpts?: any): Promise<IEventResponseV2Preview>;
 }

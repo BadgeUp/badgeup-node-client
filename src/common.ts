@@ -105,7 +105,7 @@ export class Common<T> {
      * @param userOpts option overrides for this request
      * @returns A promise that resolves to the provided object
      */
-    create(object: any, userOpts?): Promise<T> {
+    create<K = T>(object: any, userOpts?): Promise<K> {
         check.object(object, 'object must be an object');
 
         const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
