@@ -1,5 +1,5 @@
 import { IResourceContext } from '../utils/ResourceContext';
-import { IEventRequest, IEventResponseV1, IEventResponseV2Preview } from './Event.class';
+import { IEventRequest, IEventV1, IEventV2Preview } from './Event.class';
 /**
  * Events resource
  */
@@ -17,6 +17,6 @@ export declare class EventsResource {
      * @returns A promise that resolves to the provided event
      * </summary>
      */
-    create(object: IEventRequest, userOpts?: any): Promise<IEventResponseV1>;
-    createV2Preview(object: IEventRequest, userOpts?: any): Promise<IEventResponseV2Preview>;
+    create(object: IEventRequest, userOpts?: any): Promise<IEventV1>;
+    createV2Preview(object: IEventRequest, userOpts?: any): Promise<IEventV2Preview>;
 }

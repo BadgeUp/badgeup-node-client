@@ -1,6 +1,6 @@
 import { Common } from '../common';
 import { IResourceContext } from '../utils/ResourceContext';
-import { ICriterionResponse } from './Criterion.class';
+import { ICriterion } from './Criterion.class';
 
 const ENDPT = 'criteria';
 
@@ -8,7 +8,7 @@ const ENDPT = 'criteria';
  * Criterion module
  * @param {IResourceContext} context The context to make requests as
  */
-export class CriteriaResource extends Common<ICriterionResponse> {
+export class CriteriaResource extends Common<ICriterion> {
     constructor(context: IResourceContext) {
         super(context, ENDPT);
     }

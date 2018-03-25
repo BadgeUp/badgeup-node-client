@@ -1,9 +1,9 @@
 'use strict';
 
 import { expect } from 'chai';
-import { IEarnedAchievementResponse } from '../src/earnedAchievements/EarnedAchievement.class';
-import { BadgeUp, IEventResponseV2Preview } from './../src';
-import {  EventRequest, IEventResponseV1 } from './../src/events/Event.class';
+import { IEarnedAchievement } from '../src/earnedAchievements/EarnedAchievement.class';
+import { BadgeUp, IEventV2Preview } from './../src';
+import {  EventRequest, IEventV1 } from './../src/events/Event.class';
 const INTEGRATION_API_KEY = process.env.INTEGRATION_API_KEY;
 
 describe('integration tests', function() {
@@ -22,7 +22,7 @@ describe('integration tests', function() {
 
         const eventRequest = new EventRequest(subject, key, { '@inc': 5 });
 
-        const eventResponse: IEventResponseV1 = await client.events.create(eventRequest);
+        const eventResponse: IEventV1 = await client.events.create(eventRequest);
         expect(eventResponse).to.be.an('object');
         const event = eventResponse.event;
         const progress = eventResponse.progress;
@@ -90,7 +90,7 @@ describe('integration tests', function() {
 
         const eventRequest = new EventRequest(subject, key, { '@inc': 5 });
 
-        const eventResponse: IEventResponseV2Preview = await client.events.createV2Preview(eventRequest);
+        const eventResponse: IEventV2Preview = await client.events.createV2Preview(eventRequest);
         expect(eventResponse).to.be.an('object');
         expect(eventResponse.results).to.be.an('array');
         expect(eventResponse.results).to.have.length.greaterThan(0);
@@ -117,7 +117,7 @@ describe('integration tests', function() {
 
         const iterator = client.earnedAchievements.getIterator();
         for (const summary of iterator) {
-            const tmp: IEarnedAchievementResponse = await summary;
+            const tmp: IEarnedAchievement = await summary;
             expect(tmp).to.be.an('object');
             expect(tmp.achievementId).to.be.a('string');
         }
@@ -127,17 +127,6 @@ describe('integration tests', function() {
         const client = new BadgeUp({ apiKey: INTEGRATION_API_KEY });
 
         return client.achievementIcons.getAll().then(function(response) {
-            expect(response).to.be.an('array');
-            expect(response).to.have.length.greaterThan(0, 'no icons found, possibly none were uploaded to the account against which integration tests are executed');
-        });
-    });
-
-    it('should get all achievement icons2', async function() {
-        const client = new BadgeUp({ apiKey: INTEGRATION_API_KEY });
-
-        // const achievement:IAchievementResponse = {};
-        // client.achievements.create(achievement);
-        return client.criteria.getAll().then(function(response) {
             expect(response).to.be.an('array');
             expect(response).to.have.length.greaterThan(0, 'no icons found, possibly none were uploaded to the account against which integration tests are executed');
         });

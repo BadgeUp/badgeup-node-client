@@ -1,6 +1,6 @@
 import { IMeta } from '../utils/Meta.class';
 
-export interface ICriterionResponse {
+export interface ICriterion {
     id: string;
     applicationId: string;
     key: string;

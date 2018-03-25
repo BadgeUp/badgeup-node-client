@@ -1,4 +1,4 @@
-export interface IApiKeyResponse {
+export interface IApiKey {
     /**
      * A string that uniquely identifies this API key.
      */

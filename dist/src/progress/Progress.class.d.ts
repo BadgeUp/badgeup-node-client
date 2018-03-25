@@ -1,4 +1,4 @@
-import { IAchievementResponse } from '../achievements/Achievement.class';
+import { IAchievement } from '../achievements/Achievement.class';
 export interface IProgress {
     /**
      * States if the achievement has been earned.
@@ -19,7 +19,7 @@ export interface IProgress {
     /**
      * The root achievement document.
      */
-    achievement: IAchievementResponse;
+    achievement: IAchievement;
     /**
      * A string that uniquely identifies this most recently earned achievement.
      */

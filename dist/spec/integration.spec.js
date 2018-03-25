@@ -109,14 +109,5 @@ describe('integration tests', function () {
             chai_1.expect(response).to.have.length.greaterThan(0, 'no icons found, possibly none were uploaded to the account against which integration tests are executed');
         });
     });
-    it('should get all achievement icons2', async function () {
-        const client = new src_1.BadgeUp({ apiKey: INTEGRATION_API_KEY });
-        // const achievement:IAchievementResponse = {};
-        // client.achievements.create(achievement);
-        return client.criteria.getAll().then(function (response) {
-            chai_1.expect(response).to.be.an('array');
-            chai_1.expect(response).to.have.length.greaterThan(0, 'no icons found, possibly none were uploaded to the account against which integration tests are executed');
-        });
-    });
 });
 //# sourceMappingURL=integration.spec.js.map

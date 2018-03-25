@@ -1,4 +1,4 @@
-export interface IMetricResponse extends IMetricRequest {
+export interface IMetric extends IMetricRequest {
     /**
      * A string that uniquely identifies this metric.
      */

@@ -1,9 +1,9 @@
 import * as check from 'check-types';
-import { IAwardResponse } from '../awards/Award.class';
+import { IAward } from '../awards/Award.class';
 import { Common } from '../common';
-import { ICriterionResponse } from '../criteria/Criterion.class';
+import { ICriterion } from '../criteria/Criterion.class';
 import { IResourceContext } from '../utils/ResourceContext';
-import { IAchievementResponse } from './Achievement.class';
+import { IAchievement } from './Achievement.class';
 
 const ENDPT = 'achievements';
 
@@ -11,7 +11,7 @@ const ENDPT = 'achievements';
  * Achievements resource
  */
 export class AchievementsResource {
-    private common: Common<IAchievementResponse>;
+    private common: Common<IAchievement>;
     private context: IResourceContext;
 
     /**
@@ -29,7 +29,7 @@ export class AchievementsResource {
      * @param userOpts option overrides for this request
      * @returns Promise that resolves with the retrieved achievement
      */
-    public get(id: string, userOpts?): Promise<IAchievementResponse> {
+    public get(id: string, userOpts?): Promise<IAchievement> {
         return this.common.get(id, userOpts);
     }
 
@@ -38,7 +38,7 @@ export class AchievementsResource {
      * @param userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next achievement
      */
-    public getIterator(userOpts?): IterableIterator<Promise<IAchievementResponse>> {
+    public getIterator(userOpts?): IterableIterator<Promise<IAchievement>> {
         return this.common.getIterator(userOpts);
     }
 
@@ -47,7 +47,7 @@ export class AchievementsResource {
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to an array of objects
      */
-    public getAll(userOpts?): Promise<IAchievementResponse[]> {
+    public getAll(userOpts?): Promise<IAchievement[]> {
         return this.common.getAll(userOpts);
     }
 
@@ -58,7 +58,7 @@ export class AchievementsResource {
      * @param userOpts option overrides for this request
      * @returns A promise that resolves to the updated object
      */
-    public update(id: string, updates: any[], userOpts?): Promise<IAchievementResponse> {
+    public update(id: string, updates: any[], userOpts?): Promise<IAchievement> {
         return this.common.update(id, updates, userOpts);
     }
 
@@ -68,7 +68,7 @@ export class AchievementsResource {
      * @param userOpts option overrides for this request
      * @returns A promise that resolves to the provided achievement
      */
-    public create(achievement: IAchievementResponse, userOpts?): Promise<IAchievementResponse> {
+    public create(achievement: IAchievement, userOpts?): Promise<IAchievement> {
         return this.common.create(achievement, userOpts);
     }
 
@@ -78,7 +78,7 @@ export class AchievementsResource {
      * @param userOpts option overrides for this request
      * @returns A promise that resolves to the deleted achievement
      */
-    public remove(id: string, userOpts?): Promise<IAchievementResponse> {
+    public remove(id: string, userOpts?): Promise<IAchievement> {
         return this.common.remove(id, userOpts);
     }
 
@@ -88,12 +88,12 @@ export class AchievementsResource {
      * @param userOpts option overrides for this request
      * @returns Promise that resolves with the list of criteria
      */
-    public getAchievementCriteria(id: string, userOpts?): Promise<ICriterionResponse[]> {
+    public getAchievementCriteria(id: string, userOpts?): Promise<ICriterion[]> {
         check.string(id, 'id must be a string');
 
         return this.context.http.makeRequest({
             url: `/v1/apps/${this.context.applicationId}/${ENDPT}/${id}/criteria`
-        }, userOpts).then(function(body) { return body.data as ICriterionResponse[]; });
+        }, userOpts).then(function(body) { return body.data as ICriterion[]; });
     }
 
     /**
@@ -102,7 +102,7 @@ export class AchievementsResource {
      * @param userOpts option overrides for this request
      * @returns Promise that resolves with the list of awards
      */
-    public getAchievementAwards(id: string, userOpts?): Promise<IAwardResponse[]> {
+    public getAchievementAwards(id: string, userOpts?): Promise<IAward[]> {
         check.string(id, 'id must be a string');
 
         return this.context.http.makeRequest({

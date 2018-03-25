@@ -1,8 +1,8 @@
-import { IAwardResponse } from '../awards/Award.class';
-import { ICriterionResponse } from '../criteria/Criterion.class';
+import { IAward } from '../awards/Award.class';
+import { ICriterion } from '../criteria/Criterion.class';
 import { Condition } from '../progress/Progress.class';
 import { IMeta } from '../utils/Meta.class';
-export interface IAchievementResponse {
+export interface IAchievement {
     id: string;
     applicationId: string;
     name: string;
@@ -16,14 +16,14 @@ export interface IAchievementResponse {
     resources: IAchievementResource;
 }
 export interface IAchievementResource {
-    criteria: ICriterionResponse[];
-    awards: IAwardResponse[];
+    criteria: ICriterion[];
+    awards: IAward[];
 }
 export interface IEvalTreeGroup {
     type: string;
     condition: Condition;
     groups: IEvalTreeGroup[];
-    criteria: ICriterionResponse[];
+    criteria: ICriterion[];
 }
 export interface IAchievementMeta extends IMeta {
     icon: string;

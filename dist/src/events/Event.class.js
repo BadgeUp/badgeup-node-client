@@ -31,15 +31,15 @@ class EventRequest {
     }
 }
 exports.EventRequest = EventRequest;
-class EventResponse extends EventRequest {
+class Event extends EventRequest {
     constructor(id, applicationId, subject, key, modifier = {}, options) {
         super(subject, key, modifier, options);
         this.id = id;
         this.applicationId = applicationId;
     }
     static fromSource(source) {
-        return new EventResponse(source.id, source.applicationId, source.subject, source.key, source.modifier, source.options);
+        return new Event(source.id, source.applicationId, source.subject, source.key, source.modifier, source.options);
     }
 }
-exports.EventResponse = EventResponse;
+exports.Event = Event;
 //# sourceMappingURL=Event.class.js.map

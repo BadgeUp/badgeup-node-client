@@ -69,7 +69,7 @@ export class EventRequest implements IEventRequest {
     }
 }
 
-export interface IEventResponse extends IEventRequest {
+export interface IEvent extends IEventRequest {
     /**
      * A string that uniquely identifies this event. May be null if options.discard is set to true.
      */
@@ -81,12 +81,12 @@ export interface IEventResponse extends IEventRequest {
     applicationId: string;
 }
 
-export class EventResponse extends EventRequest implements IEventResponse {
+export class Event extends EventRequest implements IEvent {
     constructor(public id, public applicationId, subject: string, key: string, modifier: IEventModifier = {}, options?: IEventOptions) {
         super(subject, key, modifier, options);
     }
-    public static fromSource(source: IEventResponse): EventResponse {
-        return new EventResponse(source.id, source.applicationId, source.subject, source.key, source.modifier, source.options);
+    public static fromSource(source: IEvent): Event {
+        return new Event(source.id, source.applicationId, source.subject, source.key, source.modifier, source.options);
     }
 }
 
@@ -115,23 +115,23 @@ export interface IEventProgress extends IProgress {
 /**
  * Event response structure for the source event (API v1)
  */
-export interface IEventResponseV1 {
-    event: IEventResponse;
+export interface IEventV1 {
+    event: IEvent;
     progress: IEventProgress[];
 }
 
 /**
  * Event response structure containing for the source or side-effect events (API v2)
  */
-export interface IEventResponseV2Preview {
-    results: IEventResponseResultV2Preview[];
+export interface IEventV2Preview {
+    results: IEventResultV2Preview[];
 }
 
 /**
  * Event response structure (API v2)
  */
-export interface IEventResponseResultV2Preview {
-    event: IEventResponse;
+export interface IEventResultV2Preview {
+    event: IEvent;
     cause: string;
     progress: IEventProgress[];
 }

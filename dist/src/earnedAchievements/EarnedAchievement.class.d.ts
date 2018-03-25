@@ -1,5 +1,5 @@
 import { IMeta } from '../utils/Meta.class';
-export interface IEarnedAchievementResponse {
+export interface IEarnedAchievement {
     /**
      * A string that uniquely identifies this earned achievement.
      */

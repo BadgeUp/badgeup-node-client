@@ -5,7 +5,7 @@ import { collectQueryParams } from '../utils/collectQueryParams';
 import { IPaginatedData, pageToGenerator } from '../utils/pageToGenerator';
 import { IQueryParameters } from '../utils/QueryBuilder';
 import { IResourceContext } from '../utils/ResourceContext';
-import { IEarnedAchievementResponse } from './EarnedAchievement.class';
+import { IEarnedAchievement } from './EarnedAchievement.class';
 
 const ENDPT = 'earnedachievements';
 
@@ -79,7 +79,7 @@ export class EarnedAchievementQueryBuilder {
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to a list of metrics
      */
-    getAll(userOpts): Promise<IEarnedAchievementResponse[]> {
+    getAll(userOpts): Promise<IEarnedAchievement[]> {
         let array = [];
         const queryBy = collectQueryParams(this.params, AVAILABLE_QUERY_PARAMS);
         const queryPart = this.buildQuery(queryBy);
@@ -87,7 +87,7 @@ export class EarnedAchievementQueryBuilder {
         const context = this.context;
         let url = `/v1/apps/${context.applicationId}/${ENDPT}?${queryPart}`;
 
-        function pageFn(): Promise<IEarnedAchievementResponse[]> {
+        function pageFn(): Promise<IEarnedAchievement[]> {
             return context.http.makeRequest({ url }, userOpts).then(function(body) {
                 array = array.concat(body.data || []); // concatinate the new data
 
@@ -108,7 +108,7 @@ export class EarnedAchievementQueryBuilder {
      * @param userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */
-    *getIterator(userOpts): IterableIterator<Promise<IEarnedAchievementResponse>> {
+    *getIterator(userOpts): IterableIterator<Promise<IEarnedAchievement>> {
         const queryBy = collectQueryParams(this.params, AVAILABLE_QUERY_PARAMS);
         const queryPart = this.buildQuery(queryBy);
 
@@ -123,7 +123,7 @@ export class EarnedAchievementQueryBuilder {
             };
         }
 
-        yield* pageToGenerator<IEarnedAchievementResponse>(pageFn());
+        yield* pageToGenerator<IEarnedAchievement>(pageFn());
     }
 
     /**
@@ -147,7 +147,7 @@ export class EarnedAchievementQueryBuilder {
  */
 export class EarnedAchievementsResource {
 
-    private common: Common<IEarnedAchievementResponse>;
+    private common: Common<IEarnedAchievement>;
     private context: IResourceContext;
 
     /**
@@ -165,7 +165,7 @@ export class EarnedAchievementsResource {
      * @param userOpts option overrides for this request
      * @returns Promise that resolves with the retrieved achievement
      */
-    public get(id: string, userOpts?): Promise<IEarnedAchievementResponse> {
+    public get(id: string, userOpts?): Promise<IEarnedAchievement> {
         return this.common.get(id, userOpts);
     }
 
@@ -174,7 +174,7 @@ export class EarnedAchievementsResource {
      * @param userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next achievement
      */
-    public getIterator(userOpts?): IterableIterator<Promise<IEarnedAchievementResponse>> {
+    public getIterator(userOpts?): IterableIterator<Promise<IEarnedAchievement>> {
         return this.common.getIterator(userOpts);
     }
 
@@ -183,7 +183,7 @@ export class EarnedAchievementsResource {
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to an array of earned achievements
      */
-    public getAll(userOpts?): Promise<IEarnedAchievementResponse[]> {
+    public getAll(userOpts?): Promise<IEarnedAchievement[]> {
         return this.common.getAll(userOpts);
     }
 
@@ -193,7 +193,7 @@ export class EarnedAchievementsResource {
      * @param userOpts option overrides for this request
      * @returns A promise that resolves to the deleted achievement
      */
-    public remove(id: string, userOpts?): Promise<IEarnedAchievementResponse> {
+    public remove(id: string, userOpts?): Promise<IEarnedAchievement> {
         return this.common.remove(id, userOpts);
     }
 

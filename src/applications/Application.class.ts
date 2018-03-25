@@ -1,6 +1,6 @@
 import { IMeta } from '../utils/Meta.class';
 
-export interface IBadgeUpApplicationResponse {
+export interface IBadgeUpApplication {
 
     /**
      * A string that uniquely identifies this application.

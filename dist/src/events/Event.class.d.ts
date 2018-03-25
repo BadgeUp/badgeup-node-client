@@ -46,7 +46,7 @@ export declare class EventRequest implements IEventRequest {
      */
     readonly discard: boolean;
 }
-export interface IEventResponse extends IEventRequest {
+export interface IEvent extends IEventRequest {
     /**
      * A string that uniquely identifies this event. May be null if options.discard is set to true.
      */
@@ -56,11 +56,11 @@ export interface IEventResponse extends IEventRequest {
      */
     applicationId: string;
 }
-export declare class EventResponse extends EventRequest implements IEventResponse {
+export declare class Event extends EventRequest implements IEvent {
     id: any;
     applicationId: any;
     constructor(id: any, applicationId: any, subject: string, key: string, modifier?: IEventModifier, options?: IEventOptions);
-    static fromSource(source: IEventResponse): EventResponse;
+    static fromSource(source: IEvent): Event;
 }
 export interface IEventModifier {
     [key: string]: number;
@@ -84,21 +84,21 @@ export interface IEventProgress extends IProgress {
 /**
  * Event response structure for the source event (API v1)
  */
-export interface IEventResponseV1 {
-    event: IEventResponse;
+export interface IEventV1 {
+    event: IEvent;
     progress: IEventProgress[];
 }
 /**
  * Event response structure containing for the source or side-effect events (API v2)
  */
-export interface IEventResponseV2Preview {
-    results: IEventResponseResultV2Preview[];
+export interface IEventV2Preview {
+    results: IEventResultV2Preview[];
 }
 /**
  * Event response structure (API v2)
  */
-export interface IEventResponseResultV2Preview {
-    event: IEventResponse;
+export interface IEventResultV2Preview {
+    event: IEvent;
     cause: string;
     progress: IEventProgress[];
 }

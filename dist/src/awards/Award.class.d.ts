@@ -1,5 +1,5 @@
 import { IMeta } from '../utils/Meta.class';
-export interface IAwardResponse {
+export interface IAward {
     /**
      * A string that uniquely identifies this award.
      */

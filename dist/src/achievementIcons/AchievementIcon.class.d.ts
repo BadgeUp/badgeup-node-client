@@ -1,4 +1,4 @@
-export interface IAchievementIconResponse {
+export interface IAchievementIcon {
     /**
      * The URL to access your achievement icon.
      */

@@ -1,6 +1,6 @@
 import { Common } from '../common';
 import { IResourceContext } from '../utils/ResourceContext';
-import { IApiKeyResponse, IApiKeyScope } from './ApiKey.class';
+import { IApiKey, IApiKeyScope } from './ApiKey.class';
 
 const ENDPT = 'apikeys';
 
@@ -8,7 +8,7 @@ const ENDPT = 'apikeys';
  * API Keys resource
  */
 export class ApiKeysResource {
-    private common: Common<IApiKeyResponse>;
+    private common: Common<IApiKey>;
     private context: IResourceContext;
 
     /**
@@ -25,7 +25,7 @@ export class ApiKeysResource {
      * @param userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */
-    *getIterator(userOpts?): IterableIterator<Promise<IApiKeyResponse>> {
+    *getIterator(userOpts?): IterableIterator<Promise<IApiKey>> {
         return this.common.getIterator(userOpts);
     }
 
@@ -34,7 +34,7 @@ export class ApiKeysResource {
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to an array of API Keys
      */
-    getAll(userOpts?): Promise<IApiKeyResponse[]> {
+    getAll(userOpts?): Promise<IApiKey[]> {
         return this.common.getAll(userOpts);
     }
 
@@ -45,7 +45,7 @@ export class ApiKeysResource {
      * @param userOpts option overrides for this request
      * @returns A promise that resolves to the updated API Key
      */
-    update(id: string, updates: any[], userOpts?): Promise<IApiKeyResponse> {
+    update(id: string, updates: any[], userOpts?): Promise<IApiKey> {
         return this.common.update(id, updates, userOpts);
     }
 
@@ -55,7 +55,7 @@ export class ApiKeysResource {
      * @param userOpts option overrides for this request
      * @returns A promise that resolves to the API Key
      */
-    create(apiKey: IApiKeyResponse, userOpts?): Promise<IApiKeyResponse> {
+    create(apiKey: IApiKey, userOpts?): Promise<IApiKey> {
         return this.common.create(apiKey, userOpts);
     }
 
@@ -65,7 +65,7 @@ export class ApiKeysResource {
      * @param userOpts option overrides for this request
      * @returns A promise that resolves to the deleted API Key
      */
-    public remove(id: string, userOpts?): Promise<IApiKeyResponse> {
+    public remove(id: string, userOpts?): Promise<IApiKey> {
         return this.common.remove(id, userOpts);
     }
 
