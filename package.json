@@ -21,7 +21,7 @@
   "dependencies": {
     "check-types": "^7.1.5",
     "lodash": "^4.17.5",
-    "node-fetch": "github:bitinn/node-fetch#a1cbcb5706a230dfcc185f9ac5c7e6091029a83c",
+    "node-fetch": "github:bitinn/node-fetch#aed2e69a39bfe2759aa2062e2b3effeb6ce05dbc",
     "qs": "^6.5.1"
   },
   "devDependencies": {
