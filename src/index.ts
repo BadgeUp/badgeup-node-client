@@ -125,3 +125,15 @@ export interface IGlobalOptions {
         baseUrl?: string;
     };
 }
+
+export * from './achievementIcons/AchievementIcon.class';
+export * from './achievements/Achievement.class';
+export * from './apiKeys/ApiKey.class';
+export * from './applications/Application.class';
+export * from './awards/Award.class';
+export * from './criteria/Criterion.class';
+export * from './earnedAchievements/EarnedAchievement.class';
+export * from './events/Event.class';
+export * from './metrics/Metric.class';
+export * from './progress/Progress.class';
+export * from './utils/Meta.class';

@@ -1,4 +1,7 @@
 "use strict";
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
 Object.defineProperty(exports, "__esModule", { value: true });
 const check = require("check-types");
 const lodash_1 = require("lodash");
@@ -71,4 +74,7 @@ class BadgeUp {
     }
 }
 exports.BadgeUp = BadgeUp;
+__export(require("./criteria/Criterion.class"));
+__export(require("./events/Event.class"));
+__export(require("./progress/Progress.class"));
 //# sourceMappingURL=index.js.map
