@@ -7,8 +7,8 @@
   "scripts": {
     "pretest": "npm run target-2016 && tsc",
     "posttest": "npm run target-2017 && tsc",
-    "target-2016": "sed -i '' -e 's/\"ES2017\"/\"ES2016\"/g' tsconfig.json",
-    "target-2017": "sed -i '' -e 's/\"ES2016\"/\"ES2017\"/g' tsconfig.json",
+    "target-2016": "sed -i -e 's/\"ES2017\"/\"ES2016\"/g' tsconfig.json",
+    "target-2017": "sed -i -e 's/\"ES2016\"/\"ES2017\"/g' tsconfig.json",
     "watch": "tsc -w",
     "dev": "tsc -w",
     "test": "mocha --require ts-node/register --recursive spec/*.spec.* && npm run lint",
