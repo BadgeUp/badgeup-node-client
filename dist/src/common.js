@@ -4,7 +4,7 @@ const check = require("check-types");
 const qs = require("qs");
 const pageToGenerator_1 = require("./utils/pageToGenerator");
 /**
- * Provides a set of common funcitonality that can be used on most endpoints
+ * Provides a set of common functionality that can be used on most endpoints
  * @param {IResourceContext} context The context to make requests as
  * @param endpoint The endpoint used for this common module
  */
@@ -20,7 +20,7 @@ class Common {
      * @returns Promise that resolves with the retrieved object
      */
     get(id, userOpts) {
-        check.string(id, 'id must be a string');
+        check.assert.string(id, 'id must be a string');
         const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
         return this.context.http.makeRequest({
             url: `/v1/apps/${this.context.applicationId}/${this.endpoint}/${id}${query}`
@@ -73,8 +73,8 @@ class Common {
      * @returns A promise that resolves to the updated object
      */
     update(id, updates, userOpts) {
-        check.string(id, 'id must be a string');
-        check.array(updates, 'updates must be an array');
+        check.assert.string(id, 'id must be a string');
+        check.assetarray(updates, 'updates must be an array');
         const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
         return this.context.http.makeRequest({
             method: 'PATCH',
@@ -89,7 +89,7 @@ class Common {
      * @returns A promise that resolves to the provided object
      */
     create(object, userOpts) {
-        check.object(object, 'object must be an object');
+        check.assert.object(object, 'object must be an object');
         const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
         return this.context.http.makeRequest({
             method: 'POST',
@@ -104,7 +104,7 @@ class Common {
      * @returns A promise that resolves to the deleted object
      */
     remove(id, userOpts) {
-        check.string(id, 'id must be a string');
+        check.assert.string(id, 'id must be a string');
         const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
         return this.context.http.makeRequest({
             method: 'DELETE',

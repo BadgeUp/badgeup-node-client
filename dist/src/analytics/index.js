@@ -5,7 +5,7 @@ const pageToGenerator_1 = require("../utils/pageToGenerator");
 const ENDPT = 'analytics';
 /**
  * Analytics resource
- * USE OF THE ANALTYICS RESOURCE IS NOT RECOMMENDED (AT THIS TIME)
+ * USE OF THE ANALYTICS RESOURCE IS NOT RECOMMENDED (AT THIS TIME)
  * THIS RESOURCE IS NOT SUBJECT TO ANY SLAS AND MAY BE CHANGED AT ANY TIME
  */
 class AnalyticsResource {
@@ -34,7 +34,7 @@ class AnalyticsResource {
      */
     eventsLastNDaysBySubject(numDays, subject, userOpts) {
         check.assert(check.integer(numDays) && check.greater(numDays, 0), 'numDays must be a positive integer');
-        check.string(subject, 'subject must be a string');
+        check.assert.string(subject, 'subject must be a string');
         return this.context.http.makeRequest({
             url: `/v1/apps/${this.context.applicationId}/${ENDPT}/events/last-n-days/subject/${subject}?duration=${numDays}`
         }, userOpts);

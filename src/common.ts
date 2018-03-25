@@ -6,7 +6,7 @@ import { pageToGenerator } from './utils/pageToGenerator';
 import { IResourceContext } from './utils/ResourceContext';
 
 /**
- * Provides a set of common funcitonality that can be used on most endpoints
+ * Provides a set of common functionality that can be used on most endpoints
  * @param {IResourceContext} context The context to make requests as
  * @param endpoint The endpoint used for this common module
  */
@@ -26,7 +26,7 @@ export class Common<T> {
      * @returns Promise that resolves with the retrieved object
      */
     get(id: string, userOpts?): Promise<T> {
-        check.string(id, 'id must be a string');
+        check.assert.string(id, 'id must be a string');
 
         const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
 
@@ -87,8 +87,8 @@ export class Common<T> {
      * @returns A promise that resolves to the updated object
      */
     update(id: string, updates: any[], userOpts?): Promise<T> {
-        check.string(id, 'id must be a string');
-        check.array(updates, 'updates must be an array');
+        check.assert.string(id, 'id must be a string');
+        check.assetarray(updates, 'updates must be an array');
 
         const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
 
@@ -106,7 +106,7 @@ export class Common<T> {
      * @returns A promise that resolves to the provided object
      */
     create<K = T>(object: any, userOpts?): Promise<K> {
-        check.object(object, 'object must be an object');
+        check.assert.object(object, 'object must be an object');
 
         const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
 
@@ -124,7 +124,7 @@ export class Common<T> {
      * @returns A promise that resolves to the deleted object
      */
     remove(id: string, userOpts?): Promise<T> {
-        check.string(id, 'id must be a string');
+        check.assert.string(id, 'id must be a string');
 
         const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
 

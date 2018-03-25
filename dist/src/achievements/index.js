@@ -75,7 +75,7 @@ class AchievementsResource {
      * @returns Promise that resolves with the list of criteria
      */
     getAchievementCriteria(id, userOpts) {
-        check.string(id, 'id must be a string');
+        check.assert.string(id, 'id must be a string');
         return this.context.http.makeRequest({
             url: `/v1/apps/${this.context.applicationId}/${ENDPT}/${id}/criteria`
         }, userOpts).then(function (body) { return body.data; });
@@ -87,7 +87,7 @@ class AchievementsResource {
      * @returns Promise that resolves with the list of awards
      */
     getAchievementAwards(id, userOpts) {
-        check.string(id, 'id must be a string');
+        check.assert.string(id, 'id must be a string');
         return this.context.http.makeRequest({
             url: `/v1/apps/${this.context.applicationId}/${ENDPT}/${id}/awards`
         }, userOpts).then((body) => {

@@ -27,7 +27,7 @@ export class EarnedAchievementQueryBuilder {
      * @param achievementId
      */
     achievementId(achievementId: string): EarnedAchievementQueryBuilder {
-        check.string(achievementId, 'achievementId must be a string');
+        check.assert.string(achievementId, 'achievementId must be a string');
         this.params.achievementId = achievementId;
         return this;
     }
@@ -37,7 +37,7 @@ export class EarnedAchievementQueryBuilder {
      * @param subject
      */
     subject(subject: string): EarnedAchievementQueryBuilder {
-        check.string(subject, 'subject must be a string');
+        check.assert.string(subject, 'subject must be a string');
         this.params.subject = subject;
         return this;
     }
@@ -47,7 +47,7 @@ export class EarnedAchievementQueryBuilder {
      * @param {Date} since
      */
     since(since: Date): EarnedAchievementQueryBuilder {
-        check.date(since, 'since must be a date');
+        check.assert.date(since, 'since must be a date');
         this.params.since = since.toISOString();
         return this;
     }
@@ -57,14 +57,14 @@ export class EarnedAchievementQueryBuilder {
      * @param {Date} until
      */
     until(until: Date): EarnedAchievementQueryBuilder {
-        check.date(until, 'until must be a date');
+        check.assert.date(until, 'until must be a date');
         this.params.until = until.toISOString();
         return this;
     }
 
     /**
      * Checks and builds query parameters for use in a URL
-     * @returns Returns a string containing URL query paramters
+     * @returns Returns a string containing URL query parameters
      */
     private buildQuery(queryBy: any): string {
         if (Object.keys(queryBy).length === 0) {
@@ -75,7 +75,7 @@ export class EarnedAchievementQueryBuilder {
     }
 
     /**
-     * Retrives earned achievements, returned as an array
+     * Retrieves earned achievements, returned as an array
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to a list of metrics
      */
@@ -89,7 +89,7 @@ export class EarnedAchievementQueryBuilder {
 
         function pageFn(): Promise<IEarnedAchievement[]> {
             return context.http.makeRequest({ url }, userOpts).then(function(body) {
-                array = array.concat(body.data || []); // concatinate the new data
+                array = array.concat(body.data || []); // concatenate the new data
 
                 url = body.pages.next;
                 if (url) {
@@ -104,7 +104,7 @@ export class EarnedAchievementQueryBuilder {
     }
 
     /**
-     * Retrives earned achievements, returned as an iterator
+     * Retrieves earned achievements, returned as an iterator
      * @param userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */

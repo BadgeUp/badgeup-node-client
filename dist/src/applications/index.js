@@ -21,7 +21,7 @@ class ApplicationsResource {
      * @returns A promise that resolves to the provided application
      */
     create(object, userOpts) {
-        check.object(object, 'object must be an object');
+        check.assert.object(object, 'object must be an object');
         return this.context.http.makeRequest({
             method: 'POST',
             body: object,
@@ -36,8 +36,8 @@ class ApplicationsResource {
      * @returns Promise that resolves to the updated application
      */
     update(id, updates, userOpts) {
-        check.string(id, 'id must be a string');
-        check.array(updates, 'updates must be an array');
+        check.assert.string(id, 'id must be a string');
+        check.assetarray(updates, 'updates must be an array');
         return this.context.http.makeRequest({
             method: 'PATCH',
             body: updates,
@@ -51,7 +51,7 @@ class ApplicationsResource {
      * @returns A promise that resolves to the deleted application
      */
     remove(id, userOpts) {
-        check.string(id, 'id must be a string');
+        check.assert.string(id, 'id must be a string');
         return this.context.http.makeRequest({
             method: 'DELETE',
             url: `/v1/${ENDPT}/${id}`
@@ -64,7 +64,7 @@ class ApplicationsResource {
      * @returns Promise that resolves with the retrieved application
      */
     get(id, userOpts) {
-        check.string(id, 'id must be a string');
+        check.assert.string(id, 'id must be a string');
         return this.context.http.makeRequest({
             url: `/v1/${ENDPT}/${id}`
         }, userOpts);
@@ -79,7 +79,7 @@ class ApplicationsResource {
         let url = `/v1/${ENDPT}`;
         const pageFn = () => {
             return this.context.http.makeRequest({ url }, userOpts).then(function (body) {
-                array = array.concat(body.data || []); // concatinate the new data
+                array = array.concat(body.data || []); // concatenate the new data
                 url = body.pages.next;
                 if (url) {
                     return pageFn();

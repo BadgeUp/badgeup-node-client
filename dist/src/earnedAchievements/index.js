@@ -18,7 +18,7 @@ class EarnedAchievementQueryBuilder {
      * @param achievementId
      */
     achievementId(achievementId) {
-        check.string(achievementId, 'achievementId must be a string');
+        check.assert.string(achievementId, 'achievementId must be a string');
         this.params.achievementId = achievementId;
         return this;
     }
@@ -27,7 +27,7 @@ class EarnedAchievementQueryBuilder {
      * @param subject
      */
     subject(subject) {
-        check.string(subject, 'subject must be a string');
+        check.assert.string(subject, 'subject must be a string');
         this.params.subject = subject;
         return this;
     }
@@ -36,7 +36,7 @@ class EarnedAchievementQueryBuilder {
      * @param {Date} since
      */
     since(since) {
-        check.date(since, 'since must be a date');
+        check.assert.date(since, 'since must be a date');
         this.params.since = since.toISOString();
         return this;
     }
@@ -45,13 +45,13 @@ class EarnedAchievementQueryBuilder {
      * @param {Date} until
      */
     until(until) {
-        check.date(until, 'until must be a date');
+        check.assert.date(until, 'until must be a date');
         this.params.until = until.toISOString();
         return this;
     }
     /**
      * Checks and builds query parameters for use in a URL
-     * @returns Returns a string containing URL query paramters
+     * @returns Returns a string containing URL query parameters
      */
     buildQuery(queryBy) {
         if (Object.keys(queryBy).length === 0) {
@@ -60,7 +60,7 @@ class EarnedAchievementQueryBuilder {
         return querystring.stringify(queryBy);
     }
     /**
-     * Retrives earned achievements, returned as an array
+     * Retrieves earned achievements, returned as an array
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to a list of metrics
      */
@@ -72,7 +72,7 @@ class EarnedAchievementQueryBuilder {
         let url = `/v1/apps/${context.applicationId}/${ENDPT}?${queryPart}`;
         function pageFn() {
             return context.http.makeRequest({ url }, userOpts).then(function (body) {
-                array = array.concat(body.data || []); // concatinate the new data
+                array = array.concat(body.data || []); // concatenate the new data
                 url = body.pages.next;
                 if (url) {
                     return pageFn();
@@ -85,7 +85,7 @@ class EarnedAchievementQueryBuilder {
         return pageFn();
     }
     /**
-     * Retrives earned achievements, returned as an iterator
+     * Retrieves earned achievements, returned as an iterator
      * @param userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */

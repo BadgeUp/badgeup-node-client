@@ -26,17 +26,17 @@ export declare class EarnedAchievementQueryBuilder {
     until(until: Date): EarnedAchievementQueryBuilder;
     /**
      * Checks and builds query parameters for use in a URL
-     * @returns Returns a string containing URL query paramters
+     * @returns Returns a string containing URL query parameters
      */
     private buildQuery(queryBy);
     /**
-     * Retrives earned achievements, returned as an array
+     * Retrieves earned achievements, returned as an array
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to a list of metrics
      */
     getAll(userOpts: any): Promise<IEarnedAchievement[]>;
     /**
-     * Retrives earned achievements, returned as an iterator
+     * Retrieves earned achievements, returned as an iterator
      * @param userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */

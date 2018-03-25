@@ -17,7 +17,7 @@ class ProgressQueryBuilder {
      * @param achievementId
      */
     achievementId(achievementId) {
-        check.string(achievementId, 'achievementId must be a string');
+        check.assert.string(achievementId, 'achievementId must be a string');
         this.params.achievementId = achievementId;
         return this;
     }
@@ -26,7 +26,7 @@ class ProgressQueryBuilder {
      * @param subject
      */
     subject(subject) {
-        check.string(subject, 'subject must be a string');
+        check.assert.string(subject, 'subject must be a string');
         this.params.subject = subject;
         return this;
     }
@@ -44,7 +44,7 @@ class ProgressQueryBuilder {
         let url = `/v1/apps/${this.context.applicationId}/${ENDPT}?${querystring.stringify(queryBy)}`;
         const pageFn = () => {
             return this.context.http.makeRequest({ url }, userOpts).then(function (body) {
-                array = array.concat(body.data || []); // concatinate the new data
+                array = array.concat(body.data || []); // concatenate the new data
                 url = body.pages.next;
                 if (url) {
                     return pageFn();

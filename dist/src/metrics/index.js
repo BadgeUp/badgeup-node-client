@@ -22,7 +22,7 @@ class MetricQueryBuilder {
      * @param key
      */
     key(key) {
-        check.string(key, 'key must be a string');
+        check.assert.string(key, 'key must be a string');
         this._params.key = key;
         return this;
     }
@@ -31,7 +31,7 @@ class MetricQueryBuilder {
      * @param subject
      */
     subject(subject) {
-        check.string(subject, 'subject must be a string');
+        check.assert.string(subject, 'subject must be a string');
         this._params.subject = subject;
         return this;
     }
@@ -72,18 +72,18 @@ class MetricsResource {
         return this.common.create(object, userOpts);
     }
     /**
-     * Retrives metrics for a subject, returned as an array
+     * Retrieves metrics for a subject, returned as an array
      * @param subject subject to retrieve the metrics for
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to a list of metrics
      */
     getAllSubjectMetrics(subject, userOpts) {
-        check.string(subject, 'subject must be a string');
+        check.assert.string(subject, 'subject must be a string');
         let array = [];
         let url = `/v1/apps/${this.context.applicationId}/${ENDPT}/${subject}`;
         const pageFn = () => {
             return this.context.http.makeRequest({ url }, userOpts).then(function (body) {
-                array = array.concat(body.data || []); // concatinate the new data
+                array = array.concat(body.data || []); // concatenate the new data
                 url = body.pages.next;
                 if (url) {
                     return pageFn();
@@ -96,13 +96,13 @@ class MetricsResource {
         return pageFn();
     }
     /**
-     * Retrives metrics for a subject, returned as an iterator
+     * Retrieves metrics for a subject, returned as an iterator
      * @param subject subject to retrieve the metrics for
      * @param userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */
     *getSubjectMetricsIterator(subject, userOpts) {
-        check.string(subject, 'subject must be a string');
+        check.assert.string(subject, 'subject must be a string');
         const pageFn = () => {
             let url = `/v1/apps/${this.context.applicationId}/${ENDPT}/${subject}`;
             return () => {
@@ -117,13 +117,13 @@ class MetricsResource {
     /**
      * Retrieves a single metric for a subject by key
      * @param subject subject to retrieve the metric for
-     * @param key metric key to retrive the metric for
+     * @param key metric key to retrieve the metric for
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to a single metric
      */
     getIndividualSubjectMetric(subject, key, userOpts) {
-        check.string(subject, 'subject must be a string');
-        check.string(key, 'key must be a string');
+        check.assert.string(subject, 'subject must be a string');
+        check.assert.string(key, 'key must be a string');
         return this.context.http.makeRequest({
             url: `/v1/apps/${this.context.applicationId}/${ENDPT}/${subject}/${key}`
         }, userOpts);

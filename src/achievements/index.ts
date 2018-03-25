@@ -89,7 +89,7 @@ export class AchievementsResource {
      * @returns Promise that resolves with the list of criteria
      */
     public getAchievementCriteria(id: string, userOpts?): Promise<ICriterion[]> {
-        check.string(id, 'id must be a string');
+        check.assert.string(id, 'id must be a string');
 
         return this.context.http.makeRequest({
             url: `/v1/apps/${this.context.applicationId}/${ENDPT}/${id}/criteria`
@@ -103,7 +103,7 @@ export class AchievementsResource {
      * @returns Promise that resolves with the list of awards
      */
     public getAchievementAwards(id: string, userOpts?): Promise<IAward[]> {
-        check.string(id, 'id must be a string');
+        check.assert.string(id, 'id must be a string');
 
         return this.context.http.makeRequest({
             url: `/v1/apps/${this.context.applicationId}/${ENDPT}/${id}/awards`

@@ -1,6 +1,6 @@
 import { IResourceContext } from './utils/ResourceContext';
 /**
- * Provides a set of common funcitonality that can be used on most endpoints
+ * Provides a set of common functionality that can be used on most endpoints
  * @param {IResourceContext} context The context to make requests as
  * @param endpoint The endpoint used for this common module
  */

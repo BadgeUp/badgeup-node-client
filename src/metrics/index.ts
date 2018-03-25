@@ -30,7 +30,7 @@ export class MetricQueryBuilder {
      * @param key
      */
     key(key: string) {
-        check.string(key, 'key must be a string');
+        check.assert.string(key, 'key must be a string');
         this._params.key = key;
         return this;
     }
@@ -40,7 +40,7 @@ export class MetricQueryBuilder {
      * @param subject
      */
     subject(subject: string) {
-        check.string(subject, 'subject must be a string');
+        check.assert.string(subject, 'subject must be a string');
         this._params.subject = subject;
         return this;
     }
@@ -90,20 +90,20 @@ export class MetricsResource {
     }
 
     /**
-     * Retrives metrics for a subject, returned as an array
+     * Retrieves metrics for a subject, returned as an array
      * @param subject subject to retrieve the metrics for
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to a list of metrics
      */
     public getAllSubjectMetrics(subject: string, userOpts?: any): Promise<IMetric[]> {
-        check.string(subject, 'subject must be a string');
+        check.assert.string(subject, 'subject must be a string');
 
         let array = [];
         let url = `/v1/apps/${this.context.applicationId}/${ENDPT}/${subject}`;
 
         const pageFn = () => {
             return this.context.http.makeRequest({ url }, userOpts).then(function(body) {
-                array = array.concat(body.data || []); // concatinate the new data
+                array = array.concat(body.data || []); // concatenate the new data
 
                 url = body.pages.next;
                 if (url) {
@@ -118,13 +118,13 @@ export class MetricsResource {
     }
 
     /**
-     * Retrives metrics for a subject, returned as an iterator
+     * Retrieves metrics for a subject, returned as an iterator
      * @param subject subject to retrieve the metrics for
      * @param userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */
     public *getSubjectMetricsIterator(subject: string, userOpts?: any): IterableIterator<Promise<IMetric>> {
-        check.string(subject, 'subject must be a string');
+        check.assert.string(subject, 'subject must be a string');
 
         const pageFn = () => {
             let url = `/v1/apps/${this.context.applicationId}/${ENDPT}/${subject}`;
@@ -142,13 +142,13 @@ export class MetricsResource {
     /**
      * Retrieves a single metric for a subject by key
      * @param subject subject to retrieve the metric for
-     * @param key metric key to retrive the metric for
+     * @param key metric key to retrieve the metric for
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to a single metric
      */
     public getIndividualSubjectMetric(subject: string, key: string, userOpts?: any): Promise<IMetric> {
-        check.string(subject, 'subject must be a string');
-        check.string(key, 'key must be a string');
+        check.assert.string(subject, 'subject must be a string');
+        check.assert.string(key, 'key must be a string');
 
         return this.context.http.makeRequest({
             url: `/v1/apps/${this.context.applicationId}/${ENDPT}/${subject}/${key}`

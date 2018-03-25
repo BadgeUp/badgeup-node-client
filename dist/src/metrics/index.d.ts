@@ -37,14 +37,14 @@ export declare class MetricsResource {
     getIterator(userOpts?: any): IterableIterator<Promise<IMetric>>;
     create(object: IMetricRequest, userOpts?: any): Promise<IMetric>;
     /**
-     * Retrives metrics for a subject, returned as an array
+     * Retrieves metrics for a subject, returned as an array
      * @param subject subject to retrieve the metrics for
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to a list of metrics
      */
     getAllSubjectMetrics(subject: string, userOpts?: any): Promise<IMetric[]>;
     /**
-     * Retrives metrics for a subject, returned as an iterator
+     * Retrieves metrics for a subject, returned as an iterator
      * @param subject subject to retrieve the metrics for
      * @param userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
@@ -53,7 +53,7 @@ export declare class MetricsResource {
     /**
      * Retrieves a single metric for a subject by key
      * @param subject subject to retrieve the metric for
-     * @param key metric key to retrive the metric for
+     * @param key metric key to retrieve the metric for
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to a single metric
      */

@@ -1,7 +1,7 @@
 import { IResourceContext } from '../utils/ResourceContext';
 /**
  * Analytics resource
- * USE OF THE ANALTYICS RESOURCE IS NOT RECOMMENDED (AT THIS TIME)
+ * USE OF THE ANALYTICS RESOURCE IS NOT RECOMMENDED (AT THIS TIME)
  * THIS RESOURCE IS NOT SUBJECT TO ANY SLAS AND MAY BE CHANGED AT ANY TIME
  */
 export declare class AnalyticsResource {

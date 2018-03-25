@@ -25,7 +25,7 @@ export class ProgressQueryBuilder {
      * @param achievementId
      */
     achievementId(achievementId: string): ProgressQueryBuilder {
-        check.string(achievementId, 'achievementId must be a string');
+        check.assert.string(achievementId, 'achievementId must be a string');
         this.params.achievementId = achievementId;
         return this;
     }
@@ -35,7 +35,7 @@ export class ProgressQueryBuilder {
      * @param subject
      */
     subject(subject: string): ProgressQueryBuilder {
-        check.string(subject, 'subject must be a string');
+        check.assert.string(subject, 'subject must be a string');
         this.params.subject = subject;
         return this;
     }
@@ -57,7 +57,7 @@ export class ProgressQueryBuilder {
 
         const pageFn = () => {
             return this.context.http.makeRequest({ url }, userOpts).then(function(body) {
-                array = array.concat(body.data || []); // concatinate the new data
+                array = array.concat(body.data || []); // concatenate the new data
 
                 url = body.pages.next;
                 if (url) {
