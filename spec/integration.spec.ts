@@ -2,16 +2,129 @@
 
 import { expect } from 'chai';
 import { IEarnedAchievement } from '../src/earnedAchievements/EarnedAchievement.class';
-import { BadgeUp, IEventV2Preview } from './../src';
+import { Operation } from '../src/utils/JsonPatch.class';
+import { BadgeUp, Condition, IAchievement, IAchievementRequest, IEventV2Preview } from './../src';
 import {  EventRequest, IEventV1 } from './../src/events/Event.class';
+// import assign = require('lodash/fp/assign');
 const INTEGRATION_API_KEY = process.env.INTEGRATION_API_KEY;
 
 describe('integration tests', function() {
+    this.timeout(5000);
     before(function() {
         if (!INTEGRATION_API_KEY) {
             this.skip();
         }
     });
+    it('should get all achievement icons', async function() {
+        const client = new BadgeUp({ apiKey: INTEGRATION_API_KEY });
+
+        const achievementIcons = await client.achievementIcons.getAll();
+        expect(achievementIcons).to.be.an('array');
+        expect(achievementIcons).to.have.length.greaterThan(0, 'no icons found, possibly none were uploaded to the account against which integration tests are executed');
+        achievementIcons.forEach((achievementIcon) => {
+            expect(achievementIcon.fileName).to.be.a('string');
+            expect(achievementIcon.url).to.be.a('string');
+        });
+    });
+
+    it('should get all achievements', async function() {
+        const client = new BadgeUp({ apiKey: INTEGRATION_API_KEY });
+
+        const response = await client.achievements.getAll();
+        expect(response).to.be.an('array');
+        expect(response).to.have.length.greaterThan(0);
+        response.forEach((achievement) => {
+            checkAchievement(achievement);
+        });
+    });
+
+    it('should get a single achievement by id', async function() {
+        const client = new BadgeUp({ apiKey: INTEGRATION_API_KEY });
+
+        const response = await client.achievements.getAll();
+        for (const achievement of response) {
+            const retrievedAchievement = await client.achievements.get(achievement.id);
+            checkAchievement(retrievedAchievement);
+        }
+    });
+
+    it('should create, update and remove an achievement, final number of achievements should remain the same', async function() {
+        const client = new BadgeUp({ apiKey: INTEGRATION_API_KEY });
+
+        const achievementsCountBefore = (await client.achievements.getAll()).length;
+        const achievementRequest: IAchievementRequest = {
+            description: 'Test achievement to be deleted',
+            options: { earnLimit: -1 },
+            name: 'test achievement',
+            evalTree: {
+                type: 'GROUP',
+                groups: [],
+                condition: Condition.and,
+                criteria: []
+            }
+        };
+
+        const createdAchievement = await client.achievements.create(achievementRequest);
+        checkAchievement(createdAchievement);
+        expect(createdAchievement.name).to.equal(achievementRequest.name);
+        expect(createdAchievement.description).to.equal(achievementRequest.description);
+        expect(createdAchievement.evalTree.condition).to.equal(achievementRequest.evalTree!.condition);
+        expect(createdAchievement.evalTree.criteria).to.deep.equal(achievementRequest.evalTree!.criteria);
+
+        const updatedAchievement = await client.achievements.update(createdAchievement.id, [{ op: Operation.replace, path: '/name', value: 'Super Chef' }]);
+        expect(updatedAchievement).to.be.an('object');
+        expect(updatedAchievement.id).to.equal(createdAchievement.id);
+        expect(updatedAchievement.name).to.be.equal('Super Chef');
+
+        const removedAchievement = await client.achievements.remove(createdAchievement.id);
+        expect(removedAchievement.id).to.be.equal(createdAchievement.id);
+
+        const achievementsCountAfter = (await client.achievements.getAll()).length;
+        expect(achievementsCountBefore).to.equal(achievementsCountAfter, 'number of achievements changed. Probably client.achievements.remove failed');
+
+    });
+
+    it('should get all achievements via iterator', async function() {
+        const client = new BadgeUp({ apiKey: INTEGRATION_API_KEY });
+
+        const achievementsCount = (await client.achievements.getAll()).length;
+        let countViaIterator = 0;
+        for (const achievementPromise of client.achievements.getIterator()) {
+            const achievement = await achievementPromise;
+            checkAchievement(achievement);
+            countViaIterator++;
+        }
+        expect(achievementsCount).to.be.equal(countViaIterator, 'Number of achievements retrieved via .getAll and .getIterator is not equal.');
+    });
+
+    function checkAchievement(achievement: IAchievement) {
+        expect(achievement).to.be.an('object');
+        expect(achievement.applicationId).to.be.a('string');
+        expect(achievement.id).to.be.a('string');
+        expect(achievement.awards).to.be.an('array');
+        expect(achievement.evalTree).to.be.an('object');
+        expect(achievement.evalTree.condition).to.be.a('string');
+        expect(achievement.evalTree.criteria).to.be.an('array');
+        achievement.evalTree.criteria.forEach((criterion) => {
+            expect(criterion).to.be.a('string');
+        });
+        expect(achievement.evalTree.type).to.be.a('string');
+    }
+
+    it('should iterate earned achievements via iterator', async function() {
+        const client = new BadgeUp({ apiKey: INTEGRATION_API_KEY });
+
+        const iterator = client.earnedAchievements.getIterator();
+        for (const achievementPromise of iterator) {
+            const achievement: IEarnedAchievement = await achievementPromise;
+            expect(achievement).to.be.an('object');
+            expect(achievement.achievementId).to.be.a('string');
+        }
+    });
+
+    // it('should ', async function() {
+    //     const client = new BadgeUp({ apiKey: INTEGRATION_API_KEY });
+    // });
 
     it('should send an event and get progress back', async function() {
         const client = new BadgeUp({ apiKey: INTEGRATION_API_KEY });
@@ -32,7 +145,7 @@ describe('integration tests', function() {
         expect(event.subject).to.be.equal(subject);
 
         expect(progress).to.be.an('array');
-        expect(progress.length).to.equal(1);
+        expect(progress.length).to.be.greaterThan(0);
         expect(progress[0].isComplete).to.equal(true);
         expect(progress[0].isNew).to.equal(true);
 
@@ -55,8 +168,8 @@ describe('integration tests', function() {
                 expect(achievement.awards).to.be.an('array');
                 expect(achievement.evalTree).to.be.an('object');
                 expect(achievement.meta).to.be.an('object');
-                expect(achievement.meta.icon).to.be.a('string');
-                expect(achievement.meta.created).to.be.a('Date');
+                // expect(achievement.meta.icon).to.be.a('string');
+                // expect(achievement.meta.created).to.be.a('Date');
                 expect(achievement.name).to.be.a('string');
                 expect(achievement.options).to.be.an('object');
                 expect(achievement.resources).to.be.undefined;
@@ -104,31 +217,8 @@ describe('integration tests', function() {
         });
     });
 
-    it('should get all achievements', async function() {
-        const client = new BadgeUp({ apiKey: INTEGRATION_API_KEY });
 
-        const response = await client.achievements.getAll();
-        expect(response).to.be.an('array');
-        expect(response).to.have.length.greaterThan(0);
-    });
 
-    it('should iterate achievements via iterator', async function() {
-        const client = new BadgeUp({ apiKey: INTEGRATION_API_KEY });
 
-        const iterator = client.earnedAchievements.getIterator();
-        for (const summary of iterator) {
-            const tmp: IEarnedAchievement = await summary;
-            expect(tmp).to.be.an('object');
-            expect(tmp.achievementId).to.be.a('string');
-        }
-    });
 
-    it('should get all achievement icons', async function() {
-        const client = new BadgeUp({ apiKey: INTEGRATION_API_KEY });
-
-        return client.achievementIcons.getAll().then(function(response) {
-            expect(response).to.be.an('array');
-            expect(response).to.have.length.greaterThan(0, 'no icons found, possibly none were uploaded to the account against which integration tests are executed');
-        });
-    });
 });

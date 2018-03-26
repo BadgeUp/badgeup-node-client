@@ -2,18 +2,26 @@ import { IAward } from '../awards/Award.class';
 import { ICriterion } from '../criteria/Criterion.class';
 import { Condition } from '../progress/Progress.class';
 import { IMeta } from '../utils/Meta.class';
-export interface IAchievement {
-    id: string;
-    applicationId: string;
+export interface IAchievementRequest {
     name: string;
     description: string;
-    evalTree: IEvalTreeGroup;
-    awards: string[];
-    meta: IAchievementMeta;
-    options: {
-        suspended: boolean;
+    evalTree?: IEvalTreeGroup;
+    options?: {
+        suspended?: boolean;
+        earnLimit?: number;
     };
+    meta?: {
+        icon: string;
+        [x: string]: any;
+    };
+}
+export interface IAchievement extends IAchievementRequest {
+    id: string;
+    applicationId: string;
+    awards: string[];
+    evalTree: IEvalTreeGroup;
     resources: IAchievementResource;
+    meta: IAchievementMeta;
 }
 export interface IAchievementResource {
     criteria: ICriterion[];
@@ -23,7 +31,7 @@ export interface IEvalTreeGroup {
     type: string;
     condition: Condition;
     groups: IEvalTreeGroup[];
-    criteria: ICriterion[];
+    criteria: string[];
 }
 export interface IAchievementMeta extends IMeta {
     icon: string;

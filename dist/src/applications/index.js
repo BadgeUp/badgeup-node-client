@@ -37,7 +37,7 @@ class ApplicationsResource {
      */
     update(id, updates, userOpts) {
         check.assert.string(id, 'id must be a string');
-        check.assetarray(updates, 'updates must be an array');
+        check.assert.array(updates, 'updates must be an array');
         return this.context.http.makeRequest({
             method: 'PATCH',
             body: updates,

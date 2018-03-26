@@ -1,3 +1,4 @@
+import { IJsonPatch } from './utils/JsonPatch.class';
 import { IResourceContext } from './utils/ResourceContext';
 /**
  * Provides a set of common functionality that can be used on most endpoints
@@ -34,7 +35,7 @@ export declare class Common<T> {
      * @param userOpts option overrides for this request
      * @returns A promise that resolves to the updated object
      */
-    update(id: string, updates: any[], userOpts?: any): Promise<T>;
+    update(id: string, updates: IJsonPatch[], userOpts?: any): Promise<T>;
     /**
      * Create an object
      * @param object Sub-resource to object to create

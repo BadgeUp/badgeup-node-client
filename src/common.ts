@@ -2,6 +2,7 @@
 
 import * as check from 'check-types';
 import * as qs from 'qs';
+import { IJsonPatch } from './utils/JsonPatch.class';
 import { pageToGenerator } from './utils/pageToGenerator';
 import { IResourceContext } from './utils/ResourceContext';
 
@@ -86,9 +87,9 @@ export class Common<T> {
      * @param userOpts option overrides for this request
      * @returns A promise that resolves to the updated object
      */
-    update(id: string, updates: any[], userOpts?): Promise<T> {
+    update(id: string, updates: IJsonPatch[], userOpts?): Promise<T> {
         check.assert.string(id, 'id must be a string');
-        check.assetarray(updates, 'updates must be an array');
+        check.assert.array(updates, 'updates must be an array');
 
         const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
 

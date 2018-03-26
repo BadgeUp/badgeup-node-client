@@ -2,8 +2,9 @@ import * as check from 'check-types';
 import { IAward } from '../awards/Award.class';
 import { Common } from '../common';
 import { ICriterion } from '../criteria/Criterion.class';
+import { IJsonPatch } from '../utils/JsonPatch.class';
 import { IResourceContext } from '../utils/ResourceContext';
-import { IAchievement } from './Achievement.class';
+import { IAchievement, IAchievementRequest } from './Achievement.class';
 
 const ENDPT = 'achievements';
 
@@ -20,7 +21,7 @@ export class AchievementsResource {
      */
     constructor(context: IResourceContext) {
         this.context = context;
-        this.common = new Common(context, ENDPT);
+        this.common = new Common<IAchievement>(context, ENDPT);
     }
 
     /**
@@ -58,7 +59,7 @@ export class AchievementsResource {
      * @param userOpts option overrides for this request
      * @returns A promise that resolves to the updated object
      */
-    public update(id: string, updates: any[], userOpts?): Promise<IAchievement> {
+    public update(id: string, updates: IJsonPatch[], userOpts?): Promise<IAchievement> {
         return this.common.update(id, updates, userOpts);
     }
 
@@ -68,7 +69,7 @@ export class AchievementsResource {
      * @param userOpts option overrides for this request
      * @returns A promise that resolves to the provided achievement
      */
-    public create(achievement: IAchievement, userOpts?): Promise<IAchievement> {
+    public create(achievement: IAchievementRequest, userOpts?): Promise<IAchievement> {
         return this.common.create(achievement, userOpts);
     }
 

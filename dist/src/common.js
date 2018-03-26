@@ -74,7 +74,7 @@ class Common {
      */
     update(id, updates, userOpts) {
         check.assert.string(id, 'id must be a string');
-        check.assetarray(updates, 'updates must be an array');
+        check.assert.array(updates, 'updates must be an array');
         const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
         return this.context.http.makeRequest({
             method: 'PATCH',

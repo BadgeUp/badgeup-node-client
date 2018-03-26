@@ -44,7 +44,7 @@ export class ApplicationsResource {
      */
     public update(id: string, updates: any, userOpts?): Promise<IBadgeUpApplication> {
         check.assert.string(id, 'id must be a string');
-        check.assetarray(updates, 'updates must be an array');
+        check.assert.array(updates, 'updates must be an array');
 
         return this.context.http.makeRequest({
             method: 'PATCH',

@@ -1,7 +1,8 @@
 import { IAward } from '../awards/Award.class';
 import { ICriterion } from '../criteria/Criterion.class';
+import { IJsonPatch } from '../utils/JsonPatch.class';
 import { IResourceContext } from '../utils/ResourceContext';
-import { IAchievement } from './Achievement.class';
+import { IAchievement, IAchievementRequest } from './Achievement.class';
 /**
  * Achievements resource
  */
@@ -39,14 +40,14 @@ export declare class AchievementsResource {
      * @param userOpts option overrides for this request
      * @returns A promise that resolves to the updated object
      */
-    update(id: string, updates: any[], userOpts?: any): Promise<IAchievement>;
+    update(id: string, updates: IJsonPatch[], userOpts?: any): Promise<IAchievement>;
     /**
      * Create an achievement
      * @param achievement Sub-resource to achievement to create
      * @param userOpts option overrides for this request
      * @returns A promise that resolves to the provided achievement
      */
-    create(achievement: IAchievement, userOpts?: any): Promise<IAchievement>;
+    create(achievement: IAchievementRequest, userOpts?: any): Promise<IAchievement>;
     /**
      * Delete an achievement by ID
      * @param id ID of the achievement to delete
