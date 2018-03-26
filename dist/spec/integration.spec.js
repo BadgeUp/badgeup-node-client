@@ -1,9 +1,9 @@
 'use strict';
 Object.defineProperty(exports, "__esModule", { value: true });
 const chai_1 = require("chai");
+const src_1 = require("../src");
+const src_2 = require("../src");
 const JsonPatch_class_1 = require("../src/utils/JsonPatch.class");
-const src_1 = require("./../src");
-const Event_class_1 = require("./../src/events/Event.class");
 // import assign = require('lodash/fp/assign');
 const INTEGRATION_API_KEY = process.env.INTEGRATION_API_KEY;
 describe('integration tests', function () {
@@ -80,6 +80,45 @@ describe('integration tests', function () {
         }
         chai_1.expect(achievementsCount).to.be.equal(countViaIterator, 'Number of achievements retrieved via .getAll and .getIterator is not equal.');
     });
+    it('should get achievement criteria and awards', async function () {
+        const client = new src_1.BadgeUp({ apiKey: INTEGRATION_API_KEY });
+        const achievements = await client.achievements.getAll();
+        let criterionExist = false;
+        for (const achievement of achievements) {
+            const criteria = await client.achievements.getAchievementCriteria(achievement.id);
+            if (criteria.length > 0) {
+                criterionExist = true;
+            }
+            for (const criterion of criteria) {
+                chai_1.expect(criterion).to.be.an('object');
+                chai_1.expect(criterion.applicationId).to.be.a('string');
+                chai_1.expect(criterion.id).to.be.a('string');
+                chai_1.expect(criterion.key).to.be.a('string');
+                chai_1.expect(criterion.name).to.be.a('string');
+                chai_1.expect(criterion.evaluation).to.be.an('object');
+                chai_1.expect(criterion.evaluation.type).to.be.oneOf([src_1.CriterionType.timeseries, src_1.CriterionType.standard]);
+                chai_1.expect(criterion.meta).to.be.an('object');
+                chai_1.expect(criterion.meta.created).to.be.a('Date');
+            }
+        }
+        chai_1.expect(criterionExist, 'At least one achievement should have at least one criterion').to.be.true;
+        let awardExists = false;
+        for (const achievement of achievements) {
+            const awards = await client.achievements.getAchievementAwards(achievement.id);
+            if (awards.length > 0) {
+                awardExists = true;
+            }
+            for (const award of awards) {
+                chai_1.expect(award).to.be.an('object');
+                chai_1.expect(award.applicationId).to.be.a('string');
+                chai_1.expect(award.id).to.be.a('string');
+                chai_1.expect(award.name).to.be.a('string');
+                chai_1.expect(award.meta).to.be.an('object');
+                chai_1.expect(award.meta.created).to.be.a('Date');
+            }
+        }
+        chai_1.expect(awardExists, 'At least one achievement should have at least one award.').to.be.true;
+    });
     function checkAchievement(achievement) {
         chai_1.expect(achievement).to.be.an('object');
         chai_1.expect(achievement.applicationId).to.be.a('string');
@@ -102,15 +141,12 @@ describe('integration tests', function () {
             chai_1.expect(achievement.achievementId).to.be.a('string');
         }
     });
-    // it('should ', async function() {
-    //     const client = new BadgeUp({ apiKey: INTEGRATION_API_KEY });
-    // });
     it('should send an event and get progress back', async function () {
         const client = new src_1.BadgeUp({ apiKey: INTEGRATION_API_KEY });
         const rand = Math.floor(Math.random() * 100000);
         const subject = 'nodejs-ci-' + rand;
         const key = 'test';
-        const eventRequest = new Event_class_1.EventRequest(subject, key, { '@inc': 5 });
+        const eventRequest = new src_2.EventRequest(subject, key, { '@inc': 5 });
         const eventResponse = await client.events.create(eventRequest);
         chai_1.expect(eventResponse).to.be.an('object');
         const event = eventResponse.event;
@@ -140,8 +176,8 @@ describe('integration tests', function () {
                 chai_1.expect(achievement.awards).to.be.an('array');
                 chai_1.expect(achievement.evalTree).to.be.an('object');
                 chai_1.expect(achievement.meta).to.be.an('object');
-                // expect(achievement.meta.icon).to.be.a('string');
-                // expect(achievement.meta.created).to.be.a('Date');
+                chai_1.expect(achievement.meta.icon).to.be.a('string');
+                chai_1.expect(achievement.meta.created).to.be.a('Date');
                 chai_1.expect(achievement.name).to.be.a('string');
                 chai_1.expect(achievement.options).to.be.an('object');
                 chai_1.expect(achievement.resources).to.be.undefined;
@@ -168,7 +204,7 @@ describe('integration tests', function () {
         const rand = Math.floor(Math.random() * 100000);
         const subject = 'nodejs-ci-' + rand;
         const key = 'test';
-        const eventRequest = new Event_class_1.EventRequest(subject, key, { '@inc': 5 });
+        const eventRequest = new src_2.EventRequest(subject, key, { '@inc': 5 });
         const eventResponse = await client.events.createV2Preview(eventRequest);
         chai_1.expect(eventResponse).to.be.an('object');
         chai_1.expect(eventResponse.results).to.be.an('array');

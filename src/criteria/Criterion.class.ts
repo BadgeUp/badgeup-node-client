@@ -15,7 +15,7 @@ export interface ICriterionEvaluation {
     /**
      * The criterion evaluation type. Must be one of "standard", "timeseries".
      */
-    type: ICriterionType;
+    type: CriterionType;
 
     /**
      * Defines how the threshold field and metric value should be compared.
@@ -85,7 +85,7 @@ export enum ICriterionOperator {
     equal = '@eq'
 }
 
-export enum ICriterionType {
+export enum CriterionType {
     standard = 'standard',
     timeseries = 'timeseries'
 }

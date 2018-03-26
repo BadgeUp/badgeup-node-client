@@ -1,10 +1,10 @@
 'use strict';
 
 import { expect } from 'chai';
-import { IEarnedAchievement } from '../src/earnedAchievements/EarnedAchievement.class';
+import { IEarnedAchievement } from '../src';
+import { BadgeUp, Condition, CriterionType, IAchievement, IAchievementRequest, IEventV2Preview } from '../src';
+import {  EventRequest, IEventV1 } from '../src';
 import { Operation } from '../src/utils/JsonPatch.class';
-import { BadgeUp, Condition, IAchievement, IAchievementRequest, IEventV2Preview } from './../src';
-import {  EventRequest, IEventV1 } from './../src/events/Event.class';
 // import assign = require('lodash/fp/assign');
 const INTEGRATION_API_KEY = process.env.INTEGRATION_API_KEY;
 
@@ -97,6 +97,49 @@ describe('integration tests', function() {
         expect(achievementsCount).to.be.equal(countViaIterator, 'Number of achievements retrieved via .getAll and .getIterator is not equal.');
     });
 
+    it('should get achievement criteria and awards', async function() {
+        const client = new BadgeUp({ apiKey: INTEGRATION_API_KEY });
+
+        const achievements = await client.achievements.getAll();
+        let criterionExist = false;
+        for (const achievement of achievements) {
+            const criteria = await client.achievements.getAchievementCriteria(achievement.id);
+            if (criteria.length > 0) {
+                criterionExist = true;
+            }
+            for (const criterion of criteria) {
+                expect(criterion).to.be.an('object');
+                expect(criterion.applicationId).to.be.a('string');
+                expect(criterion.id).to.be.a('string');
+                expect(criterion.key).to.be.a('string');
+                expect(criterion.name).to.be.a('string');
+                expect(criterion.evaluation).to.be.an('object');
+                expect(criterion.evaluation.type).to.be.oneOf([CriterionType.timeseries, CriterionType.standard]);
+                expect(criterion.meta).to.be.an('object');
+                expect(criterion.meta.created).to.be.a('Date');
+            }
+        }
+        expect(criterionExist, 'At least one achievement should have at least one criterion').to.be.true;
+
+        let awardExists = false;
+        for (const achievement of achievements) {
+            const awards = await client.achievements.getAchievementAwards(achievement.id);
+            if (awards.length > 0) {
+                awardExists = true;
+            }
+            for (const award of awards) {
+                expect(award).to.be.an('object');
+                expect(award.applicationId).to.be.a('string');
+                expect(award.id).to.be.a('string');
+                expect(award.name).to.be.a('string');
+                expect(award.meta).to.be.an('object');
+                expect(award.meta.created).to.be.a('Date');
+            }
+        }
+
+        expect(awardExists, 'At least one achievement should have at least one award.').to.be.true;
+    });
+
     function checkAchievement(achievement: IAchievement) {
         expect(achievement).to.be.an('object');
         expect(achievement.applicationId).to.be.a('string');
@@ -121,10 +164,6 @@ describe('integration tests', function() {
             expect(achievement.achievementId).to.be.a('string');
         }
     });
-
-    // it('should ', async function() {
-    //     const client = new BadgeUp({ apiKey: INTEGRATION_API_KEY });
-    // });
 
     it('should send an event and get progress back', async function() {
         const client = new BadgeUp({ apiKey: INTEGRATION_API_KEY });
@@ -168,8 +207,8 @@ describe('integration tests', function() {
                 expect(achievement.awards).to.be.an('array');
                 expect(achievement.evalTree).to.be.an('object');
                 expect(achievement.meta).to.be.an('object');
-                // expect(achievement.meta.icon).to.be.a('string');
-                // expect(achievement.meta.created).to.be.a('Date');
+                expect(achievement.meta.icon).to.be.a('string');
+                expect(achievement.meta.created).to.be.a('Date');
                 expect(achievement.name).to.be.a('string');
                 expect(achievement.options).to.be.an('object');
                 expect(achievement.resources).to.be.undefined;

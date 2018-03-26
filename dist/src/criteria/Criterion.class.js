@@ -8,11 +8,11 @@ var ICriterionOperator;
     ICriterionOperator["lessOrEqual"] = "@lte";
     ICriterionOperator["equal"] = "@eq";
 })(ICriterionOperator = exports.ICriterionOperator || (exports.ICriterionOperator = {}));
-var ICriterionType;
-(function (ICriterionType) {
-    ICriterionType["standard"] = "standard";
-    ICriterionType["timeseries"] = "timeseries";
-})(ICriterionType = exports.ICriterionType || (exports.ICriterionType = {}));
+var CriterionType;
+(function (CriterionType) {
+    CriterionType["standard"] = "standard";
+    CriterionType["timeseries"] = "timeseries";
+})(CriterionType = exports.CriterionType || (exports.CriterionType = {}));
 var ICriterionTimeseriesPeriodUnits;
 (function (ICriterionTimeseriesPeriodUnits) {
     ICriterionTimeseriesPeriodUnits["minutes"] = "minutes";
