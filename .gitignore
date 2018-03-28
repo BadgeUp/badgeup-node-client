@@ -28,3 +28,7 @@ node_modules
 
 # silly sed issue on OSX
 tsconfig.json-e
+
+#webstorm settings folder
+.idea
+

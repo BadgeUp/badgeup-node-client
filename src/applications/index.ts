@@ -1,7 +1,7 @@
 import * as check from 'check-types';
 import { IResourceContext } from '../utils/ResourceContext';
 import { pageToGenerator } from './../utils/pageToGenerator';
-import { IBadgeUpApplication } from './Application.class';
+import { IBadgeUpApplication, IBadgeUpApplicationRequest } from './Application.class';
 
 const ENDPT = 'apps';
 
@@ -25,7 +25,7 @@ export class ApplicationsResource {
      * @param userOpts option overrides for this request
      * @returns A promise that resolves to the provided application
      */
-    public create(object: any, userOpts?): Promise<IBadgeUpApplication> {
+    public create(object: IBadgeUpApplicationRequest, userOpts?): Promise<IBadgeUpApplication> {
         check.assert.object(object, 'object must be an object');
 
         return this.context.http.makeRequest({

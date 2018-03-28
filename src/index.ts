@@ -137,3 +137,5 @@ export * from './events/Event.class';
 export * from './metrics/Metric.class';
 export * from './progress/Progress.class';
 export * from './utils/Meta.class';
+export * from './utils/JsonPatch.class';
+

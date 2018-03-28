@@ -77,4 +77,5 @@ exports.BadgeUp = BadgeUp;
 __export(require("./criteria/Criterion.class"));
 __export(require("./events/Event.class"));
 __export(require("./progress/Progress.class"));
+__export(require("./utils/JsonPatch.class"));
 //# sourceMappingURL=index.js.map

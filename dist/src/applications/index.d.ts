@@ -1,5 +1,5 @@
 import { IResourceContext } from '../utils/ResourceContext';
-import { IBadgeUpApplication } from './Application.class';
+import { IBadgeUpApplication, IBadgeUpApplicationRequest } from './Application.class';
 /**
  * Applications resource
  */
@@ -16,7 +16,7 @@ export declare class ApplicationsResource {
      * @param userOpts option overrides for this request
      * @returns A promise that resolves to the provided application
      */
-    create(object: any, userOpts?: any): Promise<IBadgeUpApplication>;
+    create(object: IBadgeUpApplicationRequest, userOpts?: any): Promise<IBadgeUpApplication>;
     /**
      * Update an application
      * @param id ID of the application to be updated

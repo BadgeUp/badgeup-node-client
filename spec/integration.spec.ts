@@ -1,11 +1,8 @@
 'use strict';
 
 import { expect } from 'chai';
-import { IEarnedAchievement } from '../src';
-import { BadgeUp, Condition, CriterionType, IAchievement, IAchievementRequest, IEventV2Preview } from '../src';
-import {  EventRequest, IEventV1 } from '../src';
-import { Operation } from '../src/utils/JsonPatch.class';
-// import assign = require('lodash/fp/assign');
+import { BadgeUp, Condition, CriterionType, EventRequest, IAchievement, IAchievementRequest, IEarnedAchievement, IEventV1, IEventV2Preview, Operation } from '../src';
+
 const INTEGRATION_API_KEY = process.env.INTEGRATION_API_KEY;
 
 describe('integration tests', function() {
@@ -154,6 +151,34 @@ describe('integration tests', function() {
         expect(achievement.evalTree.type).to.be.a('string');
     }
 
+    it('should get applications via getAll and iterator', async function() {
+        const client = new BadgeUp({ apiKey: INTEGRATION_API_KEY });
+
+        const applications = await client.applications.getAll();
+        expect(applications).to.be.an('array');
+        for (const application of applications) {
+            checkApplication(application);
+        }
+
+        let countViaIterator = 0;
+        for (const applicationPromise of client.applications.getIterator()) {
+            const applicationViaIterator = await applicationPromise;
+            checkApplication(applicationViaIterator);
+            countViaIterator++;
+        }
+
+        expect(countViaIterator).to.be.equal(applications.length, 'different number of applications received via .getAll and .getIterator methods');
+    });
+
+    function checkApplication(application) {
+        expect(application).to.be.an('object');
+        expect(application.id).to.be.a('string');
+        expect(application.name).to.be.a('string');
+        expect(application.meta).to.be.a('object');
+        expect(application.meta.demo).to.satisfy((val) => typeof val === 'boolean' || val === undefined);
+        expect(application.meta.created).to.be.a('Date');
+    }
+
     it('should iterate earned achievements via iterator', async function() {
         const client = new BadgeUp({ apiKey: INTEGRATION_API_KEY });
 
@@ -255,9 +280,4 @@ describe('integration tests', function() {
             expect(e.event.subject).to.be.a('string');
         });
     });
-
-
-
-
-
 });

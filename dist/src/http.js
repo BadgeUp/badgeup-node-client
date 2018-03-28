@@ -10,7 +10,7 @@ const requestDefaults = {
     follow: 2,
     baseUrl: 'https://api.useast1.badgeup.io',
     headers: {
-        'User-Agent': 'badgeup-js-client/0.9.x (https://badgeup.io/)',
+        'User-Agent': 'badgeup-js-client/0.1.x (https://badgeup.io/)',
         'Accept': 'application/json'
     }
 };

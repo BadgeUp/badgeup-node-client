@@ -9,7 +9,7 @@ const requestDefaults = {
     follow: 2, // max 2 redirects
     baseUrl: 'https://api.useast1.badgeup.io', // default API endpoint
     headers: {
-        'User-Agent': 'badgeup-js-client/0.9.x (https://badgeup.io/)',
+        'User-Agent': 'badgeup-js-client/0.1.x (https://badgeup.io/)',
         'Accept': 'application/json'
     }
 };

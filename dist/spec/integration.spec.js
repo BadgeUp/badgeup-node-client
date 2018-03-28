@@ -2,9 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const chai_1 = require("chai");
 const src_1 = require("../src");
-const src_2 = require("../src");
-const JsonPatch_class_1 = require("../src/utils/JsonPatch.class");
-// import assign = require('lodash/fp/assign');
 const INTEGRATION_API_KEY = process.env.INTEGRATION_API_KEY;
 describe('integration tests', function () {
     this.timeout(5000);
@@ -60,7 +57,7 @@ describe('integration tests', function () {
         chai_1.expect(createdAchievement.description).to.equal(achievementRequest.description);
         chai_1.expect(createdAchievement.evalTree.condition).to.equal(achievementRequest.evalTree.condition);
         chai_1.expect(createdAchievement.evalTree.criteria).to.deep.equal(achievementRequest.evalTree.criteria);
-        const updatedAchievement = await client.achievements.update(createdAchievement.id, [{ op: JsonPatch_class_1.Operation.replace, path: '/name', value: 'Super Chef' }]);
+        const updatedAchievement = await client.achievements.update(createdAchievement.id, [{ op: src_1.Operation.replace, path: '/name', value: 'Super Chef' }]);
         chai_1.expect(updatedAchievement).to.be.an('object');
         chai_1.expect(updatedAchievement.id).to.equal(createdAchievement.id);
         chai_1.expect(updatedAchievement.name).to.be.equal('Super Chef');
@@ -132,6 +129,29 @@ describe('integration tests', function () {
         });
         chai_1.expect(achievement.evalTree.type).to.be.a('string');
     }
+    it('should get applications via getAll and iterator', async function () {
+        const client = new src_1.BadgeUp({ apiKey: INTEGRATION_API_KEY });
+        const applications = await client.applications.getAll();
+        chai_1.expect(applications).to.be.an('array');
+        for (const application of applications) {
+            checkApplication(application);
+        }
+        let countViaIterator = 0;
+        for (const applicationPromise of client.applications.getIterator()) {
+            const applicationViaIterator = await applicationPromise;
+            checkApplication(applicationViaIterator);
+            countViaIterator++;
+        }
+        chai_1.expect(countViaIterator).to.be.equal(applications.length, 'different number of applications received via .getAll and .getIterator methods');
+    });
+    function checkApplication(application) {
+        chai_1.expect(application).to.be.an('object');
+        chai_1.expect(application.id).to.be.a('string');
+        chai_1.expect(application.name).to.be.a('string');
+        chai_1.expect(application.meta).to.be.a('object');
+        chai_1.expect(application.meta.demo).to.satisfy((val) => typeof val === 'boolean' || val === undefined);
+        chai_1.expect(application.meta.created).to.be.a('Date');
+    }
     it('should iterate earned achievements via iterator', async function () {
         const client = new src_1.BadgeUp({ apiKey: INTEGRATION_API_KEY });
         const iterator = client.earnedAchievements.getIterator();
@@ -146,7 +166,7 @@ describe('integration tests', function () {
         const rand = Math.floor(Math.random() * 100000);
         const subject = 'nodejs-ci-' + rand;
         const key = 'test';
-        const eventRequest = new src_2.EventRequest(subject, key, { '@inc': 5 });
+        const eventRequest = new src_1.EventRequest(subject, key, { '@inc': 5 });
         const eventResponse = await client.events.create(eventRequest);
         chai_1.expect(eventResponse).to.be.an('object');
         const event = eventResponse.event;
@@ -204,7 +224,7 @@ describe('integration tests', function () {
         const rand = Math.floor(Math.random() * 100000);
         const subject = 'nodejs-ci-' + rand;
         const key = 'test';
-        const eventRequest = new src_2.EventRequest(subject, key, { '@inc': 5 });
+        const eventRequest = new src_1.EventRequest(subject, key, { '@inc': 5 });
         const eventResponse = await client.events.createV2Preview(eventRequest);
         chai_1.expect(eventResponse).to.be.an('object');
         chai_1.expect(eventResponse.results).to.be.an('array');
