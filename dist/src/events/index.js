@@ -14,12 +14,11 @@ class EventsResource {
     constructor(context) {
         this.common = new common_1.Common(context, ENDPT);
     }
-    /** <summary>
+    /**
      * Send an event to BadgeUp to be processed, returning achievement progress status
      * @param object Sub-resource to event to create
      * @param userOpts option overrides for this request
      * @returns A promise that resolves to the provided event
-     * </summary>
      */
     create(object, userOpts) {
         return this.common.create(object, userOpts);

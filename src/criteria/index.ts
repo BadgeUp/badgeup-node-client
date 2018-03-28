@@ -5,7 +5,7 @@ import { ICriterion } from './Criterion.class';
 const ENDPT = 'criteria';
 
 /**
- * Criterion module
+ * Criteria resource
  * @param {IResourceContext} context The context to make requests as
  */
 export class CriteriaResource extends Common<ICriterion> {

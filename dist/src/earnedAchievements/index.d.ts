@@ -30,13 +30,13 @@ export declare class EarnedAchievementQueryBuilder {
      */
     private buildQuery(queryBy);
     /**
-     * Retrieves earned achievements, returned as an array
+     * Retrieves queried earned achievements, returned as an array
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to a list of metrics
      */
     getAll(userOpts: any): Promise<IEarnedAchievement[]>;
     /**
-     * Retrieves earned achievements, returned as an iterator
+     * Retrieves queried earned achievements, returned as an iterator
      * @param userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */
@@ -86,7 +86,7 @@ export declare class EarnedAchievementsResource {
      */
     remove(id: string, userOpts?: any): Promise<IEarnedAchievement>;
     /**
-     * Sets up a delete request targeting earned achievements using query filters
+     * Sets up a request targeting earned achievements using query filters
      * @returns Returns an instance of the EarnedAchievementQueryBuilder class
      */
     query(): EarnedAchievementQueryBuilder;

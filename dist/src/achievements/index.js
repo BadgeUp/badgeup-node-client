@@ -69,7 +69,7 @@ class AchievementsResource {
         return this.common.remove(id, userOpts);
     }
     /**
-     * Retrieves a list of criteria
+     * Retrieves the list of criteria associated with an achievement
      * @param id ID of the achievement to retrieve criteria for
      * @param userOpts option overrides for this request
      * @returns Promise that resolves with the list of criteria
@@ -81,7 +81,7 @@ class AchievementsResource {
         }, userOpts).then(function (body) { return body.data; });
     }
     /**
-     * Retrieves a list of awards
+     * Retrieves the list of awards associated with an achievement
      * @param id ID of the achievement to retrieve criteria for
      * @param userOpts option overrides for this request
      * @returns Promise that resolves with the list of awards

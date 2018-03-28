@@ -56,14 +56,14 @@ export declare class AchievementsResource {
      */
     remove(id: string, userOpts?: any): Promise<IAchievement>;
     /**
-     * Retrieves a list of criteria
+     * Retrieves the list of criteria associated with an achievement
      * @param id ID of the achievement to retrieve criteria for
      * @param userOpts option overrides for this request
      * @returns Promise that resolves with the list of criteria
      */
     getAchievementCriteria(id: string, userOpts?: any): Promise<ICriterion[]>;
     /**
-     * Retrieves a list of awards
+     * Retrieves the list of awards associated with an achievement
      * @param id ID of the achievement to retrieve criteria for
      * @param userOpts option overrides for this request
      * @returns Promise that resolves with the list of awards

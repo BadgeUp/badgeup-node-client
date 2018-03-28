@@ -29,7 +29,7 @@ export interface ICriterionEvaluation {
 
     /**
      * Criteria repetition options.
-     * Standard only.
+     * Standard criteria only.
      */
     repeatOptions?: {
         /**
@@ -40,7 +40,7 @@ export interface ICriterionEvaluation {
 
     /**
      * The time period during which metrics will be used for evaluation.
-     * Timeseries only.
+     * Timeseries criteria only.
      */
     period?: {
         /**
@@ -55,8 +55,8 @@ export interface ICriterionEvaluation {
     };
 
     /**
-     * The number of times the metric threshold must be met in order for the criterion to be complete.
-     * Timeseries only.
+     * The number of time periods for which the metric threshold must be met in order for the criterion to be complete.
+     * Timeseries criteria only.
      */
     multiplicity?: {
 
