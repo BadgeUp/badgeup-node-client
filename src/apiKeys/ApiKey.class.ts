@@ -1,4 +1,4 @@
-export interface IApiKey {
+export interface ApiKey {
 
     /**
      * A string that uniquely identifies this API key.
@@ -21,7 +21,7 @@ export interface IApiKey {
     scopes: string[];
 
     /**
-     * IMeta information object. Contrary to the rest of the BadgeUp API, adding custom fields to the API Key meta object is not permistted.
+     * Meta information object. Contrary to the rest of the BadgeUp API, adding custom fields to the API Key meta object is not permistted.
      */
     meta: {
         created: Date
@@ -33,7 +33,7 @@ export interface IApiKey {
     token: string;
 }
 
-export interface IApiKeyScope {
+export interface ApiKeyScope {
     scope: string;
     description: string;
 }

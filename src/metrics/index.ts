@@ -3,25 +3,25 @@ import * as querystring from 'querystring';
 import { Common } from '../common';
 import { collectQueryParams } from '../utils/collectQueryParams';
 import { pageToGenerator } from '../utils/pageToGenerator';
-import { IQueryParameters } from '../utils/QueryBuilder';
-import { IResourceContext } from '../utils/ResourceContext';
-import { IMetric, IMetricRequest } from './Metric.class';
+import { QueryParameters } from '../utils/QueryBuilder';
+import { ResourceContext } from '../utils/ResourceContext';
+import { Metric, MetricRequest } from './Metric.class';
 
 const ENDPT = 'metrics';
 
 const DELETE_QUERY_PARAMS = ['key', 'subject'];
 
 export class MetricQueryBuilder {
-    context: IResourceContext;
+    context: ResourceContext;
 
     // container for the query parameters
-    private _params: IQueryParameters = {};
+    private _params: QueryParameters = {};
 
     /**
      * Construct the metrics resource
      * @param context The context to make requests as
      */
-    constructor(context: IResourceContext) {
+    constructor(context: ResourceContext) {
         this.context = context;
     }
 
@@ -66,26 +66,26 @@ export class MetricQueryBuilder {
 
 /**
  * Metrics module
- * @param {IResourceContext} context The context to make requests as
+ * @param {ResourceContext} context The context to make requests as
  */
 export class MetricsResource {
-    private common: Common<IMetric>;
-    private context: IResourceContext;
+    private common: Common<Metric>;
+    private context: ResourceContext;
 
 
-    constructor(context: IResourceContext) {
+    constructor(context: ResourceContext) {
         this.common = new Common(context, ENDPT);
         this.context = context;
     }
 
     // TODO: comments missing for some methods
-    public getAll(userOpts?): Promise<IMetric[]> {
+    public getAll(userOpts?): Promise<Metric[]> {
         return this.common.getAll(userOpts);
     }
-    getIterator(userOpts?): IterableIterator<Promise<IMetric>> {
+    getIterator(userOpts?): IterableIterator<Promise<Metric>> {
         return this.common.getIterator(userOpts);
     }
-    public create(object: IMetricRequest, userOpts?): Promise<IMetric> {
+    public create(object: MetricRequest, userOpts?): Promise<Metric> {
         return this.common.create(object, userOpts);
     }
 
@@ -95,7 +95,7 @@ export class MetricsResource {
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to a list of metrics
      */
-    public getAllSubjectMetrics(subject: string, userOpts?: any): Promise<IMetric[]> {
+    public getAllSubjectMetrics(subject: string, userOpts?: any): Promise<Metric[]> {
         check.assert.string(subject, 'subject must be a string');
 
         let array = [];
@@ -123,7 +123,7 @@ export class MetricsResource {
      * @param userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */
-    public *getSubjectMetricsIterator(subject: string, userOpts?: any): IterableIterator<Promise<IMetric>> {
+    public *getSubjectMetricsIterator(subject: string, userOpts?: any): IterableIterator<Promise<Metric>> {
         check.assert.string(subject, 'subject must be a string');
 
         const pageFn = () => {
@@ -136,7 +136,7 @@ export class MetricsResource {
             };
         };
 
-        yield* pageToGenerator<IMetric>(pageFn());
+        yield* pageToGenerator<Metric>(pageFn());
     }
 
     /**
@@ -146,7 +146,7 @@ export class MetricsResource {
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to a single metric
      */
-    public getIndividualSubjectMetric(subject: string, key: string, userOpts?: any): Promise<IMetric> {
+    public getIndividualSubjectMetric(subject: string, key: string, userOpts?: any): Promise<Metric> {
         check.assert.string(subject, 'subject must be a string');
         check.assert.string(key, 'key must be a string');
 

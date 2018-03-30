@@ -4,7 +4,7 @@ const common_1 = require("../common");
 const ENDPT = 'awards';
 /**
  * Awards resource
- * @param {IResourceContext} context The context to make requests as
+ * @param {ResourceContext} context The context to make requests as
  */
 class AwardsResource extends common_1.Common {
     constructor(context) {

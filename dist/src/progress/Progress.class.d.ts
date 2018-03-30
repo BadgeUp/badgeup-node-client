@@ -1,5 +1,5 @@
-import { IAchievement } from '../achievements/Achievement.class';
-export interface IProgress {
+import { Achievement } from '../achievements/Achievement.class';
+export interface Progress {
     /**
      * States if the achievement has been earned.
      */
@@ -11,7 +11,7 @@ export interface IProgress {
     /**
      * An object that defines the evaluation logic of associated criteria.
      */
-    progressTree: IProgressTreeGroup;
+    progressTree: ProgressTreeGroup;
     /**
      * A string that uniquely identifies this achievement.
      */
@@ -19,19 +19,19 @@ export interface IProgress {
     /**
      * The root achievement document.
      */
-    achievement: IAchievement;
+    achievement: Achievement;
     /**
      * A string that uniquely identifies this most recently earned achievement.
      */
     earnedAchievementId: string;
 }
-export interface IProgressTreeGroup {
+export interface ProgressTreeGroup {
     criteria: {
         [key: string]: number;
     };
     type: string;
     condition: Condition;
-    groups: IProgressTreeGroup[];
+    groups: ProgressTreeGroup[];
 }
 export declare enum Condition {
     and = "AND",

@@ -1,6 +1,6 @@
-import { IMeta } from '../utils/Meta.class';
+import { Meta } from '../utils/Meta.class';
 
-export interface IAward {
+export interface Award {
 
     /**
      * A string that uniquely identifies this award.
@@ -28,7 +28,7 @@ export interface IAward {
     data: any;
 
     /**
-     * IMeta information object. Custom fields may be added.
+     * Meta information object. Custom fields may be added.
      */
-    meta: IMeta;
+    meta: Meta;
 }

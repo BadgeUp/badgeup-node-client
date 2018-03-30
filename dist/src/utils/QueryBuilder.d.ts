@@ -1,3 +1,3 @@
-export interface IQueryParameters {
+export interface QueryParameters {
     [key: string]: string;
 }

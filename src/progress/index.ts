@@ -1,22 +1,22 @@
 import * as check from 'check-types';
 import * as querystring from 'querystring';
 import { collectQueryParams } from '../utils/collectQueryParams';
-import { IQueryParameters } from '../utils/QueryBuilder';
-import { IResourceContext } from '../utils/ResourceContext';
+import { QueryParameters } from '../utils/QueryBuilder';
+import { ResourceContext } from '../utils/ResourceContext';
 import { pageToGenerator } from './../utils/pageToGenerator';
-import { IProgress } from './Progress.class';
+import { Progress } from './Progress.class';
 
 const ENDPT = 'progress';
 const GET_QUERYPARAMS = ['subject', 'achievementId'];
 
 export class ProgressQueryBuilder {
 
-    context: IResourceContext;
+    context: ResourceContext;
 
     // container for the query parameters
-    private params: IQueryParameters = {};
+    private params: QueryParameters = {};
 
-    constructor(context: IResourceContext) {
+    constructor(context: ResourceContext) {
         this.context = context;
     }
 
@@ -45,7 +45,7 @@ export class ProgressQueryBuilder {
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to an array of progress objects
      */
-    getAll(userOpts?): Promise<IProgress> {
+    getAll(userOpts?): Promise<Progress> {
         if (!this.params.subject) {
             throw new Error('subject must be provided');
         }
@@ -76,7 +76,7 @@ export class ProgressQueryBuilder {
      * @param userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next progress object
      */
-    *getIterator(userOpts?): IterableIterator<Promise<IProgress>> {
+    *getIterator(userOpts?): IterableIterator<Promise<Progress>> {
         if (!this.params.subject) {
             throw new Error('subject must be provided');
         }
@@ -93,7 +93,7 @@ export class ProgressQueryBuilder {
             };
         };
 
-        yield* pageToGenerator<IProgress>(pageFn());
+        yield* pageToGenerator<Progress>(pageFn());
     }
 }
 
@@ -101,13 +101,13 @@ export class ProgressQueryBuilder {
  * Progress resource
  */
 export class ProgressResource {
-    context: IResourceContext;
+    context: ResourceContext;
 
     /**
      * Construct the Progress resource
      * @param context The context to make requests as
      */
-    constructor(context: IResourceContext) {
+    constructor(context: ResourceContext) {
         this.context = context;
     }
 

@@ -54,7 +54,7 @@ class MetricQueryBuilder {
 exports.MetricQueryBuilder = MetricQueryBuilder;
 /**
  * Metrics module
- * @param {IResourceContext} context The context to make requests as
+ * @param {ResourceContext} context The context to make requests as
  */
 class MetricsResource {
     constructor(context) {

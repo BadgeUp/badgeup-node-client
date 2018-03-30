@@ -1,6 +1,6 @@
 import { Common } from '../common';
-import { IResourceContext } from '../utils/ResourceContext';
-import { IAchievementIcon } from './AchievementIcon.class';
+import { ResourceContext } from '../utils/ResourceContext';
+import { AchievementIcon } from './AchievementIcon.class';
 
 const ENDPT = 'achievementicons';
 
@@ -8,14 +8,14 @@ const ENDPT = 'achievementicons';
  * Achievement icons resource
  */
 export class AchievementIconsResource {
-    private common: Common<IAchievementIcon>;
-    private context: IResourceContext;
+    private common: Common<AchievementIcon>;
+    private context: ResourceContext;
 
     /**
      * Construct the achievement icons resource
      * @param context The context to make requests as
      */
-    constructor(context: IResourceContext) {
+    constructor(context: ResourceContext) {
         this.context = context;
         this.common = new Common(context, ENDPT);
     }
@@ -25,7 +25,7 @@ export class AchievementIconsResource {
      * @param userOpts option overrides for this request
      * @returns A promise that resolves to an array of achievement icon identifiers
      */
-    public getAll(userOpts?): Promise<IAchievementIcon[]> {
+    public getAll(userOpts?): Promise<AchievementIcon[]> {
         return this.context.http.makeRequest({
             method: 'GET',
             url: `/v1/apps/${this.context.applicationId}/${ENDPT}`
@@ -38,7 +38,7 @@ export class AchievementIconsResource {
      * @param userOpts option overrides for this request
      * @returns A promise that resolves to the deleted achievement icon
      */
-    public remove(iconFileName: string, userOpts?): Promise<IAchievementIcon> {
+    public remove(iconFileName: string, userOpts?): Promise<AchievementIcon> {
         return this.common.remove(iconFileName, userOpts);
     }
 }

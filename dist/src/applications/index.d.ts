@@ -1,5 +1,5 @@
-import { IResourceContext } from '../utils/ResourceContext';
-import { IBadgeUpApplication, IBadgeUpApplicationRequest } from './Application.class';
+import { ResourceContext } from '../utils/ResourceContext';
+import { BadgeUpApplication, BadgeUpApplicationRequest } from './Application.class';
 /**
  * Applications resource
  */
@@ -9,14 +9,14 @@ export declare class ApplicationsResource {
      * Construct the Applications resource
      * @param context The context to make requests as
      */
-    constructor(context: IResourceContext);
+    constructor(context: ResourceContext);
     /**
      * Create an application
      * @param object application object
      * @param userOpts option overrides for this request
      * @returns A promise that resolves to the provided application
      */
-    create(object: IBadgeUpApplicationRequest, userOpts?: any): Promise<IBadgeUpApplication>;
+    create(object: BadgeUpApplicationRequest, userOpts?: any): Promise<BadgeUpApplication>;
     /**
      * Update an application
      * @param id ID of the application to be updated
@@ -24,31 +24,31 @@ export declare class ApplicationsResource {
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to the updated application
      */
-    update(id: string, updates: any, userOpts?: any): Promise<IBadgeUpApplication>;
+    update(id: string, updates: any, userOpts?: any): Promise<BadgeUpApplication>;
     /**
      * Delete an application
      * @param id ID of the application to be updated
      * @param userOpts option overrides for this request
      * @returns A promise that resolves to the deleted application
      */
-    remove(id: string, userOpts?: any): Promise<IBadgeUpApplication>;
+    remove(id: string, userOpts?: any): Promise<BadgeUpApplication>;
     /**
      * Retrieve application by ID
      * @param id ID of the application to retrieve
      * @param userOpts option overrides for this request
      * @returns Promise that resolves with the retrieved application
      */
-    get(id: string, userOpts?: any): Promise<IBadgeUpApplication>;
+    get(id: string, userOpts?: any): Promise<BadgeUpApplication>;
     /**
      * Retrieve all objects, returned as an array
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to an array of objects
      */
-    getAll(userOpts?: any): Promise<IBadgeUpApplication[]>;
+    getAll(userOpts?: any): Promise<BadgeUpApplication[]>;
     /**
      * Retrieve all applications
      * @param userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */
-    getIterator(userOpts?: any): IterableIterator<Promise<IBadgeUpApplication>>;
+    getIterator(userOpts?: any): IterableIterator<Promise<BadgeUpApplication>>;
 }

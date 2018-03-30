@@ -1,12 +1,12 @@
-import { IAward } from '../awards/Award.class';
-import { ICriterion } from '../criteria/Criterion.class';
+import { Award } from '../awards/Award.class';
+import { Criterion } from '../criteria/Criterion.class';
 import { Condition } from '../progress/Progress.class';
-import { IMeta } from '../utils/Meta.class';
+import { Meta } from '../utils/Meta.class';
 
-export interface IAchievementRequest {
+export interface AchievementRequest {
     name: string;
     description: string;
-    evalTree?: IEvalTreeGroup;
+    evalTree?: EvalTreeGroup;
     options?: {
         suspended?: boolean;
         earnLimit?: number;
@@ -17,28 +17,28 @@ export interface IAchievementRequest {
     }
 }
 
-export interface IAchievement extends IAchievementRequest {
+export interface Achievement extends AchievementRequest {
     id: string;
     applicationId: string;
     awards: string[];
-    evalTree: IEvalTreeGroup;
-    resources: IAchievementResource;
-    meta: IAchievementMeta;
+    evalTree: EvalTreeGroup;
+    resources: AchievementResource;
+    meta: AchievementMeta;
 }
 
-export interface IAchievementResource {
-    criteria: ICriterion[];
-    awards: IAward[];
+export interface AchievementResource {
+    criteria: Criterion[];
+    awards: Award[];
 }
 
-export interface IEvalTreeGroup {
+export interface EvalTreeGroup {
     type: string;
     condition: Condition;
-    groups: IEvalTreeGroup[];
+    groups: EvalTreeGroup[];
     criteria: string[];
 }
 
-export interface IAchievementMeta extends IMeta {
+export interface AchievementMeta extends Meta {
     icon: string;
 }
 

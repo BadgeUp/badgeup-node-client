@@ -1,6 +1,6 @@
 import * as check from 'check-types';
 import { pageToGenerator } from '../utils/pageToGenerator';
-import { IResourceContext } from '../utils/ResourceContext';
+import { ResourceContext } from '../utils/ResourceContext';
 
 const ENDPT = 'analytics';
 
@@ -10,13 +10,13 @@ const ENDPT = 'analytics';
  * THIS RESOURCE IS NOT SUBJECT TO ANY SLAS AND MAY BE CHANGED AT ANY TIME
  */
 export class AnalyticsResource {
-    private context: IResourceContext;
+    private context: ResourceContext;
 
     /**
      * Construct the analytics resource
      * @param context The context to make requests as
      */
-    constructor(context: IResourceContext) {
+    constructor(context: ResourceContext) {
         this.context = context;
     }
 

@@ -1,4 +1,4 @@
-export interface IJsonPatch {
+export interface JsonPatch {
     op: Operation,
     path: string,
     value: any

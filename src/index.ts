@@ -12,9 +12,9 @@ import { EventsResource } from './events';
 import { BadgeUpHttp } from './http';
 import { MetricsResource } from './metrics';
 import { ProgressResource } from './progress';
-import { IResourceContext } from './utils/ResourceContext';
+import { ResourceContext } from './utils/ResourceContext';
 
-export class BadgeUp implements IResourceContext {
+export class BadgeUp implements ResourceContext {
 
     applicationId: string | null = null;
 
@@ -38,7 +38,7 @@ export class BadgeUp implements IResourceContext {
      * Construct an instance of the BadgeUp client.
      * @param {{apiKey: string, token: string, applicationId: string, request: object }} globalOpts - Client and global options
      */
-    constructor(globalOpts: IGlobalOptions) {
+    constructor(globalOpts: GlobalOptions) {
 
         // these fields are required
         check.assert.object(globalOpts, 'You must provide an options object. Please see the documentation.');
@@ -93,7 +93,7 @@ export class BadgeUp implements IResourceContext {
     }
 }
 
-export interface IGlobalOptions {
+export interface GlobalOptions {
     /**
      * API Key acquired from the BadgeUp Dashboard
      */

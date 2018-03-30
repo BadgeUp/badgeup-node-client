@@ -2,7 +2,7 @@
  * Turns a function that resolves with a page of items into a generator-powered iterator
  * @param pageFn function that may be called to retrieve the next page of data
  */
-export function* pageToGenerator<T>(pageFn: () => Promise<IPaginatedData>): IterableIterator<Promise<T>>  {
+export function* pageToGenerator<T>(pageFn: () => Promise<PaginatedData>): IterableIterator<Promise<T>>  {
     let nextPageExists = true;
     let bank: any[] = [];
     let fetchPromise: Promise<T> = new Promise<T>((resolve) => resolve());
@@ -25,7 +25,7 @@ export function* pageToGenerator<T>(pageFn: () => Promise<IPaginatedData>): Iter
 /**
  * Data represented in multiple pages
  */
-export interface IPaginatedData {
+export interface PaginatedData {
     pages: {
         previous: string | null;
         next: string | null;

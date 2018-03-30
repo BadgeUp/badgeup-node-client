@@ -1,14 +1,14 @@
-import { IMeta } from '../utils/Meta.class';
-export interface ICriterion {
+import { Meta } from '../utils/Meta.class';
+export interface Criterion {
     id: string;
     applicationId: string;
     key: string;
     name: string;
     description: string;
-    meta: IMeta;
-    evaluation: ICriterionEvaluation;
+    meta: Meta;
+    evaluation: CriterionEvaluation;
 }
-export interface ICriterionEvaluation {
+export interface CriterionEvaluation {
     /**
      * The criterion evaluation type. Must be one of "standard", "timeseries".
      */

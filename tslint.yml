@@ -55,6 +55,9 @@ rules:
     false
   member-ordering:
     false
+  interface-name:
+    - true
+    - never-prefix
 jsRules:
   max-line-length:
     options: [180]

@@ -1,6 +1,6 @@
 import { Common } from '../common';
-import { IResourceContext } from '../utils/ResourceContext';
-import { IApiKey, IApiKeyScope } from './ApiKey.class';
+import { ResourceContext } from '../utils/ResourceContext';
+import { ApiKey, ApiKeyScope } from './ApiKey.class';
 
 const ENDPT = 'apikeys';
 
@@ -8,14 +8,14 @@ const ENDPT = 'apikeys';
  * API Keys resource
  */
 export class ApiKeysResource {
-    private common: Common<IApiKey>;
-    private context: IResourceContext;
+    private common: Common<ApiKey>;
+    private context: ResourceContext;
 
     /**
      * Construct the API Keys resource
      * @param context The context to make requests as
      */
-    constructor(context: IResourceContext) {
+    constructor(context: ResourceContext) {
         this.context = context;
         this.common = new Common(context, ENDPT);
     }
@@ -25,7 +25,7 @@ export class ApiKeysResource {
      * @param userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */
-    *getIterator(userOpts?): IterableIterator<Promise<IApiKey>> {
+    *getIterator(userOpts?): IterableIterator<Promise<ApiKey>> {
         return this.common.getIterator(userOpts);
     }
 
@@ -34,7 +34,7 @@ export class ApiKeysResource {
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to an array of API Keys
      */
-    getAll(userOpts?): Promise<IApiKey[]> {
+    getAll(userOpts?): Promise<ApiKey[]> {
         return this.common.getAll(userOpts);
     }
 
@@ -45,7 +45,7 @@ export class ApiKeysResource {
      * @param userOpts option overrides for this request
      * @returns A promise that resolves to the updated API Key
      */
-    update(id: string, updates: any[], userOpts?): Promise<IApiKey> {
+    update(id: string, updates: any[], userOpts?): Promise<ApiKey> {
         return this.common.update(id, updates, userOpts);
     }
 
@@ -55,7 +55,7 @@ export class ApiKeysResource {
      * @param userOpts option overrides for this request
      * @returns A promise that resolves to the API Key
      */
-    create(apiKey: IApiKey, userOpts?): Promise<IApiKey> {
+    create(apiKey: ApiKey, userOpts?): Promise<ApiKey> {
         return this.common.create(apiKey, userOpts);
     }
 
@@ -65,7 +65,7 @@ export class ApiKeysResource {
      * @param userOpts option overrides for this request
      * @returns A promise that resolves to the deleted API Key
      */
-    public remove(id: string, userOpts?): Promise<IApiKey> {
+    public remove(id: string, userOpts?): Promise<ApiKey> {
         return this.common.remove(id, userOpts);
     }
 
@@ -74,7 +74,7 @@ export class ApiKeysResource {
      * @param userOpts option overrides for this request
      * @returns Promise that resolves with the requested API key scopes
      */
-    public listScopes(userOpts?): Promise<IApiKeyScope[]> {
+    public listScopes(userOpts?): Promise<ApiKeyScope[]> {
         return this.context.http.makeRequest({
             url: `/v1/apps/${this.context.applicationId}/${ENDPT}/scopes`
         }, userOpts).then((body) => body.data);

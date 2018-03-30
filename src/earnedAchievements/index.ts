@@ -2,10 +2,10 @@ import * as check from 'check-types';
 import * as querystring from 'querystring';
 import { Common } from '../common';
 import { collectQueryParams } from '../utils/collectQueryParams';
-import { IPaginatedData, pageToGenerator } from '../utils/pageToGenerator';
-import { IQueryParameters } from '../utils/QueryBuilder';
-import { IResourceContext } from '../utils/ResourceContext';
-import { IEarnedAchievement } from './EarnedAchievement.class';
+import { pageToGenerator, PaginatedData } from '../utils/pageToGenerator';
+import { QueryParameters } from '../utils/QueryBuilder';
+import { ResourceContext } from '../utils/ResourceContext';
+import { EarnedAchievement } from './EarnedAchievement.class';
 
 const ENDPT = 'earnedachievements';
 
@@ -13,12 +13,12 @@ const AVAILABLE_QUERY_PARAMS = ['achievementId', 'subject', 'since', 'until'];
 
 export class EarnedAchievementQueryBuilder {
 
-    context: IResourceContext;
+    context: ResourceContext;
 
     // container for the query parameters
-    private params: IQueryParameters = {};
+    private params: QueryParameters = {};
 
-    constructor(context: IResourceContext) {
+    constructor(context: ResourceContext) {
         this.context = context;
     }
 
@@ -79,7 +79,7 @@ export class EarnedAchievementQueryBuilder {
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to a list of metrics
      */
-    getAll(userOpts): Promise<IEarnedAchievement[]> {
+    getAll(userOpts): Promise<EarnedAchievement[]> {
         let array = [];
         const queryBy = collectQueryParams(this.params, AVAILABLE_QUERY_PARAMS);
         const queryPart = this.buildQuery(queryBy);
@@ -87,7 +87,7 @@ export class EarnedAchievementQueryBuilder {
         const context = this.context;
         let url = `/v1/apps/${context.applicationId}/${ENDPT}?${queryPart}`;
 
-        function pageFn(): Promise<IEarnedAchievement[]> {
+        function pageFn(): Promise<EarnedAchievement[]> {
             return context.http.makeRequest({ url }, userOpts).then(function(body) {
                 array = array.concat(body.data || []); // concatenate the new data
 
@@ -108,14 +108,14 @@ export class EarnedAchievementQueryBuilder {
      * @param userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */
-    *getIterator(userOpts): IterableIterator<Promise<IEarnedAchievement>> {
+    *getIterator(userOpts): IterableIterator<Promise<EarnedAchievement>> {
         const queryBy = collectQueryParams(this.params, AVAILABLE_QUERY_PARAMS);
         const queryPart = this.buildQuery(queryBy);
 
         const context = this.context;
-        function pageFn(): () => Promise<IPaginatedData> {
+        function pageFn(): () => Promise<PaginatedData> {
             let url = `/v1/apps/${context.applicationId}/${ENDPT}?${queryPart}`;
-            return function(): Promise<IPaginatedData> {
+            return function(): Promise<PaginatedData> {
                 return context.http.makeRequest({ url }, userOpts).then(function(body) {
                     url = body.pages.next;
                     return body;
@@ -123,7 +123,7 @@ export class EarnedAchievementQueryBuilder {
             };
         }
 
-        yield* pageToGenerator<IEarnedAchievement>(pageFn());
+        yield* pageToGenerator<EarnedAchievement>(pageFn());
     }
 
     /**
@@ -147,14 +147,14 @@ export class EarnedAchievementQueryBuilder {
  */
 export class EarnedAchievementsResource {
 
-    private common: Common<IEarnedAchievement>;
-    private context: IResourceContext;
+    private common: Common<EarnedAchievement>;
+    private context: ResourceContext;
 
     /**
      * Construct the achievements resource
      * @param context The context to make requests as
      */
-    constructor(context: IResourceContext) {
+    constructor(context: ResourceContext) {
         this.context = context;
         this.common = new Common(context, ENDPT);
     }
@@ -165,7 +165,7 @@ export class EarnedAchievementsResource {
      * @param userOpts option overrides for this request
      * @returns Promise that resolves with the retrieved achievement
      */
-    public get(id: string, userOpts?): Promise<IEarnedAchievement> {
+    public get(id: string, userOpts?): Promise<EarnedAchievement> {
         return this.common.get(id, userOpts);
     }
 
@@ -174,7 +174,7 @@ export class EarnedAchievementsResource {
      * @param userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next achievement
      */
-    public getIterator(userOpts?): IterableIterator<Promise<IEarnedAchievement>> {
+    public getIterator(userOpts?): IterableIterator<Promise<EarnedAchievement>> {
         return this.common.getIterator(userOpts);
     }
 
@@ -183,7 +183,7 @@ export class EarnedAchievementsResource {
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to an array of earned achievements
      */
-    public getAll(userOpts?): Promise<IEarnedAchievement[]> {
+    public getAll(userOpts?): Promise<EarnedAchievement[]> {
         return this.common.getAll(userOpts);
     }
 
@@ -193,7 +193,7 @@ export class EarnedAchievementsResource {
      * @param userOpts option overrides for this request
      * @returns A promise that resolves to the deleted achievement
      */
-    public remove(id: string, userOpts?): Promise<IEarnedAchievement> {
+    public remove(id: string, userOpts?): Promise<EarnedAchievement> {
         return this.common.remove(id, userOpts);
     }
 

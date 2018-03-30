@@ -1,4 +1,4 @@
-import { IResourceContext } from '../utils/ResourceContext';
+import { ResourceContext } from '../utils/ResourceContext';
 /**
  * Analytics resource
  * USE OF THE ANALYTICS RESOURCE IS NOT RECOMMENDED (AT THIS TIME)
@@ -10,7 +10,7 @@ export declare class AnalyticsResource {
      * Construct the analytics resource
      * @param context The context to make requests as
      */
-    constructor(context: IResourceContext);
+    constructor(context: ResourceContext);
     /**
      * Retrieve event analytics
      * @param userOpts option overrides for this request

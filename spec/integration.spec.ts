@@ -1,7 +1,7 @@
 'use strict';
 
 import { expect } from 'chai';
-import { BadgeUp, Condition, CriterionType, EventRequest, IAchievement, IAchievementRequest, IEarnedAchievement, IEventV1, IEventV2Preview, Operation } from '../src';
+import { Achievement, AchievementRequest, BadgeUp, Condition, CriterionType, EarnedAchievement, EventRequest, EventV1, EventV2Preview, Operation } from '../src';
 
 const INTEGRATION_API_KEY = process.env.INTEGRATION_API_KEY;
 
@@ -49,7 +49,7 @@ describe('integration tests', function() {
         const client = new BadgeUp({ apiKey: INTEGRATION_API_KEY });
 
         const achievementsCountBefore = (await client.achievements.getAll()).length;
-        const achievementRequest: IAchievementRequest = {
+        const achievementRequest: AchievementRequest = {
             description: 'Test achievement to be deleted',
             options: { earnLimit: -1 },
             name: 'test achievement',
@@ -137,7 +137,7 @@ describe('integration tests', function() {
         expect(awardExists, 'At least one achievement should have at least one award.').to.be.true;
     });
 
-    function checkAchievement(achievement: IAchievement) {
+    function checkAchievement(achievement: Achievement) {
         expect(achievement).to.be.an('object');
         expect(achievement.applicationId).to.be.a('string');
         expect(achievement.id).to.be.a('string');
@@ -184,7 +184,7 @@ describe('integration tests', function() {
 
         const iterator = client.earnedAchievements.getIterator();
         for (const achievementPromise of iterator) {
-            const achievement: IEarnedAchievement = await achievementPromise;
+            const achievement: EarnedAchievement = await achievementPromise;
             expect(achievement).to.be.an('object');
             expect(achievement.achievementId).to.be.a('string');
         }
@@ -199,7 +199,7 @@ describe('integration tests', function() {
 
         const eventRequest = new EventRequest(subject, key, { '@inc': 5 });
 
-        const eventResponse: IEventV1 = await client.events.create(eventRequest);
+        const eventResponse: EventV1 = await client.events.create(eventRequest);
         expect(eventResponse).to.be.an('object');
         const event = eventResponse.event;
         const progress = eventResponse.progress;
@@ -267,7 +267,7 @@ describe('integration tests', function() {
 
         const eventRequest = new EventRequest(subject, key, { '@inc': 5 });
 
-        const eventResponse: IEventV2Preview = await client.events.createV2Preview(eventRequest);
+        const eventResponse: EventV2Preview = await client.events.createV2Preview(eventRequest);
         expect(eventResponse).to.be.an('object');
         expect(eventResponse.results).to.be.an('array');
         expect(eventResponse.results).to.have.length.greaterThan(0);

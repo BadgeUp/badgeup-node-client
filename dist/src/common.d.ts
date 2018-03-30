@@ -1,14 +1,14 @@
-import { IJsonPatch } from './utils/JsonPatch.class';
-import { IResourceContext } from './utils/ResourceContext';
+import { JsonPatch } from './utils/JsonPatch.class';
+import { ResourceContext } from './utils/ResourceContext';
 /**
  * Provides a set of common functionality that can be used on most endpoints
- * @param {IResourceContext} context The context to make requests as
+ * @param {ResourceContext} context The context to make requests as
  * @param endpoint The endpoint used for this common module
  */
 export declare class Common<T> {
-    protected context: IResourceContext;
+    protected context: ResourceContext;
     private endpoint;
-    constructor(context: IResourceContext, endpoint: string);
+    constructor(context: ResourceContext, endpoint: string);
     /**
      * Retrieve resource object by ID
      * @param id ID of the object to retrieve
@@ -35,7 +35,7 @@ export declare class Common<T> {
      * @param userOpts option overrides for this request
      * @returns A promise that resolves to the updated object
      */
-    update(id: string, updates: IJsonPatch[], userOpts?: any): Promise<T>;
+    update(id: string, updates: JsonPatch[], userOpts?: any): Promise<T>;
     /**
      * Create an object
      * @param object Sub-resource to object to create

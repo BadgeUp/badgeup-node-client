@@ -1,5 +1,5 @@
-import { IMeta } from '../utils/Meta.class';
-export interface IBadgeUpApplicationRequest {
+import { Meta } from '../utils/Meta.class';
+export interface BadgeUpApplicationRequest {
     /**
      * A short, human-readable name.
      */
@@ -9,11 +9,11 @@ export interface IBadgeUpApplicationRequest {
      */
     description: string;
     /**
-     * IMeta information object. Custom fields may be added.
+     * Meta information object. Custom fields may be added.
      */
-    meta?: IMeta;
+    meta?: Meta;
 }
-export interface IBadgeUpApplication extends IBadgeUpApplicationRequest {
+export interface BadgeUpApplication extends BadgeUpApplicationRequest {
     /**
      * A string that uniquely identifies this application.
      */
@@ -23,10 +23,10 @@ export interface IBadgeUpApplication extends IBadgeUpApplicationRequest {
      */
     accountId: string;
     /**
-     * IMeta information object. Custom fields may be added.
+     * Meta information object. Custom fields may be added.
      */
-    meta: IBadgeUpApplicationMeta;
+    meta: BadgeUpApplicationMeta;
 }
-export interface IBadgeUpApplicationMeta extends IMeta {
+export interface BadgeUpApplicationMeta extends Meta {
     demo?: boolean;
 }

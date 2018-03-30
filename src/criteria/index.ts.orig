@@ -5,8 +5,13 @@ import { Criterion } from './Criterion.class';
 const ENDPT = 'criteria';
 
 /**
+<<<<<<< HEAD
  * Criteria resource
+ * @param {IResourceContext} context The context to make requests as
+=======
+ * Criterion module
  * @param {ResourceContext} context The context to make requests as
+>>>>>>> IInterfaceName changed to InterfaceName
  */
 export class CriteriaResource extends Common<Criterion> {
     constructor(context: ResourceContext) {

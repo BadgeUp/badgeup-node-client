@@ -1,5 +1,5 @@
-import { IMeta } from '../utils/Meta.class';
-export interface IEarnedAchievement {
+import { Meta } from '../utils/Meta.class';
+export interface EarnedAchievement {
     /**
      * A string that uniquely identifies this earned achievement.
      */
@@ -17,7 +17,7 @@ export interface IEarnedAchievement {
      */
     subject: string;
     /**
-     * IMeta information object. Custom fields may be added.
+     * Meta information object. Custom fields may be added.
      */
-    meta: IMeta;
+    meta: Meta;
 }

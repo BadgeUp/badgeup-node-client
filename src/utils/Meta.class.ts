@@ -1,4 +1,4 @@
-export interface IMeta {
+export interface Meta {
 
     /**
      * Created date of the object

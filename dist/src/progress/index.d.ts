@@ -1,9 +1,9 @@
-import { IResourceContext } from '../utils/ResourceContext';
-import { IProgress } from './Progress.class';
+import { ResourceContext } from '../utils/ResourceContext';
+import { Progress } from './Progress.class';
 export declare class ProgressQueryBuilder {
-    context: IResourceContext;
+    context: ResourceContext;
     private params;
-    constructor(context: IResourceContext);
+    constructor(context: ResourceContext);
     /**
      * Query by achievement ID
      * @param achievementId
@@ -19,24 +19,24 @@ export declare class ProgressQueryBuilder {
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to an array of progress objects
      */
-    getAll(userOpts?: any): Promise<IProgress>;
+    getAll(userOpts?: any): Promise<Progress>;
     /**
      * Retrieve all queried progress objects, returned as an iterator
      * @param userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next progress object
      */
-    getIterator(userOpts?: any): IterableIterator<Promise<IProgress>>;
+    getIterator(userOpts?: any): IterableIterator<Promise<Progress>>;
 }
 /**
  * Progress resource
  */
 export declare class ProgressResource {
-    context: IResourceContext;
+    context: ResourceContext;
     /**
      * Construct the Progress resource
      * @param context The context to make requests as
      */
-    constructor(context: IResourceContext);
+    constructor(context: ResourceContext);
     /**
      * @returns Returns an instance of the ProgressQueryBuilder class
      */

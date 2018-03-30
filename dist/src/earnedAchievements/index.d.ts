@@ -1,9 +1,9 @@
-import { IResourceContext } from '../utils/ResourceContext';
-import { IEarnedAchievement } from './EarnedAchievement.class';
+import { ResourceContext } from '../utils/ResourceContext';
+import { EarnedAchievement } from './EarnedAchievement.class';
 export declare class EarnedAchievementQueryBuilder {
-    context: IResourceContext;
+    context: ResourceContext;
     private params;
-    constructor(context: IResourceContext);
+    constructor(context: ResourceContext);
     /**
      * Query by achievement ID
      * @param achievementId
@@ -34,13 +34,13 @@ export declare class EarnedAchievementQueryBuilder {
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to a list of metrics
      */
-    getAll(userOpts: any): Promise<IEarnedAchievement[]>;
+    getAll(userOpts: any): Promise<EarnedAchievement[]>;
     /**
      * Retrieves queried earned achievements, returned as an iterator
      * @param userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */
-    getIterator(userOpts: any): IterableIterator<Promise<IEarnedAchievement>>;
+    getIterator(userOpts: any): IterableIterator<Promise<EarnedAchievement>>;
     /**
      * Delete all queried earned achievements
      * @param userOpts option overrides for this request
@@ -58,33 +58,33 @@ export declare class EarnedAchievementsResource {
      * Construct the achievements resource
      * @param context The context to make requests as
      */
-    constructor(context: IResourceContext);
+    constructor(context: ResourceContext);
     /**
      * Retrieve an achievement by ID
      * @param id ID of the achievement to retrieve
      * @param userOpts option overrides for this request
      * @returns Promise that resolves with the retrieved achievement
      */
-    get(id: string, userOpts?: any): Promise<IEarnedAchievement>;
+    get(id: string, userOpts?: any): Promise<EarnedAchievement>;
     /**
      * Retrieve all earned achievements, returned as an iterator
      * @param userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next achievement
      */
-    getIterator(userOpts?: any): IterableIterator<Promise<IEarnedAchievement>>;
+    getIterator(userOpts?: any): IterableIterator<Promise<EarnedAchievement>>;
     /**
      * Retrieve all earned achievements, returned as an array
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to an array of earned achievements
      */
-    getAll(userOpts?: any): Promise<IEarnedAchievement[]>;
+    getAll(userOpts?: any): Promise<EarnedAchievement[]>;
     /**
      * Delete an earned achievement by ID
      * @param id ID of the achievement to delete
      * @param userOpts option overrides for this request
      * @returns A promise that resolves to the deleted achievement
      */
-    remove(id: string, userOpts?: any): Promise<IEarnedAchievement>;
+    remove(id: string, userOpts?: any): Promise<EarnedAchievement>;
     /**
      * Sets up a request targeting earned achievements using query filters
      * @returns Returns an instance of the EarnedAchievementQueryBuilder class

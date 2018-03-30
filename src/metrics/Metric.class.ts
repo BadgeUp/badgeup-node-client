@@ -1,4 +1,4 @@
-export interface IMetric extends IMetricRequest {
+export interface Metric extends MetricRequest {
     /**
      * A string that uniquely identifies this metric.
      */
@@ -10,7 +10,7 @@ export interface IMetric extends IMetricRequest {
     applicationId: string;
 }
 
-export interface IMetricRequest {
+export interface MetricRequest {
     /**
      * States what the metric represents, such as a player action or other occurrence. You may want to create your keys in groups, e.g. "player:jump".
      */

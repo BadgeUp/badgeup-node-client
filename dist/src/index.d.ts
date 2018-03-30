@@ -10,8 +10,8 @@ import { EventsResource } from './events';
 import { BadgeUpHttp } from './http';
 import { MetricsResource } from './metrics';
 import { ProgressResource } from './progress';
-import { IResourceContext } from './utils/ResourceContext';
-export declare class BadgeUp implements IResourceContext {
+import { ResourceContext } from './utils/ResourceContext';
+export declare class BadgeUp implements ResourceContext {
     applicationId: string | null;
     http: BadgeUpHttp;
     applications: ApplicationsResource;
@@ -29,9 +29,9 @@ export declare class BadgeUp implements IResourceContext {
      * Construct an instance of the BadgeUp client.
      * @param {{apiKey: string, token: string, applicationId: string, request: object }} globalOpts - Client and global options
      */
-    constructor(globalOpts: IGlobalOptions);
+    constructor(globalOpts: GlobalOptions);
 }
-export interface IGlobalOptions {
+export interface GlobalOptions {
     /**
      * API Key acquired from the BadgeUp Dashboard
      */
