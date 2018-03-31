@@ -9,7 +9,7 @@ const requestDefaults = {
     follow: 2, // max 2 redirects
     baseUrl: 'https://api.useast1.badgeup.io', // default API endpoint
     headers: {
-        'User-Agent': 'badgeup-js-client/0.1.x (https://badgeup.io/)',
+        'User-Agent': 'badgeup-js-client/1.0.0 (https://badgeup.io/)',
         'Accept': 'application/json'
     }
 };
@@ -71,15 +71,39 @@ export class BadgeUpHttp {
                     const err = new Error(response.statusText);
                     return Promise.reject(err);
                 }
-                return response.json().then(responseBody => {
-                    const meta = responseBody.meta;
-                    if (meta && meta.created) {
-                        // parse ISO-8601 string to Date
-                        meta.created = new Date(meta.created);
-                    }
-                    return responseBody;
-                });
+                return response.json().then(hydrateDates);
             });
     }
+}
 
+/**
+ * Hydrates dates in response bodies. Handles paginated responses and object responses.
+ * Mutates input.
+ * @param body HTTP response body
+ */
+function hydrateDates(body: any): any {
+
+    /**
+     * Hydrates a string date to a Date object. Mutates input.
+     * @param item object potentially containing a meta object
+     */
+    function hydrateMeta(item: any) {
+        const meta = item.meta;
+        if (meta && meta.created) {
+            // parse ISO-8601 string to Date
+            meta.created = new Date(meta.created);
+        }
+    }
+
+    if (Array.isArray(body.data)) {
+        // paginated response
+        for (let item of body.data) {
+            hydrateMeta(item);
+        }
+    } else {
+        // object response
+        hydrateMeta(body);
+    }
+
+    return body;
 }
