@@ -14,7 +14,7 @@
             "outFiles": [],
             "env": {
                 "NODE_ENV": "development",
-                "INTEGRATION_API_KEY": "eyJhY2NvdW50SWQiOiJzODQwM2QzcGwiLCJhcHBsaWNhdGlvbklkIjoieGMycXYyemc0YiIsImtleSI6ImNqYXpqcjE1ODJxdjV6ejZnOHJxMDduOTIifQ=="
+                // "INTEGRATION_API_KEY": "<API KEY HERE>"
             }
         }
     ]
