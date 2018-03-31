@@ -7,7 +7,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ### Added
 
 ### Changed
-## [0.9.0] - 2018-03-XX
+## [1.0.0] - 2018-03-31
 ### Changed
 - TypeScript implementation. Minor breaking changes.
 - Dropped support for Node.js v4
