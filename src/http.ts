@@ -78,7 +78,7 @@ export class BadgeUpHttp {
                         }
                         return value;
                     };
-                    return JSON.parse(responseText,  f);
+                    return JSON.parse(responseText, f);
                 });
             });
     }

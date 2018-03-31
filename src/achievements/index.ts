@@ -94,7 +94,7 @@ export class AchievementsResource {
 
         return this.context.http.makeRequest({
             url: `/v1/apps/${this.context.applicationId}/${ENDPT}/${id}/criteria`
-        }, userOpts).then(function(body) { return body.data as Criterion[]; });
+        }, userOpts).then(function (body) { return body.data as Criterion[]; });
     }
 
     /**
@@ -109,8 +109,7 @@ export class AchievementsResource {
         return this.context.http.makeRequest({
             url: `/v1/apps/${this.context.applicationId}/${ENDPT}/${id}/awards`
         }, userOpts).then((body) => {
-            return body.data; }
-            );
-
+            return body.data;
+        });
     }
 }

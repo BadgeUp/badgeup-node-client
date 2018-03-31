@@ -2,7 +2,6 @@ export interface JsonPatch {
     op: Operation,
     path: string,
     value: any
-
 }
 
 export enum Operation {

@@ -123,6 +123,6 @@ export class ApplicationsResource {
             };
         };
 
-        yield *pageToGenerator(pageFn());
+        yield* pageToGenerator(pageFn());
     }
 }
