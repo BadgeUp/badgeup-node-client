@@ -14,6 +14,8 @@ const requestDefaults = {
         'Accept': 'application/json'
     }
 };
+// number of retries to be attmpted in case of http errors
+const retryCount = 3;
 class BadgeUpHttp {
     /**
      * Constructor for the HTTP stack for BadgeUp
@@ -53,7 +55,7 @@ class BadgeUpHttp {
         url = options.baseUrl ? options.baseUrl + url : url;
         delete options.baseUrl;
         delete options.url;
-        return node_fetch_1.default(url, options)
+        return fetchWithRetry(url, options, retryCount)
             .then(response => {
             if (!response.ok) {
                 const err = new Error(response.statusText);
@@ -64,6 +66,48 @@ class BadgeUpHttp {
     }
 }
 exports.BadgeUpHttp = BadgeUpHttp;
+/**
+ * Performs fetch with a given number of retries in case of http errors
+ * @param url request url
+ * @param options request options
+ * @param limit number of retries to be attempted
+ * @returns Returns a Promise that resolves with the response object
+ */
+function fetchWithRetry(url, options, limit) {
+    return new Promise(((resolve, reject) => {
+        function success(response) {
+            if (response.ok) {
+                resolve(response);
+            }
+            else if (response.status.toString()[0] === '5') {
+                return failure(new Error(response.statusText));
+            }
+            else {
+                reject(new Error(response.statusText));
+            }
+        }
+        function failure(error) {
+            limit--;
+            if (limit >= 0) {
+                return fetchUrl();
+            }
+            else {
+                reject(error);
+            }
+        }
+        function fetchUrl() {
+            if (options.mockFetch) {
+                return options.mockFetch(url, options)
+                    .then(success)
+                    .catch(failure);
+            }
+            return node_fetch_1.default(url, options)
+                .then(success)
+                .catch(failure);
+        }
+        return fetchUrl();
+    }));
+}
 /**
  * Hydrates dates in response bodies. Handles paginated responses and object responses.
  * Mutates input.
