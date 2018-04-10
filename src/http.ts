@@ -1,6 +1,10 @@
 import { defaultsDeep } from 'lodash';
-import fetch from 'node-fetch';
+import fetch, { Response } from 'node-fetch';
+import * as pRetry from 'p-retry';
 import { replacer } from './utils/dateStringify';
+
+// number of retries to be attmpted in case of http errors
+const RETRY_COUNT = 3;
 
 // client library defaults
 const requestDefaults = {
@@ -13,8 +17,6 @@ const requestDefaults = {
         'Accept': 'application/json'
     }
 };
-// number of retries to be attmpted in case of http errors
-const retryCount = 3;
 
 export class BadgeUpHttp {
 
@@ -67,7 +69,7 @@ export class BadgeUpHttp {
         delete options.baseUrl;
         delete options.url;
 
-        return fetchWithRetry(url, options, retryCount)
+        return fetchWithRetry(url, options)
             .then(response => {
                 if (!response.ok) {
                     const err = new Error(response.statusText);
@@ -79,43 +81,24 @@ export class BadgeUpHttp {
 }
 
 /**
- * Performs fetch with a given number of retries in case of http errors
+ * Performs fetch with retries in case of HTTP errors
  * @param url request url
  * @param options request options
- * @param limit number of retries to be attempted
  * @returns Returns a Promise that resolves with the response object
  */
-function fetchWithRetry(url, options, limit) {
-    return new Promise<any>(((resolve, reject) => {
-        function success(response) {
-            if (response.ok) {
-                resolve(response);
-            } else if (response.status.toString()[0] === '5') {
-                return failure(new Error(response.statusText));
-            } else {
-                reject(new Error(response.statusText));
+function fetchWithRetry(url: string, options) {
+    function fetchWrapper(): Promise<Response> {
+        return fetch(url, options).then((response: Response) => {
+            // don't retry if status is 4xx
+            if (response.status >= 400 && response.status < 500) {
+                throw new pRetry.AbortError(response.statusText);
             }
-        }
-        function failure(error) {
-            limit--;
-            if (limit >= 0) {
-                return fetchUrl();
-            } else {
-                reject(error);
-            }
-        }
-        function fetchUrl() {
-            if (options.mockFetch) {
-                return options.mockFetch(url, options)
-                    .then(success)
-                    .catch(failure);
-            }
-            return fetch(url, options)
-                .then(success)
-                .catch(failure);
-        }
-        return fetchUrl();
-    }));
+
+            return response;
+        });
+    }
+
+    return pRetry(fetchWrapper, { retries: RETRY_COUNT });
 }
 
 /**
