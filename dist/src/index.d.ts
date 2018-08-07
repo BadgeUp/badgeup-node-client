@@ -9,6 +9,7 @@ import { EarnedAchievementsResource } from './earnedAchievements';
 import { EventsResource } from './events';
 import { BadgeUpHttp } from './http';
 import { MetricsResource } from './metrics';
+import { VirtualMetricsResource } from './virtualMetrics';
 import { ProgressResource } from './progress';
 import { ResourceContext } from './utils/ResourceContext';
 export declare class BadgeUp implements ResourceContext {
@@ -22,6 +23,7 @@ export declare class BadgeUp implements ResourceContext {
     criteria: CriteriaResource;
     earnedAchievements: EarnedAchievementsResource;
     metrics: MetricsResource;
+    virtualMetrics: VirtualMetricsResource;
     events: EventsResource;
     progress: ProgressResource;
     achievementIcons: AchievementIconsResource;

@@ -17,6 +17,7 @@ const earnedAchievements_1 = require("./earnedAchievements");
 const events_1 = require("./events");
 const http_1 = require("./http");
 const metrics_1 = require("./metrics");
+const virtualMetrics_1 = require("./virtualMetrics");
 const progress_1 = require("./progress");
 class BadgeUp {
     /**
@@ -69,6 +70,7 @@ class BadgeUp {
         this.criteria = new criteria_1.CriteriaResource(this);
         this.earnedAchievements = new earnedAchievements_1.EarnedAchievementsResource(this);
         this.metrics = new metrics_1.MetricsResource(this);
+        this.virtualMetrics = new virtualMetrics_1.VirtualMetricsResource(this);
         this.events = new events_1.EventsResource(this);
         this.progress = new progress_1.ProgressResource(this);
         this.achievementIcons = new achievementIcons_1.AchievementIconsResource(this);
