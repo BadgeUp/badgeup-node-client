@@ -27,12 +27,12 @@ export interface VirtualMetricEvaluation {
     type: VirtualMetricType;
 
     /**
-     * For type="regex", the regex used to match concrete (non-virtual) metrics. 
+     * For type="regex", the regex used to match concrete (non-virtual) metrics.
      */
     regex?: string;
 
     /**
-     * For type="equation", the equation used to calculate the virtual metric. 
+     * For type="equation", the equation used to calculate the virtual metric.
      */
     equation?: string;
 }

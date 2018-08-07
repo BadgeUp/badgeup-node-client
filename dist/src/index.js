@@ -17,8 +17,8 @@ const earnedAchievements_1 = require("./earnedAchievements");
 const events_1 = require("./events");
 const http_1 = require("./http");
 const metrics_1 = require("./metrics");
-const virtualMetrics_1 = require("./virtualMetrics");
 const progress_1 = require("./progress");
+const virtualMetrics_1 = require("./virtualMetrics");
 class BadgeUp {
     /**
      * Construct an instance of the BadgeUp client.

@@ -12,9 +12,9 @@ import { EarnedAchievementsResource } from './earnedAchievements';
 import { EventsResource } from './events';
 import { BadgeUpHttp } from './http';
 import { MetricsResource } from './metrics';
-import { VirtualMetricsResource } from './virtualMetrics';
 import { ProgressResource } from './progress';
 import { ResourceContext } from './utils/ResourceContext';
+import { VirtualMetricsResource } from './virtualMetrics';
 
 export class BadgeUp implements ResourceContext {
 
