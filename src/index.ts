@@ -13,6 +13,7 @@ import { EventsResource } from './events';
 import { BadgeUpHttp } from './http';
 import { MetricsResource } from './metrics';
 import { ProgressResource } from './progress';
+import { EarnedAwardsResource } from './earnedAwards';
 import { ResourceContext } from './utils/ResourceContext';
 
 export class BadgeUp implements ResourceContext {
@@ -33,6 +34,7 @@ export class BadgeUp implements ResourceContext {
     public metrics: MetricsResource;
     public events: EventsResource;
     public progress: ProgressResource;
+    public earnedAwards: EarnedAwardsResource;
     public achievementIcons: AchievementIconsResource;
 
     /**
@@ -91,6 +93,7 @@ export class BadgeUp implements ResourceContext {
         this.events = new EventsResource(this);
         this.progress = new ProgressResource(this);
         this.achievementIcons = new AchievementIconsResource(this);
+        this.earnedAwards = new EarnedAwardsResource(this);
     }
 }
 
@@ -134,6 +137,7 @@ export * from './applications/Application.class';
 export * from './awards/Award.class';
 export * from './criteria/Criterion.class';
 export * from './earnedAchievements/EarnedAchievement.class';
+export * from './earnedAwards/EarnedAward.class';
 export * from './events/Event.class';
 export * from './metrics/Metric.class';
 export * from './progress/Progress.class';
