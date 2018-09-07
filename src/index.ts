@@ -9,11 +9,11 @@ import { ApplicationsResource } from './applications';
 import { AwardsResource } from './awards';
 import { CriteriaResource } from './criteria';
 import { EarnedAchievementsResource } from './earnedAchievements';
+import { EarnedAwardsResource } from './earnedAwards';
 import { EventsResource } from './events';
 import { BadgeUpHttp } from './http';
 import { MetricsResource } from './metrics';
 import { ProgressResource } from './progress';
-import { EarnedAwardsResource } from './earnedAwards';
 import { ResourceContext } from './utils/ResourceContext';
 
 export class BadgeUp implements ResourceContext {
