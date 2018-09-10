@@ -37,7 +37,7 @@ describe('earned awards', function () {
                 return Promise.resolve({
                     pages: {
                         previous: null,
-                        next: '/v1/apps/1337/earnedawards/?after=PAGE_TWO'
+                        next: '/v2/apps/1337/earnedawards/?after=PAGE_TWO'
                     },
                     data: (new Array(10)).fill(achievement)
                 });
@@ -45,10 +45,10 @@ describe('earned awards', function () {
         }
         function _validate(options) {
             if (options.url.indexOf('PAGE_TWO') > 0) {
-                chai_1.expect(options.url).to.equal('/v1/apps/1337/earnedawards/?after=PAGE_TWO');
+                chai_1.expect(options.url).to.equal('/v2/apps/1337/earnedawards/?after=PAGE_TWO');
             }
             else {
-                chai_1.expect(options.url).to.equal('/v1/apps/1337/earnedawards');
+                chai_1.expect(options.url).to.equal('/v2/apps/1337/earnedawards');
             }
             chai_1.expect(options.headers).to.be.an('object');
         }
@@ -72,7 +72,7 @@ describe('earned awards', function () {
             };
         }
         function _validate(options) {
-            chai_1.expect(options.url).to.equal(`/v1/apps/1337/earnedawards?subject=100`);
+            chai_1.expect(options.url).to.equal(`/v2/apps/1337/earnedawards?subject=100`);
             chai_1.expect(options.method).to.be.oneOf([undefined, 'GET']);
             chai_1.expect(options.headers).to.be.an('object');
         }
@@ -89,7 +89,7 @@ describe('earned awards', function () {
             };
         }
         function _validate(options) {
-            chai_1.expect(options.url).to.equal(`/v1/apps/1337/earnedawards?earnedAchievementId=100`);
+            chai_1.expect(options.url).to.equal(`/v2/apps/1337/earnedawards?earnedAchievementId=100`);
             chai_1.expect(options.method).to.be.oneOf([undefined, 'GET']);
             chai_1.expect(options.headers).to.be.an('object');
         }
@@ -107,7 +107,7 @@ describe('earned awards', function () {
         }
         const date = new Date();
         function _validate(options) {
-            chai_1.expect(options.url).to.equal(`/v1/apps/1337/earnedawards?since=${encodeURIComponent(date.toISOString())}`);
+            chai_1.expect(options.url).to.equal(`/v2/apps/1337/earnedawards?since=${encodeURIComponent(date.toISOString())}`);
             chai_1.expect(options.method).to.be.oneOf([undefined, 'GET']);
             chai_1.expect(options.headers).to.be.an('object');
         }
@@ -125,7 +125,7 @@ describe('earned awards', function () {
         }
         const date = new Date();
         function _validate(options) {
-            chai_1.expect(options.url).to.equal(`/v1/apps/1337/earnedawards?until=${encodeURIComponent(date.toISOString())}`);
+            chai_1.expect(options.url).to.equal(`/v2/apps/1337/earnedawards?until=${encodeURIComponent(date.toISOString())}`);
             chai_1.expect(options.method).to.be.oneOf([undefined, 'GET']);
             chai_1.expect(options.headers).to.be.an('object');
         }
@@ -144,7 +144,7 @@ describe('earned awards', function () {
         const since = new Date();
         const until = new Date();
         function _validate(options) {
-            chai_1.expect(options.url).to.equal('/v1/apps/1337/earnedawards?subject=100&'
+            chai_1.expect(options.url).to.equal('/v2/apps/1337/earnedawards?subject=100&'
                 + `since=${encodeURIComponent(since.toISOString())}&until=${encodeURIComponent(until.toISOString())}`);
             chai_1.expect(options.method).to.be.oneOf([undefined, 'GET']);
             chai_1.expect(options.headers).to.be.an('object');

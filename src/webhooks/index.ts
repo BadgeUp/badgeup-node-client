@@ -50,12 +50,12 @@ export class WebhooksResource {
 
     /**
      * Create a webhook
-     * @param apiKey webhook to create
+     * @param webhook webhook to create
      * @param userOpts option overrides for this request
      * @returns A promise that resolves to the webhook
      */
-    create(apiKey: Webhook, userOpts?): Promise<Webhook> {
-        return this.common.create(apiKey, userOpts);
+    create(webhook: Webhook, userOpts?): Promise<Webhook> {
+        return this.common.create(webhook, userOpts);
     }
 
     /**

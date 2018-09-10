@@ -1,7 +1,7 @@
 export interface Webhook {
 
     /**
-     * A string that uniquely identifies this API key.
+     * A string that uniquely identifies this webhook.
      */
     id: string;
 

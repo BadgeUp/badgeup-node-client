@@ -33,11 +33,11 @@ export declare class WebhooksResource {
     update(id: string, updates: JsonPatch[], userOpts?: any): Promise<Webhook>;
     /**
      * Create a webhook
-     * @param apiKey webhook to create
+     * @param webhook webhook to create
      * @param userOpts option overrides for this request
      * @returns A promise that resolves to the webhook
      */
-    create(apiKey: Webhook, userOpts?: any): Promise<Webhook>;
+    create(webhook: Webhook, userOpts?: any): Promise<Webhook>;
     /**
      * Delete a webhook by ID
      * @param id ID of the webhook to delete

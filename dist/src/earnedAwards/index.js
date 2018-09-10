@@ -78,7 +78,7 @@ class EarnedAwardQueryBuilder {
         const queryBy = collectQueryParams_1.collectQueryParams(this.params, AVAILABLE_QUERY_PARAMS);
         const queryPart = this.buildQuery(queryBy);
         const context = this.context;
-        let url = `/v1/apps/${context.applicationId}/${ENDPT}?${queryPart}`;
+        let url = `/v2/apps/${context.applicationId}/${ENDPT}?${queryPart}`;
         function pageFn() {
             return context.http.makeRequest({ url }, userOpts).then(function (body) {
                 array = array.concat(body.data || []); // concatenate the new data
@@ -103,7 +103,7 @@ class EarnedAwardQueryBuilder {
         const queryPart = this.buildQuery(queryBy);
         const context = this.context;
         function pageFn() {
-            let url = `/v1/apps/${context.applicationId}/${ENDPT}?${queryPart}`;
+            let url = `/v2/apps/${context.applicationId}/${ENDPT}?${queryPart}`;
             return function () {
                 return context.http.makeRequest({ url }, userOpts).then(function (body) {
                     url = body.pages.next;

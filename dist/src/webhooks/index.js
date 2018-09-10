@@ -6,13 +6,11 @@ const ENDPT = 'webhooks';
  * Webhooks resource
  */
 class WebhooksResource {
-    // private context: ResourceContext;
     /**
      * Construct the Webhooks resource
      * @param context The context to make requests as
      */
     constructor(context) {
-        // this.context = context;
         this.common = new common_1.Common(context, ENDPT);
     }
     /**
@@ -43,12 +41,12 @@ class WebhooksResource {
     }
     /**
      * Create a webhook
-     * @param apiKey webhook to create
+     * @param webhook webhook to create
      * @param userOpts option overrides for this request
      * @returns A promise that resolves to the webhook
      */
-    create(apiKey, userOpts) {
-        return this.common.create(apiKey, userOpts);
+    create(webhook, userOpts) {
+        return this.common.create(webhook, userOpts);
     }
     /**
      * Delete a webhook by ID

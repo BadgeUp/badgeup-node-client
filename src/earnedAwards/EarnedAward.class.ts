@@ -12,17 +12,17 @@ export interface EarnedAward {
     applicationId: string;
 
     /**
-     * A string that uniquely identifies the award this is a record for.
+     * A string that uniquely identifies the award that was earned.
      */
     awardId: string;
 
     /**
-     * A string that uniquely identifies the achievement this is a record for.
+     * A string that uniquely identifies the achievement that gave the award that was earned.
      */
     achievementId: string;
 
     /**
-     * A string that uniquely identifies the achievement this is a record for.
+     * A string that uniquely identifies the earned achievement record.
      */
     earnedAchievementId: string;
 
