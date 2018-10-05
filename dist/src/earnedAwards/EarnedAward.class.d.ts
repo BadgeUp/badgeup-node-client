@@ -27,7 +27,7 @@ export interface EarnedAward {
     /**
      * The state that the earned award is in. Some states only apply to certain award types.
      */
-    state: 'CREATED' | 'APPROVED' | 'REJECTED' | 'REDEEMED';
+    state: 'created' | 'approved' | 'rejected' | 'redeemed';
     /**
      * Meta information object. Custom fields may be added.
      */

@@ -96,9 +96,13 @@ export interface EventProgress extends Progress {
  * Event response structure containing for the source or side-effect events
  */
 export interface EventResults {
-    results: Array<{
-        event: EventBase;
-        cause: string;
-        progress: EventProgress[];
-    }>;
+    results: EventResult[];
+}
+/**
+ * Event response structure containing results of a single event or side-effect
+ */
+export interface EventResult {
+    event: EventBase;
+    cause: string;
+    progress: EventProgress[];
 }
