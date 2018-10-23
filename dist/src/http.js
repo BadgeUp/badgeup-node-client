@@ -2,17 +2,10 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
-    return result;
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const lodash_defaultsdeep_1 = __importDefault(require("lodash.defaultsdeep"));
 const node_fetch_1 = __importDefault(require("node-fetch"));
-const pRetry = __importStar(require("p-retry"));
+const p_retry_1 = __importDefault(require("p-retry"));
 const dateStringify_1 = require("./utils/dateStringify");
 // number of retries to be attmpted in case of http errors
 const RETRY_COUNT = 3;
@@ -88,12 +81,12 @@ function fetchWithRetry(url, options) {
         return node_fetch_1.default(url, options).then((response) => {
             // don't retry if status is 4xx
             if (response.status >= 400 && response.status < 500) {
-                throw new pRetry.AbortError(response.statusText);
+                throw new p_retry_1.default.AbortError(response.statusText);
             }
             return response;
         });
     }
-    return pRetry(fetchWrapper, { retries: RETRY_COUNT });
+    return p_retry_1.default(fetchWrapper, { retries: RETRY_COUNT });
 }
 /**
  * Hydrates dates in response bodies. Handles paginated responses and object responses.

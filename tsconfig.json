@@ -42,6 +42,7 @@
     // "typeRoots": [],                       /* List of folders to include type definitions from. */
     "types": [                                /* Type declaration files to be included in compilation. */
       "node",
+      "p-retry",
       "lodash.pickby",
       "lodash.defaultsdeep",
       "mocha",
