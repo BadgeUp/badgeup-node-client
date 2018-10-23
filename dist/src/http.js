@@ -1,8 +1,18 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const lodash_1 = require("lodash");
-const node_fetch_1 = require("node-fetch");
-const pRetry = require("p-retry");
+const lodash_defaultsdeep_1 = __importDefault(require("lodash.defaultsdeep"));
+const node_fetch_1 = __importDefault(require("node-fetch"));
+const pRetry = __importStar(require("p-retry"));
 const dateStringify_1 = require("./utils/dateStringify");
 // number of retries to be attmpted in case of http errors
 const RETRY_COUNT = 3;
@@ -32,7 +42,7 @@ class BadgeUpHttp {
      * @return Returns a Promise that resolves with the request data
      */
     makeRequest(reqOpts, userOpts) {
-        const options = lodash_1.defaultsDeep({}, userOpts, reqOpts, this.globalReqOpts, requestDefaults);
+        const options = lodash_defaultsdeep_1.default({}, userOpts, reqOpts, this.globalReqOpts, requestDefaults);
         // for internal unit tests
         if (options._validate) {
             options._validate(options);
