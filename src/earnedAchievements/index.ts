@@ -75,7 +75,7 @@ export class EarnedAchievementQueryBuilder {
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to a list of metrics
      */
-    getAll(userOpts): Promise<EarnedAchievement[]> {
+    getAll(userOpts?): Promise<EarnedAchievement[]> {
         let array = [];
         const queryPart = this.buildQuery();
 
@@ -103,7 +103,7 @@ export class EarnedAchievementQueryBuilder {
      * @param userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */
-    *getIterator(userOpts): IterableIterator<Promise<EarnedAchievement | undefined>> {
+    *getIterator(userOpts?): IterableIterator<Promise<EarnedAchievement | undefined>> {
         const queryPart = this.buildQuery();
 
         const context = this.context;
@@ -125,7 +125,7 @@ export class EarnedAchievementQueryBuilder {
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to an object stating the number of deleted earned achievements
      */
-    remove(userOpts) {
+    remove(userOpts?) {
         const queryPart = this.buildQuery();
 
         return this.context.http.makeRequest({

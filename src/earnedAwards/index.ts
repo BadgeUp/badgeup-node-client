@@ -87,7 +87,7 @@ export class EarnedAwardQueryBuilder {
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to a list of metrics
      */
-    getAll(userOpts): Promise<EarnedAward[]> {
+    getAll(userOpts?): Promise<EarnedAward[]> {
         let array = [];
         const queryPart = this.buildQuery();
 
@@ -115,7 +115,7 @@ export class EarnedAwardQueryBuilder {
      * @param userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */
-    *getIterator(userOpts): IterableIterator<Promise<EarnedAward | undefined>> {
+    *getIterator(userOpts?): IterableIterator<Promise<EarnedAward | undefined>> {
         const queryPart = this.buildQuery();
 
         const context = this.context;
