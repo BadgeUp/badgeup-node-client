@@ -207,7 +207,6 @@ describe('integration tests', function () {
                 chai_1.expect(achievement.meta.created).to.be.a('Date');
                 chai_1.expect(achievement.name).to.be.a('string');
                 chai_1.expect(achievement.options).to.be.an('object');
-                chai_1.expect(achievement.resources).to.be.undefined;
                 for (const awardId of achievement.awards) {
                     chai_1.expect(awardId).to.be.a('string');
                     const award = await client.awards.get(awardId);
@@ -250,7 +249,7 @@ describe('integration tests', function () {
         const eventRequest = new src_1.EventRequest(subject, key, { '@inc': 5 });
         const eventResponse = await client.events.create(eventRequest);
         chai_1.expect(eventResponse).to.be.an('object'); // other tests check event response results
-        const progressResponse = await client.progress.query().subject(subject).include('achievement').getAll();
+        const progressResponse = await client.progress.query().subject(subject).include('achievement').include('criterion').getAll();
         chai_1.expect(progressResponse).to.be.an('array');
         chai_1.expect(progressResponse.length).to.be.gte(1);
         const p = progressResponse[0];
@@ -263,6 +262,9 @@ describe('integration tests', function () {
         // validate an achievement is present
         chai_1.expect(p.achievement).to.be.an('object');
         chai_1.expect(p.achievement.name).to.be.a('string');
+        // validate achievement resources are present
+        chai_1.expect(p.achievement.resources.criteria).to.be.an('array');
+        chai_1.expect(p.achievement.resources.criteria).to.have.lengthOf(1);
     });
 });
 //# sourceMappingURL=integration.spec.js.map

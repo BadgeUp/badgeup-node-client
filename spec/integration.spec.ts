@@ -245,7 +245,6 @@ describe('integration tests', function() {
                 expect(achievement.meta.created).to.be.a('Date');
                 expect(achievement.name).to.be.a('string');
                 expect(achievement.options).to.be.an('object');
-                expect(achievement.resources).to.be.undefined;
 
                 for (const awardId of achievement.awards) {
                     expect(awardId).to.be.a('string');
@@ -302,7 +301,7 @@ describe('integration tests', function() {
         const eventResponse = await client.events.create(eventRequest);
         expect(eventResponse).to.be.an('object'); // other tests check event response results
 
-        const progressResponse = await client.progress.query().subject(subject).include('achievement').getAll();
+        const progressResponse = await client.progress.query().subject(subject).include('achievement').include('criterion').getAll();
 
         expect(progressResponse).to.be.an('array');
         expect(progressResponse.length).to.be.gte(1);
@@ -318,5 +317,9 @@ describe('integration tests', function() {
         // validate an achievement is present
         expect(p.achievement).to.be.an('object');
         expect(p.achievement!.name).to.be.a('string');
+
+        // validate achievement resources are present
+        expect(p.achievement!.resources!.criteria).to.be.an('array');
+        expect(p.achievement!.resources!.criteria).to.have.lengthOf(1);
     });
 });
