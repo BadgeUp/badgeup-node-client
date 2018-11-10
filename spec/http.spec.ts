@@ -9,7 +9,7 @@ describe('HTTP tests', function() {
             method: 'POST',
             baseUrl: 'https://httpbin.org',
             url: '/post',
-            body: { "OK": true }
+            body: { 'OK': true }
         }, {});
 
         expect(res).to.be.an('object');
