@@ -29,7 +29,7 @@ export class AchievementIconsResource {
     public getAllPreloaded(userOpts?): Promise<AchievementIcon[]> {
         return this.context.http.makeRequest({
             method: 'GET',
-            url: `/v1/apps/${this.context.applicationId}/${ENDPT}/preloaded`
+            url: `/v2/apps/${this.context.applicationId}/${ENDPT}/preloaded`
         }, userOpts);
     }
 
