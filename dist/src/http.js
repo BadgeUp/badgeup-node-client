@@ -81,7 +81,15 @@ function fetchWithRetry(url, options) {
         return node_fetch_1.default(url, options).then((response) => {
             // don't retry if status is 4xx
             if (response.status >= 400 && response.status < 500) {
-                throw new p_retry_1.default.AbortError(response.statusText);
+                const contentType = response.headers.get('content-type');
+                if (contentType && contentType.includes('application/json')) {
+                    response.json().then(function (body) {
+                        throw new p_retry_1.default.AbortError(body.message);
+                    });
+                }
+                else {
+                    throw new p_retry_1.default.AbortError(response.statusText);
+                }
             }
             return response;
         });

@@ -93,7 +93,7 @@ function fetchWithRetry(url: string, options) {
             if (response.status >= 400 && response.status < 500) {
                 const contentType = response.headers.get('content-type');
                 if (contentType && contentType.includes('application/json')) {
-                    return response.json().then(function(body) {
+                    response.json().then(function(body) {
                         throw new pRetry.AbortError(body.message);
                     });
                 } else {
