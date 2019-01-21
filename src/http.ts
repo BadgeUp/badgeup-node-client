@@ -91,7 +91,14 @@ function fetchWithRetry(url: string, options) {
         return fetch(url, options).then((response: Response) => {
             // don't retry if status is 4xx
             if (response.status >= 400 && response.status < 500) {
-                throw new pRetry.AbortError(response.statusText);
+                const contentType = response.headers.get('content-type');
+                if (contentType && contentType.includes('application/json')) {
+                    return response.json().then(function(body) {
+                        throw new pRetry.AbortError(body.message);
+                    });
+                } else {
+                    throw new pRetry.AbortError(response.statusText);
+                }
             }
 
             return response;
