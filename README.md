@@ -11,15 +11,21 @@ npm install @badgeup/badgeup-node-client --save
 
 ## Initialization
 The BadgeUp Node.js client is initialized with an options object.
+
 ```js
-const { BadgeUp } = require('@badgeup/badgeup-node-client');
-// or for TypeScript, import { BadgeUp } from '@badgeup/badgeup-node-client';
+const { BadgeUp, EventRequest } = require('@badgeup/badgeup-node-client');
+// or for TypeScript, import { BadgeUp, EventRequest } from '@badgeup/badgeup-node-client';
 
 const badgeup = new BadgeUp({
     apiKey: // the API Key created for use with this application
 });
 
-// get a complete list of achievements
+// Example: send your first event
+const eventRequest = new EventRequest('great-dev', 'awesome:event', { '@inc': 1 });
+const eventResponse = await badgeup.events.create(eventRequest);
+console.log(eventResponse); // achievement progress for the 'great-dev' user
+
+// Example: get a complete list of achievements
 const achievements = await badgeup.achievements.getAll();
 console.log(achievements);
 ```
