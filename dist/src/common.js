@@ -1,7 +1,14 @@
 'use strict';
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const check = require("check-types");
-const qs = require("qs");
+const check = __importStar(require("check-types"));
+const url_1 = require("url");
 const pageToGenerator_1 = require("./utils/pageToGenerator");
 /**
  * Provides a set of common functionality that can be used on most endpoints
@@ -14,6 +21,15 @@ class Common {
         this.endpoint = endpoint;
     }
     /**
+     * Builds a URL query string, prepending ? if needed
+     * @param queryBy query parameter object
+     * @returns Query string beginning with ?
+     */
+    buildQueryString(queryBy) {
+        const str = new url_1.URLSearchParams(queryBy).toString();
+        return str.length > 0 ? '?' + str : '';
+    }
+    /**
      * Retrieve resource object by ID
      * @param id ID of the object to retrieve
      * @param userOpts option overrides for this request
@@ -21,9 +37,9 @@ class Common {
      */
     get(id, userOpts) {
         check.assert.string(id, 'id must be a string');
-        const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
+        const query = this.buildQueryString((userOpts || {}).query);
         return this.context.http.makeRequest({
-            url: `/v1/apps/${this.context.applicationId}/${this.endpoint}/${id}${query}`
+            url: `/v2/apps/${this.context.applicationId}/${this.endpoint}/${id}${query}`
         }, userOpts);
     }
     /**
@@ -32,8 +48,8 @@ class Common {
      * @return An iterator that returns promises that resolve with the next object
      */
     *getIterator(userOpts) {
-        const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
-        let url = `/v1/apps/${this.context.applicationId}/${this.endpoint}${query}`;
+        const query = this.buildQueryString((userOpts || {}).query);
+        let url = `/v2/apps/${this.context.applicationId}/${this.endpoint}${query}`;
         const pageFn = () => {
             return this.context.http.makeRequest({ url }, userOpts).then(function (body) {
                 url = body.pages.next;
@@ -49,8 +65,8 @@ class Common {
      */
     getAll(userOpts) {
         let array = [];
-        const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
-        let url = `/v1/apps/${this.context.applicationId}/${this.endpoint}${query}`;
+        const query = this.buildQueryString((userOpts || {}).query);
+        let url = `/v2/apps/${this.context.applicationId}/${this.endpoint}${query}`;
         const pageFn = () => {
             return this.context.http.makeRequest({ url }, userOpts).then(function (body) {
                 array = array.concat(body.data || []); // concatinate the new data
@@ -75,11 +91,11 @@ class Common {
     update(id, updates, userOpts) {
         check.assert.string(id, 'id must be a string');
         check.assert.array(updates, 'updates must be an array');
-        const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
+        const query = this.buildQueryString((userOpts || {}).query);
         return this.context.http.makeRequest({
             method: 'PATCH',
             body: updates,
-            url: `/v1/apps/${this.context.applicationId}/${this.endpoint}/${id}${query}`
+            url: `/v2/apps/${this.context.applicationId}/${this.endpoint}/${id}${query}`
         }, userOpts);
     }
     /**
@@ -90,11 +106,11 @@ class Common {
      */
     create(object, userOpts) {
         check.assert.object(object, 'object must be an object');
-        const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
+        const query = this.buildQueryString((userOpts || {}).query);
         return this.context.http.makeRequest({
             method: 'POST',
             body: object,
-            url: `/v1/apps/${this.context.applicationId}/${this.endpoint}${query}`
+            url: `/v2/apps/${this.context.applicationId}/${this.endpoint}${query}`
         }, userOpts);
     }
     /**
@@ -105,10 +121,10 @@ class Common {
      */
     remove(id, userOpts) {
         check.assert.string(id, 'id must be a string');
-        const query = qs.stringify((userOpts || {}).query, { addQueryPrefix: true });
+        const query = this.buildQueryString((userOpts || {}).query);
         return this.context.http.makeRequest({
             method: 'DELETE',
-            url: `/v1/apps/${this.context.applicationId}/${this.endpoint}/${id}${query}`
+            url: `/v2/apps/${this.context.applicationId}/${this.endpoint}/${id}${query}`
         }, userOpts);
     }
 }

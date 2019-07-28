@@ -1,16 +1,21 @@
 "use strict";
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const check = require("check-types");
-const querystring = require("querystring");
+const check = __importStar(require("check-types"));
+const url_1 = require("url");
 const common_1 = require("../common");
-const collectQueryParams_1 = require("../utils/collectQueryParams");
 const pageToGenerator_1 = require("../utils/pageToGenerator");
 const ENDPT = 'earnedachievements';
-const AVAILABLE_QUERY_PARAMS = ['achievementId', 'subject', 'since', 'until'];
 class EarnedAchievementQueryBuilder {
     constructor(context) {
         // container for the query parameters
-        this.params = {};
+        this.params = new url_1.URLSearchParams();
         this.context = context;
     }
     /**
@@ -19,7 +24,7 @@ class EarnedAchievementQueryBuilder {
      */
     achievementId(achievementId) {
         check.assert.string(achievementId, 'achievementId must be a string');
-        this.params.achievementId = achievementId;
+        this.params.set('achievementId', achievementId);
         return this;
     }
     /**
@@ -28,7 +33,7 @@ class EarnedAchievementQueryBuilder {
      */
     subject(subject) {
         check.assert.string(subject, 'subject must be a string');
-        this.params.subject = subject;
+        this.params.set('subject', subject);
         return this;
     }
     /**
@@ -37,7 +42,7 @@ class EarnedAchievementQueryBuilder {
      */
     since(since) {
         check.assert.date(since, 'since must be a date');
-        this.params.since = since.toISOString();
+        this.params.set('since', since.toISOString());
         return this;
     }
     /**
@@ -46,18 +51,27 @@ class EarnedAchievementQueryBuilder {
      */
     until(until) {
         check.assert.date(until, 'until must be a date');
-        this.params.until = until.toISOString();
+        this.params.set('until', until.toISOString());
+        return this;
+    }
+    /**
+     * Orders earned achievement records by the date that they were earned
+     * @param order Earn date sort order. Must be either "+created" or "-created"
+     */
+    orderBy(order) {
+        check.assert.string(order, 'order must be a string');
+        this.params.set('orderBy', order);
         return this;
     }
     /**
      * Checks and builds query parameters for use in a URL
      * @returns Returns a string containing URL query parameters
      */
-    buildQuery(queryBy) {
-        if (Object.keys(queryBy).length === 0) {
+    buildQuery() {
+        if ([...this.params.keys()].length === 0) {
             throw new Error('You must specify at least the "achievementId", "subject", "since", or "until"');
         }
-        return querystring.stringify(queryBy);
+        return this.params.toString();
     }
     /**
      * Retrieves queried earned achievements, returned as an array
@@ -66,10 +80,9 @@ class EarnedAchievementQueryBuilder {
      */
     getAll(userOpts) {
         let array = [];
-        const queryBy = collectQueryParams_1.collectQueryParams(this.params, AVAILABLE_QUERY_PARAMS);
-        const queryPart = this.buildQuery(queryBy);
+        const queryPart = this.buildQuery();
         const context = this.context;
-        let url = `/v1/apps/${context.applicationId}/${ENDPT}?${queryPart}`;
+        let url = `/v2/apps/${context.applicationId}/${ENDPT}?${queryPart}`;
         function pageFn() {
             return context.http.makeRequest({ url }, userOpts).then(function (body) {
                 array = array.concat(body.data || []); // concatenate the new data
@@ -90,11 +103,10 @@ class EarnedAchievementQueryBuilder {
      * @return An iterator that returns promises that resolve with the next object
      */
     *getIterator(userOpts) {
-        const queryBy = collectQueryParams_1.collectQueryParams(this.params, AVAILABLE_QUERY_PARAMS);
-        const queryPart = this.buildQuery(queryBy);
+        const queryPart = this.buildQuery();
         const context = this.context;
         function pageFn() {
-            let url = `/v1/apps/${context.applicationId}/${ENDPT}?${queryPart}`;
+            let url = `/v2/apps/${context.applicationId}/${ENDPT}?${queryPart}`;
             return function () {
                 return context.http.makeRequest({ url }, userOpts).then(function (body) {
                     url = body.pages.next;
@@ -110,11 +122,10 @@ class EarnedAchievementQueryBuilder {
      * @returns Promise that resolves to an object stating the number of deleted earned achievements
      */
     remove(userOpts) {
-        const queryBy = collectQueryParams_1.collectQueryParams(this.params, AVAILABLE_QUERY_PARAMS);
-        const queryPart = this.buildQuery(queryBy);
+        const queryPart = this.buildQuery();
         return this.context.http.makeRequest({
             method: 'DELETE',
-            url: `/v1/apps/${this.context.applicationId}/${ENDPT}?${queryPart}`
+            url: `/v2/apps/${this.context.applicationId}/${ENDPT}?${queryPart}`
         }, userOpts);
     }
 }
@@ -124,7 +135,7 @@ exports.EarnedAchievementQueryBuilder = EarnedAchievementQueryBuilder;
  */
 class EarnedAchievementsResource {
     /**
-     * Construct the achievements resource
+     * Construct the earned achievements resource
      * @param context The context to make requests as
      */
     constructor(context) {

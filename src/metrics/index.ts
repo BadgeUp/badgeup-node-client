@@ -1,21 +1,17 @@
 import * as check from 'check-types';
-import * as querystring from 'querystring';
+import { URLSearchParams } from 'url';
 import { Common } from '../common';
-import { collectQueryParams } from '../utils/collectQueryParams';
 import { pageToGenerator } from '../utils/pageToGenerator';
-import { QueryParameters } from '../utils/QueryBuilder';
 import { ResourceContext } from '../utils/ResourceContext';
 import { Metric, MetricRequest } from './Metric.class';
 
 const ENDPT = 'metrics';
 
-const DELETE_QUERY_PARAMS = ['key', 'subject'];
-
 export class MetricQueryBuilder {
     context: ResourceContext;
 
     // container for the query parameters
-    private _params: QueryParameters = {};
+    private params: URLSearchParams = new URLSearchParams();
 
     /**
      * Construct the metrics resource
@@ -31,7 +27,7 @@ export class MetricQueryBuilder {
      */
     key(key: string) {
         check.assert.string(key, 'key must be a string');
-        this._params.key = key;
+        this.params.set('key', key);
         return this;
     }
 
@@ -41,7 +37,7 @@ export class MetricQueryBuilder {
      */
     subject(subject: string) {
         check.assert.string(subject, 'subject must be a string');
-        this._params.subject = subject;
+        this.params.set('subject', subject);
         return this;
     }
 
@@ -51,15 +47,13 @@ export class MetricQueryBuilder {
      * @returns Promise that resolves to an object stating the number of deleted metrics
      */
     remove(userOpts?) {
-        const queryBy = collectQueryParams(this._params, DELETE_QUERY_PARAMS);
-
-        if (Object.keys(queryBy).length === 0) {
+        if ([...this.params.keys()].length === 0) {
             throw new Error('You must specify at least the "subject" or "key"');
         }
 
         return this.context.http.makeRequest({
             method: 'DELETE',
-            url: `/v1/apps/${this.context.applicationId}/${ENDPT}?${querystring.stringify(queryBy)}`
+            url: `/v2/apps/${this.context.applicationId}/${ENDPT}?${this.params.toString()}`
         }, userOpts);
     }
 }
@@ -116,7 +110,7 @@ export class MetricsResource {
         check.assert.string(subject, 'subject must be a string');
 
         let array = [];
-        let url = `/v1/apps/${this.context.applicationId}/${ENDPT}/${subject}`;
+        let url = `/v2/apps/${this.context.applicationId}/${ENDPT}/${subject}`;
 
         const pageFn = () => {
             return this.context.http.makeRequest({ url }, userOpts).then(function(body) {
@@ -144,7 +138,7 @@ export class MetricsResource {
         check.assert.string(subject, 'subject must be a string');
 
         const pageFn = () => {
-            let url = `/v1/apps/${this.context.applicationId}/${ENDPT}/${subject}`;
+            let url = `/v2/apps/${this.context.applicationId}/${ENDPT}/${subject}`;
             return () => {
                 return this.context.http.makeRequest({ url }, userOpts).then(function(body) {
                     url = body.pages.next;
@@ -168,7 +162,7 @@ export class MetricsResource {
         check.assert.string(key, 'key must be a string');
 
         return this.context.http.makeRequest({
-            url: `/v1/apps/${this.context.applicationId}/${ENDPT}/${subject}/${key}`
+            url: `/v2/apps/${this.context.applicationId}/${ENDPT}/${subject}/${key}`
         }, userOpts);
     }
 

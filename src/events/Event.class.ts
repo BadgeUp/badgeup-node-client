@@ -1,5 +1,5 @@
 import { Data } from '../common.class';
-import { Progress } from '../progress/Progress.class';
+import { BaseProgress } from '../progress/Progress.class';
 
 const DEFAULT_EVENT_MODIFIER = { '@inc': 1 };
 
@@ -118,7 +118,7 @@ export interface EventOptions {
 /**
  * Event response progress element
  */
-export interface EventProgress extends Progress {
+export interface EventProgress extends BaseProgress {
     /**
      * Set to `true` every time a new earned achievement record is created, even if `earnLimit` allows an
      * achievement to be earned multiple times and the achievement has already been earned before.
@@ -127,24 +127,16 @@ export interface EventProgress extends Progress {
 }
 
 /**
- * Event response structure for the source event (API v1)
+ * Event response structure containing for the source or side-effect events
  */
-export interface EventV1 {
-    event: EventBase;
-    progress: EventProgress[];
+export interface EventResults {
+    results: EventResult[];
 }
 
 /**
- * Event response structure containing for the source or side-effect events (API v2)
+ * Event response structure containing results of a single event or side-effect
  */
-export interface EventV2Preview {
-    results: EventResultV2Preview[];
-}
-
-/**
- * Event response structure (API v2)
- */
-export interface EventResultV2Preview {
+export interface EventResult {
     event: EventBase;
     cause: string;
     progress: EventProgress[];

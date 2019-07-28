@@ -32,5 +32,5 @@ export interface VirtualMetricEvaluation {
 }
 export declare enum VirtualMetricType {
     regex = "regex",
-    equation = "equation",
+    equation = "equation"
 }

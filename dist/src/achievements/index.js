@@ -1,6 +1,13 @@
 "use strict";
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const check = require("check-types");
+const check = __importStar(require("check-types"));
 const common_1 = require("../common");
 const ENDPT = 'achievements';
 /**
@@ -77,7 +84,7 @@ class AchievementsResource {
     getAchievementCriteria(id, userOpts) {
         check.assert.string(id, 'id must be a string');
         return this.context.http.makeRequest({
-            url: `/v1/apps/${this.context.applicationId}/${ENDPT}/${id}/criteria`
+            url: `/v2/apps/${this.context.applicationId}/${ENDPT}/${id}/criteria`
         }, userOpts).then(function (body) { return body.data; });
     }
     /**
@@ -89,7 +96,7 @@ class AchievementsResource {
     getAchievementAwards(id, userOpts) {
         check.assert.string(id, 'id must be a string');
         return this.context.http.makeRequest({
-            url: `/v1/apps/${this.context.applicationId}/${ENDPT}/${id}/awards`
+            url: `/v2/apps/${this.context.applicationId}/${ENDPT}/${id}/awards`
         }, userOpts).then((body) => {
             return body.data;
         });

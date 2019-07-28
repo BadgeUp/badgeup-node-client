@@ -1,22 +1,18 @@
 import * as check from 'check-types';
-import * as querystring from 'querystring';
+import { URLSearchParams } from 'url';
 import { Common } from '../common';
-import { collectQueryParams } from '../utils/collectQueryParams';
 import { pageToGenerator, PaginatedData } from '../utils/pageToGenerator';
-import { QueryParameters } from '../utils/QueryBuilder';
 import { ResourceContext } from '../utils/ResourceContext';
 import { EarnedAchievement } from './EarnedAchievement.class';
 
 const ENDPT = 'earnedachievements';
-
-const AVAILABLE_QUERY_PARAMS = ['achievementId', 'subject', 'since', 'until'];
 
 export class EarnedAchievementQueryBuilder {
 
     context: ResourceContext;
 
     // container for the query parameters
-    private params: QueryParameters = {};
+    private params: URLSearchParams = new URLSearchParams();
 
     constructor(context: ResourceContext) {
         this.context = context;
@@ -28,7 +24,7 @@ export class EarnedAchievementQueryBuilder {
      */
     achievementId(achievementId: string): EarnedAchievementQueryBuilder {
         check.assert.string(achievementId, 'achievementId must be a string');
-        this.params.achievementId = achievementId;
+        this.params.set('achievementId', achievementId);
         return this;
     }
 
@@ -38,7 +34,7 @@ export class EarnedAchievementQueryBuilder {
      */
     subject(subject: string): EarnedAchievementQueryBuilder {
         check.assert.string(subject, 'subject must be a string');
-        this.params.subject = subject;
+        this.params.set('subject', subject);
         return this;
     }
 
@@ -48,7 +44,7 @@ export class EarnedAchievementQueryBuilder {
      */
     since(since: Date): EarnedAchievementQueryBuilder {
         check.assert.date(since, 'since must be a date');
-        this.params.since = since.toISOString();
+        this.params.set('since', since.toISOString());
         return this;
     }
 
@@ -58,7 +54,17 @@ export class EarnedAchievementQueryBuilder {
      */
     until(until: Date): EarnedAchievementQueryBuilder {
         check.assert.date(until, 'until must be a date');
-        this.params.until = until.toISOString();
+        this.params.set('until', until.toISOString());
+        return this;
+    }
+
+    /**
+     * Orders earned achievement records by the date that they were earned
+     * @param order Earn date sort order. Must be either "+created" or "-created"
+     */
+    orderBy(order: '+created' | '-created') {
+        check.assert.string(order, 'order must be a string');
+        this.params.set('orderBy', order);
         return this;
     }
 
@@ -66,12 +72,12 @@ export class EarnedAchievementQueryBuilder {
      * Checks and builds query parameters for use in a URL
      * @returns Returns a string containing URL query parameters
      */
-    private buildQuery(queryBy: any): string {
-        if (Object.keys(queryBy).length === 0) {
+    private buildQuery(): string {
+        if ([...this.params.keys()].length === 0) {
             throw new Error('You must specify at least the "achievementId", "subject", "since", or "until"');
         }
 
-        return querystring.stringify(queryBy);
+        return this.params.toString();
     }
 
     /**
@@ -79,13 +85,12 @@ export class EarnedAchievementQueryBuilder {
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to a list of metrics
      */
-    getAll(userOpts): Promise<EarnedAchievement[]> {
+    getAll(userOpts?): Promise<EarnedAchievement[]> {
         let array = [];
-        const queryBy = collectQueryParams(this.params, AVAILABLE_QUERY_PARAMS);
-        const queryPart = this.buildQuery(queryBy);
+        const queryPart = this.buildQuery();
 
         const context = this.context;
-        let url = `/v1/apps/${context.applicationId}/${ENDPT}?${queryPart}`;
+        let url = `/v2/apps/${context.applicationId}/${ENDPT}?${queryPart}`;
 
         function pageFn(): Promise<EarnedAchievement[]> {
             return context.http.makeRequest({ url }, userOpts).then(function(body) {
@@ -108,13 +113,12 @@ export class EarnedAchievementQueryBuilder {
      * @param userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */
-    *getIterator(userOpts): IterableIterator<Promise<EarnedAchievement | undefined>> {
-        const queryBy = collectQueryParams(this.params, AVAILABLE_QUERY_PARAMS);
-        const queryPart = this.buildQuery(queryBy);
+    *getIterator(userOpts?): IterableIterator<Promise<EarnedAchievement | undefined>> {
+        const queryPart = this.buildQuery();
 
         const context = this.context;
         function pageFn(): () => Promise<PaginatedData<EarnedAchievement>> {
-            let url = `/v1/apps/${context.applicationId}/${ENDPT}?${queryPart}`;
+            let url = `/v2/apps/${context.applicationId}/${ENDPT}?${queryPart}`;
             return function(): Promise<PaginatedData<EarnedAchievement>> {
                 return context.http.makeRequest({ url }, userOpts).then(function(body) {
                     url = body.pages.next;
@@ -131,13 +135,12 @@ export class EarnedAchievementQueryBuilder {
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to an object stating the number of deleted earned achievements
      */
-    remove(userOpts) {
-        const queryBy = collectQueryParams(this.params, AVAILABLE_QUERY_PARAMS);
-        const queryPart = this.buildQuery(queryBy);
+    remove(userOpts?) {
+        const queryPart = this.buildQuery();
 
         return this.context.http.makeRequest({
             method: 'DELETE',
-            url: `/v1/apps/${this.context.applicationId}/${ENDPT}?${queryPart}`
+            url: `/v2/apps/${this.context.applicationId}/${ENDPT}?${queryPart}`
         }, userOpts);
     }
 }
@@ -151,7 +154,7 @@ export class EarnedAchievementsResource {
     private context: ResourceContext;
 
     /**
-     * Construct the achievements resource
+     * Construct the earned achievements resource
      * @param context The context to make requests as
      */
     constructor(context: ResourceContext) {

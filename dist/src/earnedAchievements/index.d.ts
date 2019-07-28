@@ -25,28 +25,33 @@ export declare class EarnedAchievementQueryBuilder {
      */
     until(until: Date): EarnedAchievementQueryBuilder;
     /**
+     * Orders earned achievement records by the date that they were earned
+     * @param order Earn date sort order. Must be either "+created" or "-created"
+     */
+    orderBy(order: '+created' | '-created'): this;
+    /**
      * Checks and builds query parameters for use in a URL
      * @returns Returns a string containing URL query parameters
      */
-    private buildQuery(queryBy);
+    private buildQuery;
     /**
      * Retrieves queried earned achievements, returned as an array
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to a list of metrics
      */
-    getAll(userOpts: any): Promise<EarnedAchievement[]>;
+    getAll(userOpts?: any): Promise<EarnedAchievement[]>;
     /**
      * Retrieves queried earned achievements, returned as an iterator
      * @param userOpts option overrides for this request
      * @return An iterator that returns promises that resolve with the next object
      */
-    getIterator(userOpts: any): IterableIterator<Promise<EarnedAchievement | undefined>>;
+    getIterator(userOpts?: any): IterableIterator<Promise<EarnedAchievement | undefined>>;
     /**
      * Delete all queried earned achievements
      * @param userOpts option overrides for this request
      * @returns Promise that resolves to an object stating the number of deleted earned achievements
      */
-    remove(userOpts: any): Promise<any>;
+    remove(userOpts?: any): Promise<any>;
 }
 /**
  * Earned Achievements resource
@@ -55,7 +60,7 @@ export declare class EarnedAchievementsResource {
     private common;
     private context;
     /**
-     * Construct the achievements resource
+     * Construct the earned achievements resource
      * @param context The context to make requests as
      */
     constructor(context: ResourceContext);
