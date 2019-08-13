@@ -1,5 +1,5 @@
 # BadgeUp Node.js Client
-Official Node.js client for working with [BadgeUp](https://www.badgeup.io/), a user engagement and gamification service.
+Official Node.js client for working with [BadgeUp](https://www.badgeup.io/developers), a user engagement and gamification service.
 
 [![Build Status](https://travis-ci.org/BadgeUp/badgeup-node-client.svg?branch=master)](https://travis-ci.org/BadgeUp/badgeup-node-client)
 
